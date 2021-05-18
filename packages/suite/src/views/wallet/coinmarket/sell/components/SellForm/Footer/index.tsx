@@ -3,10 +3,11 @@ import { Button, Select, variables, Flag } from '@trezor/components';
 import regional from '@wallet-constants/coinmarket/regional';
 import { useCoinmarketSellFormContext } from '@wallet-hooks/useCoinmarketSellForm';
 import { getCountryLabelParts } from '@wallet-utils/coinmarket/coinmarketUtils';
-import { Translation } from '@suite-components';
+import { ExternalLink, Translation } from '@suite-components';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { CountryOption } from '@wallet-types/coinmarketCommonTypes';
+import { WIKI_ETH_FEES } from '@suite-constants/urls';
 
 const Wrapper = styled.div`
     display: flex;
@@ -17,6 +18,13 @@ const Wrapper = styled.div`
     @media screen and (max-width: ${variables.SCREEN_SIZE.SM}) {
         flex-direction: column;
     }
+`;
+
+const Column = styled.div`
+    display: flex;
+    align-items: center;
+    padding-top: 30px;
+    flex-direction: column;
 `;
 
 const OptionLabel = styled.div`
@@ -98,6 +106,7 @@ const Footer = () => {
         isComposing,
         canShowOffers,
         formNoteTranslationId,
+        account,
     } = useCoinmarketSellFormContext();
     const countrySelect = 'countrySelect';
     const hasValues =
@@ -106,7 +115,7 @@ const Footer = () => {
     const formIsValid = Object.keys(errors).length === 0;
 
     const isShowOffersButtonDisabled =
-        !canShowOffers && (!(formIsValid && hasValues) || formState.isSubmitting);
+        !canShowOffers || !(formIsValid && hasValues) || formState.isSubmitting;
 
     return (
         <>
@@ -170,13 +179,26 @@ const Footer = () => {
                     </StyledButton>
                 </Right>
             </Wrapper>
-            <Center>
-                {formNoteTranslationId && (
-                    <FormNoteWrapper>
-                        <Translation id={formNoteTranslationId} />
-                    </FormNoteWrapper>
-                )}
-            </Center>
+            {formNoteTranslationId && (
+                <Column>
+                    <Center>
+                        <FormNoteWrapper>
+                            <Translation
+                                id={formNoteTranslationId}
+                                values={{ symbol: account.symbol.toUpperCase() }}
+                            />
+                        </FormNoteWrapper>
+                    </Center>
+                    {formNoteTranslationId ===
+                        'TR_SELL_TOKENS_NOT_TRANSFERABLE_AFTER_ALL_BALANCE_SELL' && (
+                        <Center>
+                            <ExternalLink href={WIKI_ETH_FEES}>
+                                <Translation id="TR_LEARN_MORE" />
+                            </ExternalLink>
+                        </Center>
+                    )}
+                </Column>
+            )}
         </>
     );
 };

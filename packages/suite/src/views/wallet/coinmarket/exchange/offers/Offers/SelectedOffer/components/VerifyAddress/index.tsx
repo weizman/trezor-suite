@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import ReceiveOptions from './ReceiveOptions';
-import { QuestionTooltip, Translation } from '@suite-components';
+import { ExternalLink, QuestionTooltip, Translation } from '@suite-components';
 import { Input, variables, DeviceImage, Button } from '@trezor/components';
 import { InputError } from '@wallet-components';
 import { useCoinmarketExchangeOffersContext } from '@wallet-hooks/useCoinmarketExchangeOffers';
@@ -10,11 +10,18 @@ import { useForm } from 'react-hook-form';
 import { TypedValidationRules } from '@wallet-types/form';
 import addressValidator from 'trezor-address-validator';
 import { isHexValid, isInteger } from '@wallet-utils/validation';
+import { WIKI_ETH_FEES } from '@suite-constants/urls';
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+`;
+
+const Center = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: center;
 `;
 
 const Heading = styled.div`
@@ -55,6 +62,15 @@ const ButtonWrapper = styled.div`
     padding-top: 20px;
     border-top: 1px solid ${props => props.theme.STROKE_GREY};
     margin: 20px 0;
+`;
+
+const FormNoteWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 24px 24px;
+    flex-direction: column;
+    text-align: center;
 `;
 
 const Confirmed = styled.div`
@@ -103,6 +119,8 @@ const VerifyAddressComponent = () => {
         selectedQuote,
         addressVerified,
         receiveSymbol,
+        setReceiveAddress,
+        formNoteTranslationId,
     } = useCoinmarketExchangeOffersContext();
     const [selectedAccountOption, setSelectedAccountOption] = useState<AccountSelectOption>();
     const { register, watch, errors, formState, setValue } = useForm<FormState>({
@@ -115,6 +133,7 @@ const VerifyAddressComponent = () => {
     );
 
     const { address, extraField } = watch();
+    setReceiveAddress(address);
 
     const extraFieldDescription = selectedQuote?.extraFieldDescription
         ? {
@@ -277,6 +296,23 @@ const VerifyAddressComponent = () => {
                         </Button>
                     )}
                 </ButtonWrapper>
+            )}
+            {formNoteTranslationId && (
+                <FormNoteWrapper>
+                    <Center>
+                        <Translation
+                            id={formNoteTranslationId}
+                            values={{ symbol: receiveSymbol?.toUpperCase(), lineBreak: <br /> }}
+                        />
+                    </Center>
+                    {formNoteTranslationId === 'TR_EXCHANGE_RECEIVING_ADDRESS_HAS_ZERO_BALANCE' && (
+                        <Center>
+                            <ExternalLink href={WIKI_ETH_FEES}>
+                                <Translation id="TR_LEARN_MORE" />
+                            </ExternalLink>
+                        </Center>
+                    )}
+                </FormNoteWrapper>
             )}
         </Wrapper>
     );

@@ -1,14 +1,19 @@
 import React from 'react';
 import { Button } from '@trezor/components';
-import { Translation } from '@suite-components';
+import { ExternalLink, Translation } from '@suite-components';
 import styled from 'styled-components';
 import { useCoinmarketExchangeFormContext } from '@wallet-hooks/useCoinmarketExchangeForm';
 import { CRYPTO_INPUT } from '@suite/types/wallet/coinmarketExchangeForm';
+import { WIKI_ETH_FEES } from '@suite-constants/urls';
 
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     padding-top: 40px;
+`;
+
+const WrapperColumn = styled(Wrapper)`
+    flex-direction: column;
 `;
 
 const Center = styled.div`
@@ -29,12 +34,13 @@ const Footer = () => {
         isComposing,
         canCompareOffers,
         formNoteTranslationId,
+        account,
     } = useCoinmarketExchangeFormContext();
     const hasValues = !!watch(CRYPTO_INPUT) && !!watch('receiveCryptoSelect')?.value;
     const formIsValid = Object.keys(errors).length === 0;
 
     const isCompareOffersButtonDisabled =
-        !canCompareOffers && (!(formIsValid && hasValues) || formState.isSubmitting);
+        !canCompareOffers || !(formIsValid && hasValues) || formState.isSubmitting;
 
     return (
         <>
@@ -50,11 +56,22 @@ const Footer = () => {
                 </Center>
             </Wrapper>
             {formNoteTranslationId && (
-                <Wrapper>
+                <WrapperColumn>
                     <Center>
-                        <Translation id={formNoteTranslationId} />
+                        <Translation
+                            id={formNoteTranslationId}
+                            values={{ symbol: account.symbol.toUpperCase() }}
+                        />
                     </Center>
-                </Wrapper>
+                    {formNoteTranslationId ===
+                        'TR_EXCHANGE_TOKENS_NOT_TRANSFERABLE_AFTER_ALL_BALANCE_EXCHANGE' && (
+                        <Center>
+                            <ExternalLink href={WIKI_ETH_FEES}>
+                                <Translation id="TR_LEARN_MORE" />
+                            </ExternalLink>
+                        </Center>
+                    )}
+                </WrapperColumn>
             )}
         </>
     );
