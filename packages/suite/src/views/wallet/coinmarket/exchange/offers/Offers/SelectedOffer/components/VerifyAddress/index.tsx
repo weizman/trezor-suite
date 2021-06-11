@@ -18,12 +18,6 @@ const Wrapper = styled.div`
     margin-top: 10px;
 `;
 
-const Center = styled.div`
-    display: flex;
-    flex: 1;
-    justify-content: center;
-`;
-
 const Heading = styled.div`
     color: ${props => props.theme.TYPE_LIGHT_GREY};
     padding: 16px 24px 0 24px;
