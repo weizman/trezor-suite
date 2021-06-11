@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import ReceiveOptions from './ReceiveOptions';
-import { ExternalLink, QuestionTooltip, Translation } from '@suite-components';
+import { ExternalLink, QuestionTooltip, Translation, NotificationCard } from '@suite-components';
 import { Input, variables, DeviceImage, Button } from '@trezor/components';
 import { InputError } from '@wallet-components';
 import { useCoinmarketExchangeOffersContext } from '@wallet-hooks/useCoinmarketExchangeOffers';
@@ -85,6 +85,12 @@ const Confirmed = styled.div`
 
 const Row = styled.div`
     margin: 12px 0;
+`;
+
+const NotificationCardWrapper = styled(NotificationCard)`
+    display: flex;
+    align-items: center;
+    width: 100%;
 `;
 
 type AccountSelectOption = {
@@ -299,18 +305,23 @@ const VerifyAddressComponent = () => {
             )}
             {formNoteTranslationId && (
                 <FormNoteWrapper>
-                    <Center>
-                        <Translation
-                            id={formNoteTranslationId}
-                            values={{ symbol: receiveSymbol?.toUpperCase(), lineBreak: <br /> }}
-                        />
-                    </Center>
                     {formNoteTranslationId === 'TR_EXCHANGE_RECEIVING_ADDRESS_HAS_ZERO_BALANCE' && (
-                        <Center>
-                            <ExternalLink href={WIKI_ETH_FEES}>
-                                <Translation id="TR_LEARN_MORE" />
-                            </ExternalLink>
-                        </Center>
+                        <NotificationCardWrapper variant="warning">
+                            <div>
+                                <Translation
+                                    id={formNoteTranslationId}
+                                    values={{
+                                        symbol: receiveSymbol?.toUpperCase(),
+                                        lineBreak: <br />,
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <ExternalLink href={WIKI_ETH_FEES}>
+                                    <Translation id="TR_LEARN_MORE" />
+                                </ExternalLink>
+                            </div>
+                        </NotificationCardWrapper>
                     )}
                 </FormNoteWrapper>
             )}

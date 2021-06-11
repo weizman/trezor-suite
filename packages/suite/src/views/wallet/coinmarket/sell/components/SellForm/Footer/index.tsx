@@ -3,7 +3,7 @@ import { Button, Select, variables, Flag } from '@trezor/components';
 import regional from '@wallet-constants/coinmarket/regional';
 import { useCoinmarketSellFormContext } from '@wallet-hooks/useCoinmarketSellForm';
 import { getCountryLabelParts } from '@wallet-utils/coinmarket/coinmarketUtils';
-import { ExternalLink, Translation } from '@suite-components';
+import { ExternalLink, Translation, NotificationCard } from '@suite-components';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { CountryOption } from '@wallet-types/coinmarketCommonTypes';
@@ -18,13 +18,6 @@ const Wrapper = styled.div`
     @media screen and (max-width: ${variables.SCREEN_SIZE.SM}) {
         flex-direction: column;
     }
-`;
-
-const Column = styled.div`
-    display: flex;
-    align-items: center;
-    padding-top: 30px;
-    flex-direction: column;
 `;
 
 const OptionLabel = styled.div`
@@ -57,12 +50,6 @@ const Right = styled.div`
     }
 `;
 
-const Center = styled.div`
-    display: flex;
-    flex: 1;
-    justify-content: center;
-`;
-
 const Label = styled.div`
     display: flex;
     align-items: center;
@@ -88,10 +75,11 @@ const StyledSelect = styled(Select)`
     width: max-content;
 `;
 
-const FormNoteWrapper = styled.div`
+const NotificationCardWrapper = styled(NotificationCard)`
     display: flex;
     align-items: center;
-    padding-top: 40px;
+    width: 100%;
+    margin-top: 40px;
 `;
 
 const Footer = () => {
@@ -179,25 +167,20 @@ const Footer = () => {
                     </StyledButton>
                 </Right>
             </Wrapper>
-            {formNoteTranslationId && (
-                <Column>
-                    <Center>
-                        <FormNoteWrapper>
-                            <Translation
-                                id={formNoteTranslationId}
-                                values={{ symbol: account.symbol.toUpperCase() }}
-                            />
-                        </FormNoteWrapper>
-                    </Center>
-                    {formNoteTranslationId ===
-                        'TR_SELL_TOKENS_NOT_TRANSFERABLE_AFTER_ALL_BALANCE_SELL' && (
-                        <Center>
-                            <ExternalLink href={WIKI_ETH_FEES}>
-                                <Translation id="TR_LEARN_MORE" />
-                            </ExternalLink>
-                        </Center>
-                    )}
-                </Column>
+            {formNoteTranslationId === 'TR_SELL_TOKENS_NOT_TRANSFERABLE_AFTER_ALL_BALANCE_SELL' && (
+                <NotificationCardWrapper variant="warning">
+                    <div>
+                        <Translation
+                            id={formNoteTranslationId}
+                            values={{ symbol: account.symbol.toUpperCase() }}
+                        />
+                    </div>
+                    <div>
+                        <ExternalLink href={WIKI_ETH_FEES}>
+                            <Translation id="TR_LEARN_MORE" />
+                        </ExternalLink>
+                    </div>
+                </NotificationCardWrapper>
             )}
         </>
     );
