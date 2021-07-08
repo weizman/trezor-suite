@@ -47,6 +47,7 @@ declare interface ILogger {
 // Dependencies
 declare type Dependencies = {
     mainWindow: Electron.BrowserWindow;
+    spendWindow?: Electron.BrowserWindow;
     store: LocalStore;
     src: string;
 };

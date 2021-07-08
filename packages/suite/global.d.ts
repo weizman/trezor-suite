@@ -43,6 +43,10 @@ export interface DesktopApi {
     >;
     // Store
     clearStore: () => void;
+
+    // Invity
+    openSpendWindow: (url: string) => void;
+    focusSpendWindow: () => void;
 }
 
 declare global {

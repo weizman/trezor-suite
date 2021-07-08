@@ -128,8 +128,9 @@ export const useCoinmarketSpend = (props: Props): SpendContextValues => {
                 await invityAPI.confirmVoucherTrade(trade);
                 const date = new Date().toISOString();
                 saveTrade(trade, account, date);
-                setShowLeaveModal(false);
             }
+            setShowLeaveModal(false);
+            window.desktopApi?.focusSpendWindow();
         };
         if (composedLevels && trade) {
             // reset trade so that it is not called multiple times
@@ -215,9 +216,9 @@ export const useCoinmarketSpend = (props: Props): SpendContextValues => {
 
             if (isDesktop()) {
                 // handle messages from desktop
-                window.desktopApi?.on('spend/message', handleMessage);
+                window.desktopApi?.on('invity/spend-message', handleMessage);
                 return () => {
-                    window.desktopApi?.removeAllListeners('spend/message');
+                    window.desktopApi?.removeAllListeners('invity/spend-message');
                 };
             }
 
@@ -238,7 +239,7 @@ export const useCoinmarketSpend = (props: Props): SpendContextValues => {
             const endpointWithParams = `${endpointIframe}?voucherSiteUrl=${encodeURIComponent(
                 voucherSiteUrl,
             )}&handleMessageEndpoint=${encodeURIComponent(handleMessageEndpoint)}`;
-            window.open(endpointWithParams, '_blank');
+            window.desktopApi?.openSpendWindow(endpointWithParams);
         }
     };
 

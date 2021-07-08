@@ -11,6 +11,8 @@ import { buildInfo, computerInfo } from '@desktop-electron/libs/info';
 import modules from '@desktop-electron/libs/modules';
 
 let mainWindow: BrowserWindow;
+let spendWindow: BrowserWindow | undefined;
+
 const APP_NAME = 'Trezor Suite';
 const src = isDev
     ? 'http://localhost:8000/'
@@ -72,6 +74,7 @@ const init = async () => {
     // Modules
     await modules({
         mainWindow,
+        spendWindow,
         src,
         store,
     });
@@ -100,6 +103,7 @@ if (!singleInstance) {
 app.on('before-quit', () => {
     if (!mainWindow) return;
     mainWindow.removeAllListeners();
+    spendWindow?.removeAllListeners();
     logger.exit();
 });
 
@@ -107,4 +111,31 @@ ipcMain.on('app/restart', () => {
     logger.info('main', 'App restart requested');
     app.relaunch();
     app.exit();
+});
+
+ipcMain.on('invity/spend-window-open', (_, url: string) => {
+    if (!spendWindow) {
+        const mainWindowBounds = mainWindow.getBounds();
+
+        // show spend window based on main window (Suite) position
+        spendWindow = new BrowserWindow({
+            x: mainWindowBounds.width / 4 + mainWindowBounds.x,
+            y: mainWindowBounds.height / 4 + mainWindowBounds.y,
+            width: mainWindowBounds.width / 2,
+            height: mainWindowBounds.height / 2,
+        });
+
+        spendWindow.on('closed', () => (spendWindow = undefined));
+        spendWindow.setMenuBarVisibility(false);
+        spendWindow.loadURL(url);
+    } else {
+        spendWindow.restore();
+    }
+});
+
+ipcMain.on('invity/spend-window-focus', () => {
+    if (spendWindow) {
+        spendWindow.restore();
+        spendWindow.focus();
+    }
 });

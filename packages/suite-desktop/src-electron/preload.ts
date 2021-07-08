@@ -24,8 +24,9 @@ const validChannels = [
     'update/new-version-first-run',
 
     // invity
-    'buy-receiver',
-    'spend/message',
+    'invity/spend-message',
+    'invity/spend-window-open',
+    'invity/spend-window-focus',
 
     // window
     'window/is-maximized',
@@ -96,4 +97,8 @@ contextBridge.exposeInMainWorld('desktopApi', {
 
     // Store
     clearStore: () => ipcRenderer.send('store/clear'),
+
+    // Invity
+    openSpendWindow: (url: string) => ipcRenderer.send('invity/spend-window-open', url),
+    focusSpendWindow: () => ipcRenderer.send('invity/spend-window-focus'),
 });

@@ -10,7 +10,7 @@ import { HttpReceiver } from '@desktop-electron/libs/http-receiver';
 // External request handler
 const httpReceiver = new HttpReceiver();
 
-const init = ({ mainWindow, src }: Dependencies) => {
+const init = ({ mainWindow, spendWindow, src }: Dependencies) => {
     const { logger } = global;
 
     // wait for httpReceiver to start accepting connections then register event handlers
@@ -21,16 +21,17 @@ const init = ({ mainWindow, src }: Dependencies) => {
             app.focus();
         });
 
-        httpReceiver.on('buy/redirect', url => {
+        httpReceiver.on('invity/buy-redirect', url => {
             buyRedirectHandler(url, mainWindow, src);
         });
 
-        httpReceiver.on('sell/redirect', url => {
+        httpReceiver.on('invity/sell-redirect', url => {
             sellRedirectHandler(url, mainWindow, src);
         });
 
-        httpReceiver.on('spend/message', event => {
-            mainWindow.webContents.send('spend/message', event);
+        httpReceiver.on('invity/spend-message', event => {
+            mainWindow.webContents.send('invity/spend-message', event);
+            spendWindow?.minimize();
         });
 
         // when httpReceiver was asked to provide current address for given pathname

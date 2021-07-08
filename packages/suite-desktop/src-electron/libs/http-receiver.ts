@@ -19,9 +19,9 @@ interface Events {
     'server/error': (error: string) => void;
     'oauth/response': (response: { [key: string]: string }) => void;
     'oauth/error': (message: string) => void;
-    'buy/redirect': (url: string) => void;
-    'sell/redirect': (url: string) => void;
-    'spend/message': (event: { data: string | string[]; origin: string | string[] }) => void;
+    'invity/buy-redirect': (url: string) => void;
+    'invity/sell-redirect': (url: string) => void;
+    'invity/spend-message': (event: { data: string | string[]; origin: string | string[] }) => void;
 }
 
 export declare interface HttpReceiver {
@@ -234,7 +234,7 @@ export class HttpReceiver extends EventEmitter {
     private buyHandler = (request: Request, response: http.ServerResponse) => {
         const { query } = url.parse(request.url, true);
         if (query && query.p) {
-            this.emit('buy/redirect', query.p.toString());
+            this.emit('invity/buy-redirect', query.p.toString());
         }
 
         const template = this.applyTemplate('You may now close this window.');
@@ -244,7 +244,7 @@ export class HttpReceiver extends EventEmitter {
     private sellHandler = (request: Request, response: http.ServerResponse) => {
         const { query } = url.parse(request.url, true);
         if (query && query.p) {
-            this.emit('sell/redirect', query.p.toString());
+            this.emit('invity/sell-redirect', query.p.toString());
         }
 
         const template = this.applyTemplate('You may now close this window.');
@@ -261,29 +261,16 @@ export class HttpReceiver extends EventEmitter {
                             height: 100%;
                             margin: 0;
                             padding: 0;
-                            display: flex;
-                            justify-content: center;
-                            font-family: sans-serif;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
-                        }
-                        .title {
-                            font-size: 12pt;
-                            color: #888;
-                            margin: 20px;
+                            overflow: hidden;
                         }
                         iframe {
-                            border: 1px #888 solid;
-                            width: 95%;
+                            width: 100%;
                             height: 100%;
                             display: block;
                         }
                     </style>
                 </head>
                 <body>
-                    <div class="title">Content of this page is provided by our partner</div>
                     <iframe
                         id="iframe"
                         title="."
@@ -317,7 +304,7 @@ export class HttpReceiver extends EventEmitter {
 
     private spendHandleMessage = (request: Request, response: http.ServerResponse) => {
         const { query } = url.parse(request.url, true);
-        this.emit('spend/message', {
+        this.emit('invity/spend-message', {
             data: query.data ?? '',
             origin: query.origin ?? '',
         });
