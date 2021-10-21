@@ -59,12 +59,12 @@ Which tracks:
 
 Attributes which are always tracked:
 
--   **c_v**: version of analytics
--   **c_type**: type of tracked event
--   **c_commit**: current revision of app
--   **c_instance_id**: until user does not wipe storage, the id is still same
--   **c_session_id**: id changed on every launch of app
--   **c_timestamp**: time in ms when event is created
+- **c_v**: version of analytics
+- **c_type**: type of tracked event
+- **c_commit**: current revision of app
+- **c_instance_id**: until user does not wipe storage, the id is still same
+- **c_session_id**: id changed on every launch of app
+- **c_timestamp**: time in ms when event is created (added in 1.11)
 
 Other attributes are connected to a specific type of events.
 
@@ -121,7 +121,6 @@ Add event to the analytics overview in the [company Notion](https://www.notion.s
 1. **Option**: Open DevTools, navigate to **Network tab**, filter traffic by `.log` and check the **Query String Parameters** section
 2. **Option**: Get access to Keboola
 3. **Option**: Create a modified build of app with an analytics server URL pointing to your server
-4. **Option**: Edit NAT to resolve requests to `https://data.trezor.io/suite/log/web/stable.log` to your local server
 
 ## Changelog
 
@@ -149,13 +148,12 @@ Added:
 
 Fixed:
 
--   suite-ready
-    -   osName: android is now correctly detected, added chromeos
-
 Removed:
+- suite-ready
+  - platformLanguage
+  - platform
 
 -   account-create
-
 ### 1.13
 
 Added:
@@ -185,6 +183,22 @@ Added:
 ### 1.11
 
 Added:
+- c_timestamp: number (time of created in ms sent with every event)
+- menu/settings/dropdown
+  - option: 'guide' (+ old ones)
+- menu/guide
+- guide/feedback/navigation
+  - type: 'overview' | 'bug' | 'suggestion'
+- guide/feedback/submit
+  - type: 'bug' | 'suggestion'
+- guide/header/navigation
+  - type: 'back' | 'close' | 'category'
+  - id?: string
+- guide/report
+  - type: 'overview' | 'bug' | 'suggestion'
+- guide/node/navigation
+  - type: 'category' | 'page'
+  - id: string
 
 -   c_timestamp: number (time of created in ms sent with every event)
 -   menu/settings/dropdown
@@ -258,122 +272,7 @@ Added:
 
 Fixed:
 
--   device-update-firmware
-    -   toBtcOnly
--   accounts/empty-account/buy
-    -   symbol (lowercase instead of uppercase)
-
-### 1.8
-
-Added:
-
--   settings/device/update-auto-lock
-    -   value: string
--   suite-ready
-    -   browserName: string
-    -   browserVersion: string
-    -   osName: string
-    -   osVersion: string
-    -   windowWidth: number
-    -   windowHeight: number
-
-Fixed:
-
--   suite-ready
-    -   suiteVersion
-    -   c_instance_id
-    -   c_session_id
--   device-update-firmware
-    -   fromFwVersion (changed separator to dots from commas)
-    -   fromBlVersion (changed separator to dots from commas)
--   analytics/dispose
-
-Removed:
-
--   menu/goto/exchange-index
-
-Changed:
-
--   `desktop` build is now tracked to `stable.log` instead of `beta.log`
-
-### 1.7
-
-Added:
-
--   send-raw-transaction
-    -   networkSymbol: string
--   device-connect
-    -   totalDevices: number
-
-### 1.6
-
-Added:
-
--   suite-ready
-    -   suiteVersion: string | ""
--   device-connect
-    -   isBitcoinOnly: boolean
--   desktop-init
-    -   desktopOSVersion: string | "" (in format: {platform}\_{release})
--   accounts/empty-account/buy
-    -   symbol: string
--   account-create
-    -   tokensCount: number
--   add-token
-    -   networkSymbol: string
-    -   addedNth: number
-
-### 1.5
-
-Added:
-
--   suite-ready
-    -   theme (dark mode)
--   wallet/created
-    -   type: standard | hidden
--   device-disconnect
-
-### 1.4
-
-Added:
-
--   suite-ready
-    -   rememberedStandardWallets
-    -   rememberedHiddenWallets
--   analytics/enable
--   analytics/dispose
--   check-seed/error
--   check-seed/success
-
-### 1.3
-
-Added:
-
--   device-connect
-    -   backup_type
--   router/location-change
-    -   prevRouterUrl
-    -   nextRouterUrl
-
-### 1.2
-
-Added
-
--   suite-ready
-    -   tor
-
-### 1.1
-
-Added:
-
--   device-update-firmware:
-    -   toFwVersion
--   suite-ready
-    -   platformLanguage
-    -   platform
--   device-connect:
-    -   totalInstances
-
-### 1.0
+### 1.0 - 1.8
+- initial version
 
 -   initial version
