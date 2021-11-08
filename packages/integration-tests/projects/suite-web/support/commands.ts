@@ -98,7 +98,7 @@ declare global {
 
 if (Cypress.env('SNAPSHOT')) {
     command.addMatchImageSnapshotCommand({
-        failureThreshold: 0.01, // threshold for entire image
+        failureThreshold: 0, // threshold for entire image
         failureThresholdType: 'percent', // percent of image or number of pixels
     });
 } else {
