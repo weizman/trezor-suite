@@ -28,7 +28,8 @@ const Description = styled.div`
     margin-top: 12px;
     font-size: ${variables.FONT_SIZE.SMALL};
     font-weight: ${variables.FONT_WEIGHT.MEDIUM};
-
+    background-clip: text;
+    user-select: none;
     &:last-child {
         margin-bottom: 0px;
     }

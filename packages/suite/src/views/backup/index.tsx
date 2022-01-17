@@ -32,6 +32,7 @@ const StyledButton = styled(Button)`
 
 const StyledP = styled(P)`
     color: ${props => props.theme.TYPE_LIGHT_GREY};
+    line-clamp: 3;
 `;
 
 const StyledImage = styled(Image)`
