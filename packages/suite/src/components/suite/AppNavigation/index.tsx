@@ -93,6 +93,9 @@ const Primary = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    @media (max-width: ${variables.SCREEN_SIZE.SM}) {
+        width: calc(100% - 48px);
+    }
 `;
 
 const Secondary = styled.div`
@@ -129,7 +132,7 @@ const StyledNavLink = styled.div<{ active?: boolean }>`
     position: relative;
 
     @media (max-width: ${variables.SCREEN_SIZE.SM}) {
-        margin-right: 32px;
+        margin-right: 15px;
     }
 `;
 
@@ -338,7 +341,7 @@ const AppNavigation = ({ items, primaryContent, maxWidth, inView }: Props) => {
                                         </StyledButton>
                                     );
                                 })}
-                                {itemsSecondaryWithExtra.length ? (
+                                {itemsSecondaryWithExtra.length > 0 ? (
                                     <StyledDropdown
                                         alignMenu="right"
                                         offset={5}
