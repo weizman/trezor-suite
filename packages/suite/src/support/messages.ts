@@ -6533,7 +6533,7 @@ export default defineMessages({
     TR_SUITE_WEB_LANDING_DEPRECATION_BANNER_PARAGRAPH_5: {
         id: 'TR_SUITE_WEB_LANDING_DEPRECATION_BANNER_PARAGRAPH_5',
         defaultMessage:
-            'Download and run Trezor Suite for desktop, plug in your hardware wallet and get set up in seconds!{lineBreak}Alternatively, use the web app to access standard functions (much like in Trezor Wallet). Advanced features are only available using the desktop app.',
+            '<StyledCollapsibleBoxLink>Download and run Trezor Suite for desktop</StyledCollapsibleBoxLink>, plug in your hardware wallet and get set up in seconds!{lineBreak}Alternatively, use the web app to access standard functions (much like in Trezor Wallet). Advanced features are only available using the desktop app.',
     },
     TR_COLOR_SCHEME: {
         id: 'TR_COLOR_SCHEME',

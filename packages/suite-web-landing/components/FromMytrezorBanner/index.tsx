@@ -224,8 +224,7 @@ const StyledFromMytrezorBanner = () => (
                     <Translation
                         id="TR_SUITE_WEB_LANDING_DEPRECATION_BANNER_PARAGRAPH_5"
                         values={{
-                            ul: chunks => <ul>{chunks}</ul>,
-                            li: chunks => <li>{chunks}</li>,
+                            lineBreak: <br />,
                             StyledCollapsibleBoxLink: chunks => (
                                 <StyledCollapsibleBoxLink
                                     onClick={() =>
