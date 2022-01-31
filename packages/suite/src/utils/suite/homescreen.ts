@@ -88,7 +88,14 @@ const toig = (w: number, h: number, imageData: ImageData) => {
                 .map(i => {
                     const bytestr = range(8)
                         .map(k => (j * w + i * 8 + k) * 4)
-                        .map(index => (imageData.data[index] === 0 ? '0' : '1'))
+                        .map(index =>
+                            imageData.data[index] +
+                                imageData.data[index + 1] +
+                                imageData.data[index + 2] <
+                            3 * 128
+                                ? '0'
+                                : '1',
+                        )
                         .join('');
                     return String.fromCharCode(parseInt(bytestr, 2));
                 })
@@ -190,40 +197,7 @@ export enum ImageValidationError {
     InvalidFormat = 'IMAGE_VALIDATION_ERROR_INVALID_FORMAT',
     InvalidHeight = 'IMAGE_VALIDATION_ERROR_INVALID_HEIGHT',
     InvalidWidth = 'IMAGE_VALIDATION_ERROR_INVALID_WIDTH',
-    UnexpectedAlpha = 'IMAGE_VALIDATION_ERROR_UNEXPECTED_ALPHA',
-    InvalidColorCombination = 'IMAGE_VALIDATION_ERROR_INVALID_COLOR_COMBINATION',
 }
-
-export const validateImageColors = (origImage: HTMLImageElement, model: number) => {
-    const height = getHeight(model);
-    const width = getWidth(model);
-    const imageData = elementToImageData(origImage, width, height);
-
-    if (model === 1) {
-        try {
-            range(imageData.height).forEach((j: number) => {
-                range(imageData.width).forEach(i => {
-                    const index = j * 4 * imageData.width + i * 4;
-                    const red = imageData.data[index];
-                    const green = imageData.data[index + 1];
-                    const blue = imageData.data[index + 2];
-                    const alpha = imageData.data[index + 3];
-                    if (alpha !== 255) {
-                        throw new Error(ImageValidationError.UnexpectedAlpha);
-                    }
-                    const isBlack = red === 0 && green === 0 && blue === 0;
-                    const isWhite = red === 255 && green === 255 && blue === 255;
-
-                    if (!isBlack && !isWhite) {
-                        throw new Error(ImageValidationError.InvalidColorCombination);
-                    }
-                });
-            });
-        } catch (error) {
-            return error.message;
-        }
-    }
-};
 
 export const validateImageDimensions = (origImage: HTMLImageElement, model: number) => {
     const height = getHeight(model);
@@ -241,10 +215,7 @@ export const validateImageFormat = (dataUrl: string) =>
 
 export const validate = (dataUrl: string, model: number) =>
     validateImageFormat(dataUrl) ||
-    dataUrlToImage(dataUrl).then(
-        image =>
-            validateImageDimensions(image, model) || validateImageColors(image, model) || undefined,
-    );
+    dataUrlToImage(dataUrl).then(image => validateImageDimensions(image, model) || undefined);
 
 export const imageDataToHex = (imageData: ImageData, model: number) => {
     const w = getWidth(model);
