@@ -186,48 +186,65 @@ export const elementToImageData = (element: HTMLImageElement, width: number, hei
     return imageData;
 };
 
-export const checkImage = (origImage: HTMLImageElement, model: number) => {
+export enum ImageValidationError {
+    InvalidFormat = 'IMAGE_VALIDATION_ERROR_INVALID_FORMAT',
+    InvalidHeight = 'IMAGE_VALIDATION_ERROR_INVALID_HEIGHT',
+    InvalidWidth = 'IMAGE_VALIDATION_ERROR_INVALID_WIDTH',
+    UnexpectedAlpha = 'IMAGE_VALIDATION_ERROR_UNEXPECTED_ALPHA',
+    InvalidColorCombination = 'IMAGE_VALIDATION_ERROR_INVALID_COLOR_COMBINATION',
+}
+
+export const validateImageColors = (origImage: HTMLImageElement, model: number) => {
     const height = getHeight(model);
     const width = getWidth(model);
-    if (origImage.height !== height) {
-        throw new Error('Not a correct height.');
-    }
-    if (origImage.width !== width) {
-        throw new Error('Not a correct width.');
-    }
-
     const imageData = elementToImageData(origImage, width, height);
 
     if (model === 1) {
-        range(imageData.height).forEach((j: number) => {
-            range(imageData.width).forEach(i => {
-                const index = j * 4 * imageData.width + i * 4;
-                const red = imageData.data[index];
-                const green = imageData.data[index + 1];
-                const blue = imageData.data[index + 2];
-                const alpha = imageData.data[index + 3];
-                if (alpha !== 255) {
-                    throw new Error('Unexpected alpha.');
-                }
-                let good = false;
-                if (red === 0 && green === 0 && blue === 0) {
-                    good = true;
-                }
-                if (red === 255 && green === 255 && blue === 255) {
-                    good = true;
-                }
-                if (!good) {
-                    throw new Error(`wrong color combination ${red} ${green} ${blue}.`);
-                }
+        try {
+            range(imageData.height).forEach((j: number) => {
+                range(imageData.width).forEach(i => {
+                    const index = j * 4 * imageData.width + i * 4;
+                    const red = imageData.data[index];
+                    const green = imageData.data[index + 1];
+                    const blue = imageData.data[index + 2];
+                    const alpha = imageData.data[index + 3];
+                    if (alpha !== 255) {
+                        throw new Error(ImageValidationError.UnexpectedAlpha);
+                    }
+                    const isBlack = red === 0 && green === 0 && blue === 0;
+                    const isWhite = red === 255 && green === 255 && blue === 255;
+
+                    if (!isBlack && !isWhite) {
+                        throw new Error(ImageValidationError.InvalidColorCombination);
+                    }
+                });
             });
-        });
+        } catch (error) {
+            return error.message;
+        }
     }
 };
 
-export const check = (file: File, model: number) =>
-    fileToDataUrl(file)
-        .then((url: string) => dataUrlToImage(url))
-        .then(image => checkImage(image, model));
+export const validateImageDimensions = (origImage: HTMLImageElement, model: number) => {
+    const height = getHeight(model);
+    const width = getWidth(model);
+    if (origImage.height !== height) {
+        return ImageValidationError.InvalidHeight;
+    }
+    if (origImage.width !== width) {
+        return ImageValidationError.InvalidWidth;
+    }
+};
+
+export const validateImageFormat = (dataUrl: string) =>
+    !!dataUrl && supportedDataUrlRE.test(dataUrl) ? undefined : ImageValidationError.InvalidFormat;
+
+export const validate = (dataUrl: string, model: number) =>
+    validateImageFormat(dataUrl) ||
+    dataUrlToImage(dataUrl).then(
+        image =>
+            validateImageDimensions(image, model) || validateImageColors(image, model) || undefined,
+    );
 
 export const imageDataToHex = (imageData: ImageData, model: number) => {
     const w = getWidth(model);
@@ -238,8 +255,6 @@ export const imageDataToHex = (imageData: ImageData, model: number) => {
     }
     return toig(w, h, imageData);
 };
-
-export const isValid = (dataUrl: string) => !!dataUrl && supportedDataUrlRE.test(dataUrl);
 
 export const elementToHomescreen = (
     element: HTMLImageElement,

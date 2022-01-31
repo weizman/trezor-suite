@@ -7,7 +7,13 @@ import { useDevice, useAnalytics, useActions } from '@suite-hooks';
 import * as modalActions from '@suite-actions/modalActions';
 import * as deviceSettingsActions from '@settings-actions/deviceSettingsActions';
 import { getDeviceModel } from '@suite-utils/device';
-import * as homescreen from '@suite-utils/homescreen';
+import {
+    elementToHomescreen,
+    fileToDataUrl,
+    getImageResolution,
+    ImageValidationError,
+    validate,
+} from '@suite-utils/homescreen';
 import { HOMESCREEN_EDITOR } from '@suite-constants/urls';
 
 const StyledActionButton = styled(ActionButton)`
@@ -26,6 +32,12 @@ const Col = styled.div`
     flex-direction: column;
 `;
 
+const ValidationMessage = styled.div`
+    color: ${props => props.theme.TYPE_ORANGE};
+    font-size: ${variables.FONT_SIZE.NORMAL};
+    font-weight: ${variables.FONT_WEIGHT.MEDIUM};
+`;
+
 interface Props {
     isDeviceLocked: boolean;
 }
@@ -40,6 +52,7 @@ const Homescreen = ({ isDeviceLocked }: Props) => {
     const fileInputElement = createRef<HTMLInputElement>();
 
     const [customHomescreen, setCustomHomescreen] = useState('');
+    const [validationError, setValidationError] = useState<ImageValidationError | undefined>();
 
     if (!device?.features) {
         return null;
@@ -50,11 +63,14 @@ const Homescreen = ({ isDeviceLocked }: Props) => {
     const onUploadHomescreen = async (files: FileList | null) => {
         if (!files || !files.length) return;
         const image = files[0];
-        const dataUrl = await homescreen.fileToDataUrl(image);
+        const dataUrl = await fileToDataUrl(image);
+
+        const validationResult = await validate(dataUrl, isModelT ? 2 : 1);
+        setValidationError(validationResult);
 
         setCustomHomescreen(dataUrl);
 
-        const imageResolution = await homescreen.getImageResolution(dataUrl);
+        const imageResolution = await getImageResolution(dataUrl);
         analytics.report({
             type: 'settings/device/background',
             payload: {
@@ -69,7 +85,7 @@ const Homescreen = ({ isDeviceLocked }: Props) => {
     const onSelectCustomHomescreen = async () => {
         const element = document.getElementById('custom-image');
         if (element instanceof HTMLImageElement) {
-            const hex = homescreen.elementToHomescreen(element, device.features.major_version);
+            const hex = elementToHomescreen(element, device.features.major_version);
             await applySettings({ homescreen: hex });
             setCustomHomescreen('');
         }
@@ -138,7 +154,7 @@ const Homescreen = ({ isDeviceLocked }: Props) => {
                     </StyledActionButton>
                 </ActionColumn>
             </SectionItem>
-            {customHomescreen && homescreen.isValid(customHomescreen) && (
+            {customHomescreen && !validationError && (
                 <SectionItem>
                     <Col>
                         <img
@@ -163,11 +179,27 @@ const Homescreen = ({ isDeviceLocked }: Props) => {
                     </ActionColumn>
                 </SectionItem>
             )}
-            {customHomescreen && !homescreen.isValid(customHomescreen) && (
+            {customHomescreen && validationError && (
                 <SectionItem>
-                    <Col>
-                        <Translation id="TR_INVALID_FILE_SELECTED" />
-                    </Col>
+                    <TextColumn
+                        title={<Translation id="TR_CUSTOM_HOMESCREEN" />}
+                        description={
+                            <ValidationMessage>
+                                <Translation id={validationError} />
+                            </ValidationMessage>
+                        }
+                    />
+
+                    {validationError !== ImageValidationError.InvalidFormat && (
+                        <Col>
+                            <img
+                                width="144px"
+                                alt="custom homescreen"
+                                id="custom-image"
+                                src={customHomescreen}
+                            />
+                        </Col>
+                    )}
                     <ActionColumn>
                         <ActionButton
                             variant="secondary"

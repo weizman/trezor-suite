@@ -5248,9 +5248,34 @@ export default defineMessages({
         id: 'TR_DROP_IMAGE',
         defaultMessage: 'Drop image',
     },
+    TR_CUSTOM_HOMESCREEN: {
+        id: 'TR_CUSTOM_HOMESCREEN',
+        defaultMessage: 'Custom homescreen uploaded',
+    },
     TR_INVALID_FILE_SELECTED: {
         id: 'TR_INVALID_FILE_SELECTED',
         defaultMessage: 'Invalid file selected. Must be .jpg or .png',
+    },
+    IMAGE_VALIDATION_ERROR_INVALID_FORMAT: {
+        id: 'IMAGE_VALIDATION_ERROR_INVALID_FORMAT',
+        defaultMessage: 'Invalid file selected. Must be .jpg or .png',
+    },
+    IMAGE_VALIDATION_ERROR_INVALID_HEIGHT: {
+        id: 'IMAGE_VALIDATION_ERROR_INVALID_HEIGHT',
+        defaultMessage: 'Invalid height.',
+    },
+    IMAGE_VALIDATION_ERROR_INVALID_WIDTH: {
+        id: 'IMAGE_VALIDATION_ERROR_INVALID_WIDTH',
+        defaultMessage: 'Invalid width.',
+    },
+    IMAGE_VALIDATION_ERROR_UNEXPECTED_ALPHA: {
+        id: 'IMAGE_VALIDATION_ERROR_UNEXPECTED_ALPHA',
+        defaultMessage: 'Invalid image format. It must not contain transparency.',
+    },
+    IMAGE_VALIDATION_ERROR_INVALID_COLOR_COMBINATION: {
+        id: 'IMAGE_VALIDATION_ERROR_INVALID_COLOR_COMBINATION',
+        defaultMessage:
+            'Invalid image color. It must contain only black and white (not grayscale).',
     },
     TR_OPEN_IN_MEDIUM: {
         id: 'TR_OPEN_IN_MEDIUM',
