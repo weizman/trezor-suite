@@ -10,8 +10,15 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noErrorTruncation": true,
-        "types": ["jest", "node"]
+        "types": ["jest", "node"],
+        // todo:
+        "resolveJsonModule": true
     },
     "include": ["./src/index.ts"],
-    "exclude": ["node_modules", "**/tests/**", "**/fixtures/**", "**/*.test.ts", "**/e2e/**"]
+    "exclude": [
+        "node_modules",
+        "**/tests/**",
+        "**/fixtures/**",
+        "**/*.test.ts",
+    ]
 }

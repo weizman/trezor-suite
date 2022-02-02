@@ -1,6 +1,10 @@
 /// <reference types="w3c-web-usb" />
 
 import { EventEmitter } from 'events';
+import { success, error } from '../utils/response';
+import { AbstractTransport } from './abstract';
+import type { Response } from './abstract';
+import * as check from '../utils/highlevel-checks';
 
 const T1HID_VENDOR = 0x534c;
 
@@ -43,6 +47,9 @@ export default class WebUsbPlugin {
         } else {
             this.usb = usb;
         }
+        this.usb = usb;
+        // todo: unify success message
+        return success('initiated');
     }
 
     _deviceHasDebugLink(device: USBDevice) {
@@ -83,7 +90,7 @@ export default class WebUsbPlugin {
                 path += bootloaderId;
             }
             const debug = this._deviceHasDebugLink(device);
-            return { path, device, debug };
+            return { path, device, debug, vendor: 1, product: 111 };
         });
 
         const oldUnreadableHidDevice = this.unreadableHidDevice;
@@ -92,7 +99,7 @@ export default class WebUsbPlugin {
         if (oldUnreadableHidDevice !== this.unreadableHidDevice) {
             this.unreadableHidDeviceChange.emit('change');
         }
-
+        console.log('_lastDevices', this._lastDevices);
         return this._lastDevices;
     }
 
@@ -116,7 +123,7 @@ export default class WebUsbPlugin {
     async send(path: string, data: ArrayBuffer, debug: boolean) {
         const device: USBDevice = await this._findDevice(path);
 
-        const newArray: Uint8Array = new Uint8Array(64);
+        const newArray = new Uint8Array(64);
         newArray[0] = 63;
         newArray.set(new Uint8Array(data), 1);
 
@@ -126,10 +133,22 @@ export default class WebUsbPlugin {
 
         const endpoint = debug ? this.debugEndpointId : this.normalEndpointId;
 
-        return device.transferOut(endpoint, newArray).then(() => {});
+        const result = await device.transferOut(endpoint, newArray);
+        // type USBTransferStatus = "ok" | "stall" | "babble";
+        if (result.status === 'ok') {
+            return success('sending done');
+        } else {
+            // todo:
+            return error('sending ??? ' + result.status);
+        }
     }
 
-    async receive(path: string, debug: boolean): Promise<ArrayBuffer> {
+    // todo: is that ever used???
+    // : Promise<ArrayBuffer>
+    async receive(path: string, debug: boolean): Response<ArrayBuffer> {
+        if (!this.configured) {
+            return error(NOT_CONFIGURED);
+        }
         const device: USBDevice = await this._findDevice(path);
         const endpoint = debug ? this.debugEndpointId : this.normalEndpointId;
 
@@ -146,7 +165,7 @@ export default class WebUsbPlugin {
             if (res.data.byteLength === 0) {
                 return this.receive(path, debug);
             }
-            return res.data.buffer.slice(1);
+            return success(res.data.buffer.slice(1));
         } catch (e) {
             // @ts-ignore
             if (e.message === 'Device unavailable.') {
@@ -154,6 +173,8 @@ export default class WebUsbPlugin {
             } else {
                 throw e;
             }
+
+            return error(e.message as string);
         }
     }
 
@@ -167,7 +188,7 @@ export default class WebUsbPlugin {
             } catch (e) {
                 // ignore
                 if (i === 4) {
-                    throw e;
+                    return error('failed to connect');
                 }
             }
         }
@@ -189,6 +210,7 @@ export default class WebUsbPlugin {
 
         const interfaceId = debug ? this.debugInterfaceId : this.normalInterfaceId;
         await device.claimInterface(interfaceId);
+        // return success('')
     }
 
     async disconnect(path: string, debug: boolean, last: boolean) {
@@ -206,3 +228,5 @@ export default class WebUsbPlugin {
         await this.usb!.requestDevice({ filters: TREZOR_DESCS });
     }
 }
+
+export { WebUsbPlugin };

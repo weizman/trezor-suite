@@ -1,88 +1,122 @@
 // input checks for high-level transports
 
-import type { TrezorDeviceInfoWithSession, MessageFromTrezor } from '../types';
+// import type { TrezorDeviceInfoWithSession, MessageFromTrezor } from '../types';
+// import * as typeforce from 'typeforce';
+import {
+    Boolean,
+    Number,
+    String,
+    // Literal,
+    // Tuple,
+    Record,
+    // Union,
+    // Partial,
+    // Static,
+    // Undefined,
+    // Null,    
+    Optional,
+} from 'runtypes';
+
+import { success, error } from './response';
 
 const ERROR = 'Wrong result type.';
 
-export function info(res: any) {
-    if (typeof res !== 'object' || res == null) {
-        throw new Error('Wrong result type.');
+export const init = (res: any) => {
+    try {
+        const response = Record({
+            version: String,
+            configured: Boolean,
+            githash: Optional(String),
+        }).check(res);
+
+        return success(response);
+        // return success({ version, configured });
+    } catch (_err) {
+        return error(ERROR);
     }
-    const { version } = res;
-    if (typeof version !== 'string') {
-        throw new Error(ERROR);
+};
+
+export function enumerate(res: any) {
+    try {
+        return success(
+            (res as any[]).map(r => {
+                console.log('r', r);
+                return Record({
+                    path: String,
+                    vendor: Number,
+                    product: Number,
+                    debug: Boolean,
+                    // todo: really optional?
+                    session: Optional(String), //.Or(Null),
+                    debugSession: Optional(String), //.Or(Null),
+                    // session: Union(Optional(String).Or(Null), Undefined),
+                    // debugSession: Union(Optional(String).Or(Null), Undefined),
+                }).check(r);
+            }),
+        );
+    } catch (_err) {
+        // @ts-ignore
+        console.log(_err.message);
+
+        return error(ERROR);
     }
-    const configured = !!res.configured;
-    return { version, configured };
 }
 
-export function version(version: any) {
-    if (typeof version !== 'string') {
-        throw new Error(ERROR);
-    }
-    return version.trim();
-}
-
-function convertSession(r: any) {
-    if (r == null) {
-        return null;
-    }
-    if (typeof r !== 'string') {
-        throw new Error(ERROR);
-    }
-    return r;
-}
-
-export function devices(res: any): Array<TrezorDeviceInfoWithSession> {
-    if (typeof res !== 'object') {
-        throw new Error(ERROR);
-    }
-    if (!(res instanceof Array)) {
-        throw new Error(ERROR);
-    }
-    return res.map((o: any): TrezorDeviceInfoWithSession => {
-        if (typeof o !== 'object' || o == null) {
-            throw new Error(ERROR);
-        }
-        const { path } = o;
-        if (typeof path !== 'string') {
-            throw new Error(ERROR);
-        }
-        const pathS = path.toString();
-        return {
-            path: pathS,
-            session: convertSession(o.session),
-            debugSession: convertSession(o.debugSession),
-            // @ts-ignore
-            product: o.product,
-            vendor: o.vendor,
-            debug: !!o.debug,
-        };
-    });
-}
+export const listen = (res: any) => enumerate(res);
 
 export function acquire(res: any) {
-    if (typeof res !== 'object' || res == null) {
-        throw new Error(ERROR);
+    try {
+        return success(
+            Record({
+                // todo: really optional?
+                session: Optional(String),
+            }).check(res),
+        );
+    } catch (_err) {
+        return error(ERROR);
     }
-    const { session } = res;
-    if (typeof session !== 'string' && typeof session !== 'number') {
-        throw new Error(ERROR);
-    }
-    return session.toString();
 }
 
-export function call(res: any): MessageFromTrezor {
-    if (typeof res !== 'object' || res == null) {
-        throw new Error(ERROR);
+export const call = (res: any) => {
+    try {
+        return success(
+            Record({
+                type: String,
+                // todo:
+                message: Record({}),
+            }).check(res),
+        );
+    } catch (_err) {
+        return error(ERROR);
     }
-    const { type } = res;
-    if (typeof type !== 'string') {
-        throw new Error(ERROR);
+};
+
+export const read = (res: any) => {
+    try {
+        return success(
+            Record({
+                type: String,
+                // todo:
+                message: Record({}),
+            }).check(res),
+        );
+    } catch (_err) {
+        return error(ERROR);
     }
-    const { message } = res;
-    if (typeof message !== 'object' || message == null) {
-        throw new Error(ERROR);
+};
+
+export const post = (res: any) => {
+    try {
+        return success(Number.check(res));
+    } catch (_err) {
+        return error(ERROR);
     }
-    return { type, message };
-}
+};
+
+export const release = (res: any) => {
+    try {
+        return success(Number.check(res));
+    } catch (_err) {
+        return error(ERROR);
+    }
+};

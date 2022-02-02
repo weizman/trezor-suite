@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+
 // Logic of sending data to trezor
 //
 // Logic of "call" is broken to two parts - sending and receiving

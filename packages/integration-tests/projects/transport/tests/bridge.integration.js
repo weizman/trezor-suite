@@ -66,4 +66,56 @@ describe('bridge', () => {
             });
         });
     });
+
+    // test('sessions stealing', async () => {
+    //     BridgeV2.setFetch(fetch, true);
+
+    //     const client1 = new BridgeV2();
+    //     const client2 = new BridgeV2();
+
+    //     await client1.init();
+
+    //     client1.configure(messages);
+    //     client2.configure(messages);
+
+    //     const enumerate = await client1.enumerate();
+    //     console.log('==== enumerate', enumerate);
+    //     if (!enumerate.success) {
+    //         return expect(enumerate.success).toEqual(true);
+    //     }
+
+    //     const session1 = await client1.acquire({ path: enumerate.payload[0].path, previous: enumerate.payload[0].session });
+    //     console.log('session1', session1);
+
+    //     if (!session1.success) {
+    //         return expect(session1.success).toEqual(true);
+    //     }
+
+    //     let message = await client1.call(session1.payload.session, 'GetFeatures', {});
+    //     console.log('message', message);
+    //     if (!message.success) {
+    //         return expect(message.success).toEqual(true);
+    //     }
+
+    //     expect(message.payload).toMatchObject({
+    //         type: 'Features',
+    //         message: {
+    //             vendor: 'trezor.io',
+    //             label: 'TrezorT',
+    //         },
+    //     });
+
+    //     const session2 = await client2.acquire({ path: enumerate.payload[0].path, previous: enumerate.payload[0].session });
+    //     console.log('session2', session2);
+
+    //     if (!session2.success) {
+    //         console.log('session2', session2);
+    //         return expect(session2.success).toEqual(true);
+    //     }
+
+    //     message = await client2.call(session2.payload.session, 'GetFeatures', {});
+
+    //     console.log('message', message);
+    //     // const session1 = await client1.acquire({ path: devices[0].path });
+    // });
 });

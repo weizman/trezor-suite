@@ -1,25 +1,26 @@
-import type { Transport, AcquireInput, TrezorDeviceInfoWithSession } from './types';
+import type { AcquireInput, TrezorDeviceInfoWithSession, MessagesJSON } from './types';
 
+import { AbstractTransport } from './transports/abstract';
 export default class FallbackTransport {
-    _availableTransports: Array<Transport> = [];
+    _availableTransports: Array<AbstractTransport> = [];
     activeName = '';
     // @ts-ignore
-    activeTransport: Transport;
+    activeTransport: AbstractTransport;
     configured = false;
     debug = false;
     isOutdated = false;
     name = 'FallbackTransport';
     requestNeeded = false;
-    transports: Array<Transport> = [];
+    transports: Array<AbstractTransport> = [];
     version = '';
 
-    constructor(transports: Array<Transport>) {
+    constructor(transports: Array<AbstractTransport>) {
         this.transports = transports;
     }
 
     // first one that inits successfully is the final one; others won't even start initiating
     async _tryInitTransports() {
-        const res: Array<Transport> = [];
+        const res: Array<AbstractTransport> = [];
         let lastError: any = null;
         for (const transport of this.transports) {
             try {
@@ -36,7 +37,7 @@ export default class FallbackTransport {
     }
 
     // first one that inits successfully is the final one; others won't even start initing
-    async _tryConfigureTransports(data: JSON | string) {
+    async _tryConfigureTransports(data: MessagesJSON | string) {
         let lastError: any = null;
         for (const transport of this._availableTransports) {
             try {
@@ -62,12 +63,12 @@ export default class FallbackTransport {
         this.configured = false;
     }
 
-    async configure(signedData: JSON | string) {
-        const pt: Promise<Transport> = this._tryConfigureTransports(signedData);
+    async configure(signedData: MessagesJSON | string) {
+        const pt: Promise<AbstractTransport> = this._tryConfigureTransports(signedData);
         this.activeTransport = await pt;
         this.configured = this.activeTransport.configured;
         this.version = this.activeTransport.version;
-        this.activeName = this.activeTransport.name;
+        this.name = this.activeTransport.name;
         this.requestNeeded = this.activeTransport.requestNeeded;
         this.isOutdated = this.activeTransport.isOutdated;
     }
