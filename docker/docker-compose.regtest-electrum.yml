@@ -4,3 +4,7 @@ services:
     image: ghcr.io/vdovhanych/electrs:latest
     ports:
       - "50001:50001"
+    working_dir: /trezor-suite
+    command: bash -c "docker/create-funds-on-regtest.sh ${BTC_REC_ADDR}"
+    volumes:
+      - ../:/trezor-suite
