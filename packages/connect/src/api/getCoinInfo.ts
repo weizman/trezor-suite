@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams } from './helpers/paramsValidator';
+import { validateParams } from './common/paramsValidator';
 import { ERRORS } from '../constants';
 
 import { getCoinInfo } from '../data/CoinInfo';

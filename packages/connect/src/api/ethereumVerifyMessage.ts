@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { stripHexPrefix, messageToHex } from '../utils/formatUtils';
 import type { MessageType } from '@trezor/transport/lib/types/messages';
 

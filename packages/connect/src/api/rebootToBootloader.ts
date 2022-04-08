@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { getFirmwareRange } from './helpers/paramsValidator';
+import { getFirmwareRange } from './common/paramsValidator';
 
 import { UI, UiMessage } from '../events';
 

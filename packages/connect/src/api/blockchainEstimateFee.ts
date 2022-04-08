@@ -1,7 +1,7 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams } from './helpers/paramsValidator';
+import { validateParams } from './common/paramsValidator';
 import { ERRORS } from '../constants';
-import Fees from './tx/Fees';
+import Fees from './bitcoin/Fees';
 import { isBackendSupported, initBlockchain } from '../backend/BlockchainLink';
 import { getCoinInfo } from '../data/CoinInfo';
 import type { CoinInfo } from '../types';

@@ -1,27 +1,28 @@
+/* eslint-disable no-restricted-syntax */
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getMiscNetwork } from '../data/CoinInfo';
 import { validatePath } from '../utils/pathUtils';
 import {
     modifyAuxiliaryDataForBackwardsCompatibility,
     transformAuxiliaryData,
-} from './helpers/cardanoAuxiliaryData';
-import { transformCertificate } from './helpers/cardanoCertificate';
-import type { CertificateWithPoolOwnersAndRelays } from './helpers/cardanoCertificate';
-import type { Path, InputWithPath, CollateralInputWithPath } from './helpers/cardanoInputs';
-import { transformInput, transformCollateralInput } from './helpers/cardanoInputs';
-import { transformOutput } from './helpers/cardanoOutputs';
-import type { OutputWithTokens } from './helpers/cardanoOutputs';
-import { legacySerializedTxToResult, toLegacyParams } from './helpers/cardanoSignTxLegacy';
+} from './cardano/cardanoAuxiliaryData';
+import { transformCertificate } from './cardano/cardanoCertificate';
+import type { CertificateWithPoolOwnersAndRelays } from './cardano/cardanoCertificate';
+import type { Path, InputWithPath, CollateralInputWithPath } from './cardano/cardanoInputs';
+import { transformInput, transformCollateralInput } from './cardano/cardanoInputs';
+import { transformOutput } from './cardano/cardanoOutputs';
+import type { OutputWithTokens } from './cardano/cardanoOutputs';
+import { legacySerializedTxToResult, toLegacyParams } from './cardano/cardanoSignTxLegacy';
 import { ERRORS } from '../constants';
 import {
-     CardanoCertificateType,
-     CardanoTxAuxiliaryDataSupplementType,
+    CardanoCertificateType,
+    CardanoTxAuxiliaryDataSupplementType,
     //  REF-TODO: rename
-     CardanoTxSigningMode as CardanoTxSigningModeEnum,
-     CardanoTxWitnessType,
+    CardanoTxSigningMode as CardanoTxSigningModeEnum,
+    CardanoTxWitnessType,
     //  REF-TODO: rename
-     CardanoDerivationType as Enum_CardanoDerivationType,
+    CardanoDerivationType as Enum_CardanoDerivationType,
 } from '@trezor/transport/lib/types/messages';
 import type {
     UintType,
@@ -36,9 +37,9 @@ import type {
     CardanoSignedTxData,
     CardanoSignedTxWitness,
 } from '../types/api/cardanoSignTransaction';
-import { gatherWitnessPaths } from './helpers/cardanoWitnesses';
-import type { AssetGroupWithTokens } from './helpers/cardanoTokenBundle';
-import { tokenBundleToProto } from './helpers/cardanoTokenBundle';
+import { gatherWitnessPaths } from './cardano/cardanoWitnesses';
+import type { AssetGroupWithTokens } from './cardano/cardanoTokenBundle';
+import { tokenBundleToProto } from './cardano/cardanoTokenBundle';
 
 // todo: remove when listed firmwares become mandatory for cardanoSignTransaction
 const CardanoSignTransactionFeatures = Object.freeze({
@@ -60,25 +61,25 @@ const CardanoSignTransactionFeatures = Object.freeze({
 });
 
 export type CardanoSignTransactionParams = {
-    signingMode: CardanoTxSigningMode,
-    inputsWithPath: InputWithPath[],
-    outputsWithTokens: OutputWithTokens[],
-    fee: UintType,
-    ttl?: UintType,
-    certificatesWithPoolOwnersAndRelays: CertificateWithPoolOwnersAndRelays[],
-    withdrawals: CardanoTxWithdrawal[],
-    mint: AssetGroupWithTokens[],
-    auxiliaryData?: CardanoTxAuxiliaryData,
-    validityIntervalStart?: UintType,
-    scriptDataHash?: string,
-    collateralInputsWithPath: CollateralInputWithPath[],
-    requiredSigners: CardanoTxRequiredSigner[],
-    protocolMagic: number,
-    networkId: number,
-    witnessPaths: Path[],
-    additionalWitnessRequests: Path[],
-    derivationType: CardanoDerivationType,
-    includeNetworkId?: boolean,
+    signingMode: CardanoTxSigningMode;
+    inputsWithPath: InputWithPath[];
+    outputsWithTokens: OutputWithTokens[];
+    fee: UintType;
+    ttl?: UintType;
+    certificatesWithPoolOwnersAndRelays: CertificateWithPoolOwnersAndRelays[];
+    withdrawals: CardanoTxWithdrawal[];
+    mint: AssetGroupWithTokens[];
+    auxiliaryData?: CardanoTxAuxiliaryData;
+    validityIntervalStart?: UintType;
+    scriptDataHash?: string;
+    collateralInputsWithPath: CollateralInputWithPath[];
+    requiredSigners: CardanoTxRequiredSigner[];
+    protocolMagic: number;
+    networkId: number;
+    witnessPaths: Path[];
+    additionalWitnessRequests: Path[];
+    derivationType: CardanoDerivationType;
+    includeNetworkId?: boolean;
 };
 
 export default class CardanoSignTransaction extends AbstractMethod<'cardanoSignTransaction'> {
@@ -95,7 +96,7 @@ export default class CardanoSignTransaction extends AbstractMethod<'cardanoSignT
 
         const { payload } = this;
 
-        // $FlowIssue payload.metadata is a legacy param
+        // payload.metadata is a legacy param
         if (payload.metadata) {
             throw ERRORS.TypedError(
                 'Method_InvalidParameter',
@@ -103,7 +104,7 @@ export default class CardanoSignTransaction extends AbstractMethod<'cardanoSignT
             );
         }
 
-        // $FlowIssue payload.auxiliaryData.blob is a legacy param
+        // payload.auxiliaryData.blob is a legacy param
         if (payload.auxiliaryData && payload.auxiliaryData.blob) {
             throw ERRORS.TypedError(
                 'Method_InvalidParameter',
@@ -184,12 +185,12 @@ export default class CardanoSignTransaction extends AbstractMethod<'cardanoSignT
         if (payload.requiredSigners) {
             requiredSigners = payload.requiredSigners.map(requiredSigner => {
                 validateParams(requiredSigner, [{ name: 'keyHash', type: 'string' }]);
-                return ({
+                return {
                     key_path: requiredSigner.keyPath
                         ? validatePath(requiredSigner.keyPath, 3)
                         : undefined,
                     key_hash: requiredSigner.keyHash,
-                }: CardanoTxRequiredSigner);
+                } as CardanoTxRequiredSigner;
             });
         }
 

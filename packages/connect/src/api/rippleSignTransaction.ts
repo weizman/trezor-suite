@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getMiscNetwork } from '../data/CoinInfo';
 import { validatePath } from '../utils/pathUtils';
 import type { MessageType } from '@trezor/transport/lib/types/messages';

@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, validateCoinPath, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, validateCoinPath, getFirmwareRange } from './common/paramsValidator';
 import { validatePath, getLabel, getSerializedPath } from '../utils/pathUtils';
 import { getBitcoinNetwork, fixCoinInfoNetwork, getUniqueNetworks } from '../data/CoinInfo';
 
@@ -19,7 +19,7 @@ export default class GetAddress extends AbstractMethod<'getAddress'> {
 
     hasBundle: boolean;
 
-    progress: number = 0;
+    progress = 0;
 
     confirmed?: boolean;
 

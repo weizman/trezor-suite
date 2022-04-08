@@ -2,8 +2,8 @@ import { getBinary, modifyFirmware } from '@trezor/rollout';
 import AbstractMethod from './abstractMethod';
 import { ERRORS } from '../constants';
 import { UI, UiMessage } from '../events';
-import { uploadFirmware } from './helpers/uploadFirmware';
-import { validateParams } from './helpers/paramsValidator';
+import { uploadFirmware } from './management/uploadFirmware';
+import { validateParams } from './common/paramsValidator';
 import { getReleases } from '../data/FirmwareInfo';
 
 type Params = {

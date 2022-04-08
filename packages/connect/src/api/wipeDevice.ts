@@ -1,9 +1,8 @@
 import AbstractMethod from './abstractMethod';
 
-import { UI, UiMessage } from '../events';
-import { DEVICE } from '../events';
+import { UI, UiMessage, DEVICE } from '../events';
 
-import { getFirmwareRange } from './helpers/paramsValidator';
+import { getFirmwareRange } from './common/paramsValidator';
 
 export default class WipeDevice extends AbstractMethod<'wipeDevice'> {
     confirmed?: boolean;

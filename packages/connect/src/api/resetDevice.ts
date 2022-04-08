@@ -1,6 +1,6 @@
 import AbstractMethod from './abstractMethod';
 import { UI, UiMessage } from '../events';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import type { MessageType } from '@trezor/transport/lib/types/messages';
 
 export default class ResetDevice extends AbstractMethod<'resetDevice'> {

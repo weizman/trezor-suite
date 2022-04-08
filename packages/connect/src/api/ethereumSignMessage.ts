@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { validatePath } from '../utils/pathUtils';
 import { getEthereumNetwork } from '../data/CoinInfo';
 import { getNetworkLabel } from '../utils/ethereumUtils';

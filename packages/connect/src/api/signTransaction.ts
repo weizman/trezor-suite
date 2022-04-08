@@ -1,28 +1,29 @@
 import BigNumber from 'bignumber.js';
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getBitcoinNetwork } from '../data/CoinInfo';
 import { getLabel } from '../utils/pathUtils';
 import { ERRORS } from '../constants';
 
 import { isBackendSupported, initBlockchain } from '../backend/BlockchainLink';
-import signTx from './helpers/signtx';
-import signTxLegacy from './helpers/signtx-legacy';
-import { verifyTx, verifyTicketTx } from './helpers/signtxVerify';
+import { signTx } from './bitcoin/signtx';
+import { signTxLegacy } from './bitcoin/signtx-legacy';
+import { verifyTx, verifyTicketTx } from './bitcoin/signtxVerify';
 
+// REF-TODO: index?
+import { validateTrezorInputs, enhanceTrezorInputs } from './bitcoin/inputs';
+import { validateTrezorOutputs } from './bitcoin/outputs';
 import {
-    validateTrezorInputs,
-    enhanceTrezorInputs,
-    validateTrezorOutputs,
     getReferencedTransactions,
     validateReferencedTransactions,
     transformReferencedTransactions,
     getOrigTransactions,
     transformOrigTransactions,
-} from './tx';
+} from './bitcoin/refTx';
 
 // REF-TODO: missing
-import type { RefTransaction, TransactionOptions } from 'trezor-connect';
+import type { TransactionOptions } from 'trezor-connect';
+import type { RefTransaction } from '../types/api/signTransaction';
 import type { BitcoinNetworkInfo, AccountAddresses } from '../types';
 import type { TxInputType, TxOutputType } from '@trezor/transport/lib/types/messages';
 

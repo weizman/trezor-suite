@@ -1,6 +1,6 @@
 import { DataManager } from '../data/DataManager';
 import { ERRORS, NETWORK } from '../constants';
-import { UI, DEVICE } from '../events';
+import { UI, DEVICE, UiMessage, DeviceMessage } from '../events';
 import {
     load as loadStorage,
     save as saveStorage,
@@ -8,7 +8,6 @@ import {
 } from '@trezor/connect-common/lib/storage';
 import { versionCompare } from '../utils/versionUtils';
 
-import { UiMessage, DeviceMessage } from '../events';
 import type { IDevice } from '../device/Device';
 import type {
     API,
@@ -191,7 +190,7 @@ export default class AbstractMethod<P extends ApiMethods> {
         this.requiredPermissions = notPermitted;
     }
 
-    savePermissions(temporary: boolean = false) {
+    savePermissions(temporary = false) {
         let savedPermissions = loadStorage(PERMISSIONS_KEY, temporary);
         if (!savedPermissions || !Array.isArray(savedPermissions)) {
             savedPermissions = JSON.parse('[]');

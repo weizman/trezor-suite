@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
 import type { ComposeOutput, ComposeResult } from '@trezor/utxo-lib';
 import AbstractMethod from './abstractMethod';
-import Discovery from './helpers/Discovery';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import Discovery from './common/Discovery';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import * as pathUtils from '../utils/pathUtils';
 import { resolveAfter } from '../utils/promiseUtils';
 
@@ -14,17 +14,14 @@ import { formatAmount } from '../utils/formatUtils';
 
 import { isBackendSupported, initBlockchain } from '../backend/BlockchainLink';
 
-import TransactionComposer from './tx/TransactionComposer';
-import {
-    validateHDOutput,
-    inputToTrezor,
-    outputToTrezor,
-    getReferencedTransactions,
-    transformReferencedTransactions,
-} from './tx';
-import signTx from './helpers/signtx';
-import signTxLegacy from './helpers/signtx-legacy';
-import { verifyTx } from './helpers/signtxVerify';
+// REF-TODO: maybe add index to /bitcoin folder?
+import TransactionComposer from './bitcoin/TransactionComposer';
+import { getReferencedTransactions, transformReferencedTransactions } from './bitcoin/refTx';
+import { inputToTrezor } from './bitcoin/inputs';
+import { validateHDOutput, outputToTrezor } from './bitcoin/outputs';
+import { signTx } from './bitcoin/signtx';
+import { signTxLegacy } from './bitcoin/signtx-legacy';
+import { verifyTx } from './bitcoin/signtxVerify';
 
 import type { BitcoinNetworkInfo } from '../types';
 import type {

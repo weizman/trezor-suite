@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams } from './helpers/paramsValidator';
+import { validateParams } from './common/paramsValidator';
 import { UI, UiMessage } from '../events';
 
 import type { MessageType } from '@trezor/transport/lib/types/messages';

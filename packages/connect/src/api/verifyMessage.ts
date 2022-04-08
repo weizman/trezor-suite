@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getBitcoinNetwork } from '../data/CoinInfo';
 import { getLabel } from '../utils/pathUtils';
 import { messageToHex } from '../utils/formatUtils';

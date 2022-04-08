@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getMiscNetwork } from '../data/CoinInfo';
 import { fromHardened, getSerializedPath } from '../utils/pathUtils';
 import {
@@ -7,7 +7,7 @@ import {
     addressParametersToProto,
     modifyAddressParametersForBackwardsCompatibility,
     validateAddressParameters,
-} from './helpers/cardanoAddressParameters';
+} from './cardano/cardanoAddressParameters';
 
 import { ERRORS } from '../constants';
 import { UI, UiMessage } from '../events';
@@ -29,7 +29,7 @@ export default class CardanoGetAddress extends AbstractMethod<'cardanoGetAddress
 
     hasBundle: boolean;
 
-    progress: number = 0;
+    progress = 0;
 
     confirmed?: boolean;
 

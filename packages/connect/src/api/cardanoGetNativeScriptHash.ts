@@ -1,16 +1,16 @@
 import AbstractMethod from './abstractMethod';
-import { getFirmwareRange, validateParams } from './helpers/paramsValidator';
-import { getMiscNetwork } from '../../data/CoinInfo';
-import { validatePath } from '../../utils/pathUtils';
+import { getFirmwareRange, validateParams } from './common/paramsValidator';
+import { getMiscNetwork } from '../data/CoinInfo';
+import { validatePath } from '../utils/pathUtils';
 
-import type { CardanoNativeScript } from '../../types/networks/cardano';
+import type { CardanoNativeScript } from '../types/api/cardanoGetNativeScriptHash';
 import type {
     CardanoNativeScript as CardanoNativeScriptProto,
     MessageType,
-} from '../../types/trezor/protobuf';
-import { Enum_CardanoDerivationType as CardanoDerivationType } from '../../types/trezor/protobuf';
+} from '@trezor/transport/lib/types/messages';
+import { CardanoDerivationType } from '@trezor/transport/lib/types/messages';
 
-type Params = $ElementType<MessageType, 'CardanoGetNativeScriptHash'>;
+type Params = MessageType['CardanoGetNativeScriptHash'];
 export default class CardanoGetNativeScriptHash extends AbstractMethod<'cardanoGetNativeScriptHash'> {
     params: Params;
 

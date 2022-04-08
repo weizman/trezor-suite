@@ -1,8 +1,8 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getMiscNetwork } from '../data/CoinInfo';
 import { validatePath } from '../utils/pathUtils';
-import * as helper from './helpers/binanceSignTx';
+import * as helper from './binance/binanceSignTx';
 
 import type { BinancePreparedTransaction } from '../types/api/binanceSignTransaction';
 

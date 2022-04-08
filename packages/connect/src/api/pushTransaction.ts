@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams } from './helpers/paramsValidator';
+import { validateParams } from './common/paramsValidator';
 import { getCoinInfo } from '../data/CoinInfo';
 import { ERRORS } from '../constants';
 import { isBackendSupported, initBlockchain } from '../backend/BlockchainLink';

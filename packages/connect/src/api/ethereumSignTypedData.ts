@@ -1,23 +1,27 @@
+/* eslint-disable no-restricted-syntax */
+
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { validatePath } from '../utils/pathUtils';
 import { getEthereumNetwork } from '../data/CoinInfo';
 import { getNetworkLabel } from '../utils/ethereumUtils';
-import type { MessageResponse, EthereumTypedDataStructAck } from '@trezor/transport/lib/types/messages';
+import type {
+    MessageResponse,
+    EthereumTypedDataStructAck,
+} from '@trezor/transport/lib/types/messages';
 import { ERRORS } from '../constants';
 import type {
     EthereumSignTypedData as EthereumSignTypedDataParams,
     EthereumSignTypedHashAndData as EthereumSignTypedHashAndDataParams,
     // REF-TODO: proper import
 } from 'trezor-connect';
-import { getFieldType, parseArrayType, encodeData } from './helpers/ethereumSignTypedData';
+import { getFieldType, parseArrayType, encodeData } from './ethereum/ethereumSignTypedData';
 import { messageToHex } from '../utils/formatUtils';
 
 type Params = Omit<
     // REF-TODO: any ?
-        (EthereumSignTypedDataParams<any>| EthereumSignTypedHashAndDataParams<any>) & {
-        address_n: number[],
-        
+    (EthereumSignTypedDataParams<any> | EthereumSignTypedHashAndDataParams<any>) & {
+        address_n: number[];
     },
     'path' // removes the "path" variable from this.params
 >;
@@ -102,9 +106,9 @@ export default class EthereumSignTypedData extends AbstractMethod<'ethereumSignT
                 { name: 'message_hash', type: 'string' },
             ]);
 
-            const { domain_separator_hash, message_hash } =
-                // $FlowIssue validateParams() confirms that these hashes exist
-                (this.params: EthereumSignTypedHashAndDataParams);
+            // REF-TODO:
+            const { domain_separator_hash, message_hash } = this
+                .params as unknown as EthereumSignTypedHashAndDataParams<any>;
 
             // For Model 1 we use EthereumSignTypedHash
             const response = await cmd.typedCall(
@@ -131,7 +135,7 @@ export default class EthereumSignTypedData extends AbstractMethod<'ethereumSignT
         let response: MessageResponse<
             | 'EthereumTypedDataStructRequest'
             | 'EthereumTypedDataValueRequest'
-            | 'EthereumTypedDataSignature',
+            | 'EthereumTypedDataSignature'
         > = await cmd.typedCall(
             'EthereumSignTypedData',
             // $FlowIssue typedCall problem with unions in response, TODO: accept unions

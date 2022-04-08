@@ -1,12 +1,11 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getMiscNetwork } from '../data/CoinInfo';
 import { validatePath, fromHardened, getSerializedPath } from '../utils/pathUtils';
 
 import { UI, UiMessage } from '../events';
 
 // REF-TODO: correct import?
-// import type { TezosPublicKey } from '../../types/networks/tezos';
 import type { MessageType, TezosPublicKey } from '@trezor/transport/lib/types/messages';
 
 export default class TezosGetPublicKey extends AbstractMethod<'tezosGetPublicKey'> {

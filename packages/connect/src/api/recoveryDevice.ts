@@ -1,6 +1,6 @@
 import AbstractMethod from './abstractMethod';
 import { UI, UiMessage } from '../events';
-import { validateParams } from './helpers/paramsValidator';
+import { validateParams } from './common/paramsValidator';
 import type { MessageType } from '@trezor/transport/lib/types/messages';
 
 export default class RecoveryDevice extends AbstractMethod<'recoveryDevice'> {

@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { getMiscNetwork } from '../data/CoinInfo';
 import { validatePath, fromHardened, getSerializedPath } from '../utils/pathUtils';
 
@@ -17,7 +17,7 @@ export default class StellarGetAddress extends AbstractMethod<'stellarGetAddress
 
     hasBundle: boolean;
 
-    progress: number = 0;
+    progress = 0;
 
     confirmed?: boolean;
 

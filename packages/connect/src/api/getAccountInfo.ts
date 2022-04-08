@@ -1,6 +1,6 @@
 import AbstractMethod from './abstractMethod';
-import Discovery from './helpers/Discovery';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import Discovery from './common/Discovery';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { validatePath, getSerializedPath } from '../utils/pathUtils';
 import { getAccountLabel, isUtxoBased } from '../utils/accountUtils';
 import { resolveAfter } from '../utils/promiseUtils';
@@ -28,7 +28,7 @@ type Params = Request[];
 export default class GetAccountInfo extends AbstractMethod<'getAccountInfo'> {
     params: Params;
 
-    disposed: boolean = false;
+    disposed = false;
 
     hasBundle: boolean;
 

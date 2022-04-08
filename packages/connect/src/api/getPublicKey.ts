@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, validateCoinPath, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, validateCoinPath, getFirmwareRange } from './common/paramsValidator';
 import { validatePath } from '../utils/pathUtils';
 
 import { UI, UiMessage } from '../events';

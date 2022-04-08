@@ -1,5 +1,5 @@
 import AbstractMethod from './abstractMethod';
-import { validateParams, getFirmwareRange } from './helpers/paramsValidator';
+import { validateParams, getFirmwareRange } from './common/paramsValidator';
 import { validatePath, getSerializedPath } from '../utils/pathUtils';
 import { getNetworkLabel } from '../utils/ethereumUtils';
 import { getEthereumNetwork, getUniqueNetworks } from '../data/CoinInfo';
@@ -21,7 +21,7 @@ export default class EthereumGetAddress extends AbstractMethod<'ethereumGetAddre
 
     hasBundle: boolean;
 
-    progress: number = 0;
+    progress = 0;
 
     confirmed?: boolean;
 
