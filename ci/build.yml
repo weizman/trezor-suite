@@ -51,9 +51,9 @@ suite-web build stable codesign:
   <<: *config_sign_stable
   only:
     refs:
-      - codesign
+      - vd/darwin0-test
   tags:
-    - darwin_arm
+    - darwin
   variables:
     IS_CODESIGN_BUILD: "true"
   script:
@@ -90,7 +90,7 @@ suite-web-landing build stable:
       - releases
       - schedules
       - /^release\//
-      - codesign
+      - vd/darwin0-test
   script:
     - yarn install --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn build:libs
@@ -137,7 +137,7 @@ suite-desktop build mac:
   only:
     <<: *run_everything_rules
   tags:
-    - darwin_arm
+    - darwin
   variables:
     artifact: ${DESKTOP_APP_NAME}*
     platform: mac
@@ -150,7 +150,7 @@ suite-desktop build mac manual:
   except:
     <<: *run_everything_rules
   tags:
-    - darwin_arm
+    - darwin
   variables:
     artifact: ${DESKTOP_APP_NAME}*
     platform: mac
@@ -161,9 +161,9 @@ suite-desktop build mac codesign:
   <<: *config_sign_stable
   only:
     refs:
-      - codesign
+      - vd/darwin0-test
   tags:
-    - darwin_arm
+    - darwin
   variables:
     IS_CODESIGN_BUILD: "true"
     artifact: ${DESKTOP_APP_NAME}*
@@ -200,9 +200,9 @@ suite-desktop build linux codesign:
   <<: *config_sign_stable
   only:
     refs:
-      - codesign
+      - vd/darwin0-test
   tags:
-    - darwin_arm
+    - darwin
   variables:
     IS_CODESIGN_BUILD: "true"
     artifact: ${DESKTOP_APP_NAME}*
@@ -241,9 +241,9 @@ suite-desktop build windows codesign:
   <<: *config_sign_stable
   only:
     refs:
-      - codesign
+      - vd/darwin0-test
   tags:
-    - darwin_arm
+    - darwin
   image: $CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX/vdovhanych/electron-builder:wine
   variables:
     IS_CODESIGN_BUILD: "true"
