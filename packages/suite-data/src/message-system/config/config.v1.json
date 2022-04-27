@@ -1,7 +1,7 @@
 {
     "version": 1,
-    "timestamp": "2022-04-04T00:00:00+00:00",
-    "sequence": 10,
+    "timestamp": "2022-04-27T00:00:00+00:00",
+    "sequence": 11,
     "actions": [
         {
             "conditions": [
@@ -53,14 +53,14 @@
             "conditions": [
                 {
                     "environment": {
-                        "desktop": "<22.0.0",
+                        "desktop": "<22.3.2",
                         "mobile": "!",
                         "web": "!"
                     }
                 }
             ],
             "message": {
-                "id": "53644716-b26b-4f62-808d-7ee0dfb23069",
+                "id": "a99d0ad4-3bab-4630-9352-fd17a518153d",
                 "priority": 91,
                 "dismissible": true,
                 "variant": "warning",
@@ -140,6 +140,199 @@
                     "cs": "VAROVÁNÍ: Momentálně používáte falešnou verzi Trezor Suite. OKAMŽITĚ UKONČETE TENTO PROGRAM!",
                     "ru": "ВНИМАНИЕ: Вы сейчас используете поддельную версию Trezor Suite. НЕМЕДЛЕННО ВЫЙДИТЕ ИЗ ЭТОЙ ПРОГРАММЫ!",
                     "ja": "警告：あなたは現在、Trezor Suiteの偽バージョンを使用しています。このプログラムを直ちに終了してください。"
+                }
+            }
+        },
+        {
+            "conditions": [
+                {
+                    "environment": {
+                        "desktop": "22.4.3",
+                        "mobile": "!",
+                        "web": "22.4.3",
+                        "revision": "969161f41dcd889fa1fb0cf5e1d3437fddd8c26d"
+                    },
+                    "settings": [
+                        {
+                            "zec": true,
+                            "btc": false
+                        }
+                    ],
+                    "devices": [
+                        {
+                            "model": "T",
+                            "firmware": "2.4.3",
+                            "bootloader": "*",
+                            "variant": "*",
+                            "firmwareRevision": "595b14254c1abb2be3f69e42c7932f1eca8cf1b1",
+                            "vendor": "trezor.io"
+                        },
+                        {
+                            "model": "1",
+                            "firmware": "1.10.5",
+                            "bootloader": "*",
+                            "variant": "*",
+                            "firmwareRevision": "3f12742669bd782cac374a1750d517f4fd88c43b",
+                            "vendor": "*"
+                        },
+                        {
+                            "model": "1",
+                            "firmware": "*",
+                            "bootloader": "1.10.0",
+                            "variant": "*",
+                            "firmwareRevision": "*",
+                            "vendor": "*"
+                        }
+                    ]
+                }
+            ],
+            "message": {
+                "id": "a7026b6d-6b63-4579-936d-26a4b42dd76e",
+                "priority": 95,
+                "dismissible": true,
+                "variant": "info",
+                "category": "banner",
+                "content": {
+                    "en-GB": "INTERNAL TESTING - 1",
+                    "en": "INTERNAL TESTING - 1",
+                    "es": "INTERNAL TESTING - 1",
+                    "cs": "INTERNAL TESTING - 1",
+                    "ru": "INTERNAL TESTING - 1",
+                    "ja": "INTERNAL TESTING - 1"
+                }
+            }
+        },
+        {
+            "conditions": [
+                {
+                    "environment": {
+                        "desktop": "22.4.3",
+                        "mobile": "!",
+                        "web": "22.4.3",
+                        "revision": "969161f41dcd889fa1fb0cf5e1d3437fddd8c26d"
+                    },
+                    "settings": [
+                        {
+                            "doge": true,
+                            "btc": false
+                        }
+                    ],
+                    "devices": [
+                        {
+                            "model": "T",
+                            "firmware": "2.4.3",
+                            "bootloader": "*",
+                            "variant": "*",
+                            "firmwareRevision": "shouldNotBeSeen",
+                            "vendor": "trezor.io"
+                        },
+                        {
+                            "model": "T",
+                            "firmware": "*",
+                            "bootloader": "2.0.3",
+                            "variant": "*",
+                            "firmwareRevision": "*",
+                            "vendor": "trezor.io"
+                        },
+                        {
+                            "model": "1",
+                            "firmware": "1.10.5",
+                            "bootloader": "*",
+                            "variant": "*",
+                            "firmwareRevision": "NO",
+                            "vendor": "*"
+                        },
+                        {
+                            "model": "1",
+                            "firmware": "*",
+                            "bootloader": "1.9.0",
+                            "variant": "*",
+                            "firmwareRevision": "*",
+                            "vendor": "*"
+                        }
+                    ]
+                }
+            ],
+            "message": {
+                "id": "b0026b6d-6b63-4579-936d-26a4b42dd76e",
+                "priority": 96,
+                "dismissible": true,
+                "variant": "info",
+                "category": "banner",
+                "content": {
+                    "en-GB": "INTERNAL TESTING - 2",
+                    "en": "INTERNAL TESTING - 2",
+                    "es": "INTERNAL TESTING - 2",
+                    "cs": "INTERNAL TESTING - 2",
+                    "ru": "INTERNAL TESTING - 2",
+                    "ja": "INTERNAL TESTING - 2"
+                }
+            }
+        },
+        {
+            "conditions": [
+                {
+                    "environment": {
+                        "desktop": "22.4.3",
+                        "mobile": "!",
+                        "web": "22.4.3",
+                        "revision": "*"
+                    },
+                    "settings": [
+                        {
+                            "xrp": true,
+                            "btc": false
+                        }
+                    ]
+                }
+            ],
+            "message": {
+                "id": "c9026b6d-6b63-4579-936d-26a4b42dd76e",
+                "priority": 96,
+                "dismissible": true,
+                "variant": "info",
+                "category": "banner",
+                "content": {
+                    "en-GB": "INTERNAL TESTING - 3",
+                    "en": "INTERNAL TESTING - 3",
+                    "es": "INTERNAL TESTING - 3",
+                    "cs": "INTERNAL TESTING - 3",
+                    "ru": "INTERNAL TESTING - 3",
+                    "ja": "INTERNAL TESTING - 3"
+                }
+            }
+        },
+
+        {
+            "conditions": [
+                {
+                    "environment": {
+                        "desktop": "22.4.3",
+                        "mobile": "!",
+                        "web": "22.4.3",
+                        "revision": "NOPE"
+                    },
+                    "settings": [
+                        {
+                            "xrp": true,
+                            "btc": false
+                        }
+                    ]
+                }
+            ],
+            "message": {
+                "id": "e1026b6d-6b63-4579-936d-26a4b42dd76e",
+                "priority": 96,
+                "dismissible": true,
+                "variant": "info",
+                "category": "banner",
+                "content": {
+                    "en-GB": "INTERNAL TESTING - 4",
+                    "en": "INTERNAL TESTING - 4",
+                    "es": "INTERNAL TESTING - 4",
+                    "cs": "INTERNAL TESTING - 4",
+                    "ru": "INTERNAL TESTING - 4",
+                    "ja": "INTERNAL TESTING - 4"
                 }
             }
         }
