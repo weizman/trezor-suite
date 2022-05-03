@@ -43,6 +43,12 @@ describe('cardanoStakingReducer reducer', () => {
                             txid: 'txxid',
                         },
                     ],
+                    trezorPools: {
+                        pools: [],
+                        next: { hex: 'a', bech32: 'b', live_stake: 'a', saturation: 'a' },
+                    },
+                    isFetchError: false,
+                    isFetchLoading: false,
                 },
                 {
                     type: CARDANO_STAKING.REMOVE_PENDING_STAKE_TX,
@@ -51,6 +57,12 @@ describe('cardanoStakingReducer reducer', () => {
             ),
         ).toEqual({
             pendingTx: [],
+            trezorPools: {
+                pools: [],
+                next: { hex: 'a', bech32: 'b', live_stake: 'a', saturation: 'a' },
+            },
+            isFetchError: false,
+            isFetchLoading: false,
         });
     });
 });
