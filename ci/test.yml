@@ -292,12 +292,10 @@
         TESTS_FIRMWARE: ["2-master", "2.2.0"]
         # todo:
         # TESTS_NODE_VERSION: ["12", "14", "16"]
-        TESTS_INCLUDED_METHODS:
-          ["getAccountInfo"]
-          [
+        TESTS_INCLUDED_METHODS: [
             # "applySettings,applyFlags,getFeatures",
             # "signTransaction",
-            # "getAccountInfo,getAddress,getPublicKey,signMessage,verifyMessage,composeTransaction,getOwnershipId",
+            "getAccountInfo,getAddress",
             # "stellarGetAddress,stellarSignTransaction",
             # "cardanoGetAddress,cardanoGetNativeScriptHash,cardanoGetPublicKey,cardanoSignTransaction",
             # "eosGetPublicKey,eosSignTransaction",
