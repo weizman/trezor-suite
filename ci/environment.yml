@@ -5,7 +5,7 @@ build & push image:
     - docker login $CI_DEPENDENCY_PROXY_SERVER -u $CI_DEPENDENCY_PROXY_USER -p $CI_DEPENDENCY_PROXY_PASSWORD
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   variables:
-    DOCKER_TLS_CERTDIR: ''
+    DOCKER_TLS_CERTDIR: ""
     CONTAINER_NAME: "$CI_REGISTRY/satoshilabs/trezor/trezor-suite/base"
   image: $CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX/docker
   services:
@@ -19,5 +19,8 @@ build & push image:
 install:
   stage: setup environment
   script:
-    - ci/scripts/check_branch_name.sh $CI_COMMIT_BRANCH
-    - ci/scripts/check_lockfile.sh
+    - node ./scripts/affected-packages.cjs
+    - bash -c "AFFECTED_PACKAGES=$$(node ./scripts/affected-packages.cjs)"
+    - echo $AFFECTED_PACKAGES
+    # - ci/scripts/check_branch_name.sh $CI_COMMIT_BRANCH
+    # - ci/scripts/check_lockfile.sh

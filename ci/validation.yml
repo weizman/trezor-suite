@@ -1,12 +1,14 @@
 code format lint:
   stage: validation
   script:
+    - node ./scripts/prune-dependencies.cjs
     - yarn install --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn format:verify
 
 lint:
   stage: validation
   script:
+    - node ./scripts/prune-dependencies.cjs
     - npx yarn-deduplicate --list --fail
     - yarn install --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn build:libs
@@ -15,6 +17,7 @@ lint:
 typescript:
   stage: validation
   script:
+    - node ./scripts/prune-dependencies.cjs
     - yarn install --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn verify-project-references
     - yarn build:libs
@@ -23,6 +26,7 @@ typescript:
 unit tests:
   stage: validation
   script:
+    - node ./scripts/prune-dependencies.cjs
     - yarn install --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn build:libs
     - lerna run --stream test:unit -- --passWithNoTests
@@ -30,6 +34,7 @@ unit tests:
 msg-system config validation:
   stage: validation
   script:
+    - node ./scripts/prune-dependencies.cjs
     - yarn install --frozen-lockfile --cache-folder .yarn --prefer-offline
     - yarn workspace @trezor/suite-data msg-system-validate-config
 

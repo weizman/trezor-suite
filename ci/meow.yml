@@ -1,0 +1,4 @@
+meow job:
+  stage: setup environment
+  script:
+    - echo "I am a meow job"
