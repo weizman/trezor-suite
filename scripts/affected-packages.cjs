@@ -64,6 +64,6 @@ const allPackages = [...affectedPackages, ...directlyChangedPackages].filter(
     (path, index, self) => self.indexOf(path) === index,
 );
 
-console.log('allPackages', allPackages);
+// console.log('allPackages', allPackages);
 
 process.stdout.write('true');

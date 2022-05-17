@@ -20,7 +20,7 @@ install:
   stage: setup environment
   script:
     - node ./scripts/affected-packages.cjs
-    - bash -c "AFFECTED_PACKAGES=$$(node ./scripts/affected-packages.cjs)"
+    - echo $(node ./scripts/affected-packages.cjs)
     - echo $AFFECTED_PACKAGES
     # - ci/scripts/check_branch_name.sh $CI_COMMIT_BRANCH
     # - ci/scripts/check_lockfile.sh
