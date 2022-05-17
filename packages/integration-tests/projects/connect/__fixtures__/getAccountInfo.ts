@@ -87,30 +87,30 @@ export default {
         //         empty: false,
         //     },
         // },
-        // {
-        //     skip: ['1', '<2.1.0'],
-        //     description: 'Ripple: first account',
-        //     params: {
-        //         coin: 'xrp',
-        //         path: "m/44'/144'/0'/0/0",
-        //     },
-        //     result: {
-        //         descriptor: 'rh5ZnEVySAy7oGd3nebT3wrohGDrsNS83E',
-        //         empty: true,
-        //     },
-        // },
-        // {
-        //     skip: ['1', '<2.1.0'],
-        //     description: 'Ripple: account from descriptor',
-        //     params: {
-        //         coin: 'xrp',
-        //         descriptor: 'rfkV3EoXimH6JrG1QAyofgbVhnyZZDjWSj',
-        //     },
-        //     result: {
-        //         descriptor: 'rfkV3EoXimH6JrG1QAyofgbVhnyZZDjWSj',
-        //         empty: false,
-        //     },
-        // },
+        {
+            skip: ['1', '<2.1.0'],
+            description: 'Ripple: first account',
+            params: {
+                coin: 'xrp',
+                path: "m/44'/144'/0'/0/0",
+            },
+            result: {
+                descriptor: 'rh5ZnEVySAy7oGd3nebT3wrohGDrsNS83E',
+                empty: true,
+            },
+        },
+        {
+            skip: ['1', '<2.1.0'],
+            description: 'Ripple: account from descriptor',
+            params: {
+                coin: 'xrp',
+                descriptor: 'rfkV3EoXimH6JrG1QAyofgbVhnyZZDjWSj',
+            },
+            result: {
+                descriptor: 'rfkV3EoXimH6JrG1QAyofgbVhnyZZDjWSj',
+                empty: false,
+            },
+        },
         // {
         //     description: 'invalid path',
         //     params: {
