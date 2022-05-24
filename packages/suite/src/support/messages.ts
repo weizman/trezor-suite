@@ -6678,4 +6678,9 @@ export default defineMessages({
         id: 'FAILED_TO_DISABLE_TOR',
         defaultMessage: 'Failed to disable Tor',
     },
+    TR_FIRMWARE_HASH_MISMATCH: {
+        id: 'TR_FIRMWARE_HASH_MISMATCH',
+        defaultMessage:
+            'Do not use this deivce! This device might have been hacked. Conntact Trezor support immediately.',
+    },
 });

@@ -1,5 +1,9 @@
 # Storage changelog
 
+## 28
+
+-   added firmware.firmwareHashInvalid
+
 ## 27
 
 -   removed walletSettings.backends
