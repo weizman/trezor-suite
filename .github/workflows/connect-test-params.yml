@@ -23,7 +23,7 @@ jobs:
         node-version: [
             14.x,
             # todo: skipping this version for better speed for now
-            # 16.x
+            16.x,
           ]
     steps:
       - uses: actions/checkout@v3

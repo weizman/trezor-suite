@@ -36,3 +36,5 @@ With regards to this repo - All updates should go to current version branch, the
 ## Tests
 
 For integration testing against trezord and emulator refer to [this document](https://github.com/trezor/trezor-suite/blob/develop/packages/integration-tests/projects/connect/README.md).
+
+trigger ci
