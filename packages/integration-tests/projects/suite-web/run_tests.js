@@ -114,22 +114,13 @@ const runTests = async () => {
         console.log(`[run_tests.js] testing next file ${testFile}`);
         console.log(`[run_tests.js] allowed to run ${allowedRuns} times`);
 
+        const cypressJSON = JSON.parse(fs.readFileSync(path.join(__dirname, 'cypress.json')));
+
         const config = {
-            baseUrl: CYPRESS_baseUrl, // eslint-disable-line @typescript-eslint/naming-convention
-            supportFile: `${__dirname}/support/index.ts`,
-            pluginsFile: `${__dirname}/plugins/index.js`,
-            screenshotsFolder: `${__dirname}/screenshots`,
-            integrationFolder: `${__dirname}/tests`,
-            videosFolder: `${__dirname}/videos`,
-            downloadsFolder: `${__dirname}/downloads`,
-            video: true,
-            chromeWebSecurity: false,
-            trashAssetsBeforeRuns: false,
+            ...cypressJSON,
             defaultCommandTimeout: 15000,
-            env: {
-                emuVersionT1: '1-master',
-                emuVersionT2: '2-master',
-            },
+            video: true,
+            baseUrl: CYPRESS_baseUrl, // eslint-disable-line @typescript-eslint/naming-convention
         };
 
         if (userAgent) {
