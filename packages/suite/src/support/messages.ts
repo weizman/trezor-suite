@@ -277,40 +277,86 @@ export default defineMessages({
     TR_EXCHANGE_I_UNDERSTAND: {
         defaultMessage: 'I understand and agree to all of the above',
         id: 'TR_EXCHANGE_I_UNDERSTAND',
+        dynamic: true,
     },
     TR_EXCHANGE_CONFIRM: {
         defaultMessage: 'Confirm',
         id: 'TR_EXCHANGE_CONFIRM',
+        dynamic: true,
     },
     TR_EXCHANGE_TERMS_1: {
         defaultMessage:
             "You're here to exchange cryptocurrency. If you were directed to this site for any other reason, please contact {provider} support before proceeding.",
         id: 'TR_EXCHANGE_TERMS_1',
+        dynamic: true,
     },
     TR_EXCHANGE_TERMS_2: {
         defaultMessage:
             "You're using this feature to exchange funds that will be sent to an account under your direct personal control.",
         id: 'TR_EXCHANGE_TERMS_2',
+        dynamic: true,
     },
     TR_EXCHANGE_TERMS_3: {
         defaultMessage:
             "You're not using this feature for gambling or any other violation of the provider’s terms of service.",
         id: 'TR_EXCHANGE_TERMS_3',
+        dynamic: true,
     },
     TR_EXCHANGE_TERMS_4: {
         defaultMessage:
             'You understand that cryptocurrencies are an emerging financial tool and that regulations may be limited in some areas. This may put you at a higher risk of fraud, theft, or market instability.',
         id: 'TR_EXCHANGE_TERMS_4',
+        dynamic: true,
     },
     TR_EXCHANGE_TERMS_5: {
         defaultMessage:
             'You understand that cryptocurrency transactions are irreversible and you won’t be able to receive a refund for your purchase.',
         id: 'TR_EXCHANGE_TERMS_5',
+        dynamic: true,
+    },
+    TR_EXCHANGE_DEX_FOR_YOUR_SAFETY: {
+        defaultMessage: 'Keep your security in mind',
+        id: 'TR_EXCHANGE_FOR_YOUR_SAFETY',
+    },
+    TR_EXCHANGE_DEX_I_UNDERSTAND: {
+        defaultMessage: 'I understand and agree to all of the above',
+        id: 'TR_EXCHANGE_I_UNDERSTAND',
+        dynamic: true,
+    },
+    TR_EXCHANGE_DEX_CONFIRM: {
+        defaultMessage: 'Confirm',
+        id: 'TR_EXCHANGE_CONFIRM',
+        dynamic: true,
     },
     TR_EXCHANGE_DEX_TERMS_1: {
         defaultMessage:
             "You're here to exchange cryptocurrency using DEX (Decentralized Exchange) by using {provider}'s contract.",
         id: 'TR_EXCHANGE_DEX_TERMS_1',
+        dynamic: true,
+    },
+    TR_EXCHANGE_DEX_TERMS_2: {
+        defaultMessage:
+            "You're using this feature to exchange funds that will be sent to an account under your direct personal control.",
+        id: 'TR_EXCHANGE_TERMS_2',
+        dynamic: true,
+    },
+    TR_EXCHANGE_DEX_TERMS_3: {
+        defaultMessage:
+            "You're not using this feature for gambling or any other violation of the provider’s terms of service.",
+        id: 'TR_EXCHANGE_TERMS_3',
+        dynamic: true,
+    },
+    TR_EXCHANGE_DEX_TERMS_4: {
+        defaultMessage:
+            'You understand that cryptocurrencies are an emerging financial tool and that regulations may be limited in some areas. This may put you at a higher risk of fraud, theft, or market instability.',
+        id: 'TR_EXCHANGE_TERMS_4',
+        dynamic: true,
+    },
+    TR_EXCHANGE_DEX_TERMS_5: {
+        defaultMessage:
+            'You understand that cryptocurrency transactions are irreversible and you won’t be able to receive a refund for your purchase.',
+        id: 'TR_EXCHANGE_TERMS_5',
+        dynamic: true,
     },
     TR_EXCHANGE_STATUS_ERROR: {
         defaultMessage: 'Rejected',
@@ -699,39 +745,47 @@ export default defineMessages({
     TR_SELL_FOR_YOUR_SAFETY: {
         defaultMessage: 'For your safety',
         id: 'TR_SELL_FOR_YOUR_SAFETY',
+        dynamic: true,
     },
     TR_SELL_I_UNDERSTAND: {
         defaultMessage: 'I understand and agree to all of the above',
         id: 'TR_SELL_I_UNDERSTAND',
+        dynamic: true,
     },
     TR_SELL_CONFIRM: {
         defaultMessage: 'Confirm',
         id: 'TR_SELL_CONFIRM',
+        dynamic: true,
     },
     TR_SELL_TERMS_1: {
         defaultMessage:
             "I'm here to sell cryptocurrency. If you were directed to this site for any other reason, please contact {provider} support before proceeding.",
         id: 'TR_SELL_TERMS_1',
+        dynamic: true,
     },
     TR_SELL_TERMS_2: {
         defaultMessage:
             "I'm using Invity to purchase funds that will be sent to an account under my direct personal control.",
         id: 'TR_SELL_TERMS_2',
+        dynamic: true,
     },
     TR_SELL_TERMS_3: {
         defaultMessage:
             "I'm not using Invity for gambling or any other violation of Invity’s Terms of service.",
         id: 'TR_SELL_TERMS_3',
+        dynamic: true,
     },
     TR_SELL_TERMS_4: {
         defaultMessage:
             'I understand that cryptocurrencies are an emerging financial tool and that regulations may be limited in some areas. This may put me at a higher risk of fraud, theft, or market instability.',
         id: 'TR_SELL_TERMS_4',
+        dynamic: true,
     },
     TR_SELL_TERMS_5: {
         defaultMessage:
             'I understand that cryptocurrency transactions are irreversible and I won’t be able to receive a refund for my purchase.',
         id: 'TR_SELL_TERMS_5',
+        dynamic: true,
     },
     TR_SELL_OTHER_OFFERS_IN: {
         defaultMessage: 'Other Offers in',
@@ -1086,39 +1140,47 @@ export default defineMessages({
     TR_SAVINGS_FOR_YOUR_SAFETY: {
         defaultMessage: 'Keep your security in mind',
         id: 'TR_SAVINGS_FOR_YOUR_SAFETY',
+        dynamic: true,
     },
     TR_SAVINGS_TERMS_1: {
         defaultMessage:
             "You're here to buy cryptocurrency. If you were directed to this site for any other reason, please contact {provider} support before proceeding.",
         id: 'TR_SAVINGS_TERMS_1',
+        dynamic: true,
     },
     TR_SAVINGS_TERMS_2: {
         defaultMessage:
             "You're using this feature to purchase funds that will be sent to an account under your direct personal control.",
         id: 'TR_SAVINGS_TERMS_2',
+        dynamic: true,
     },
     TR_SAVINGS_TERMS_3: {
         defaultMessage:
             "You're not using this feature for gambling or any other violation of the provider's terms of service.",
         id: 'TR_SAVINGS_TERMS_3',
+        dynamic: true,
     },
     TR_SAVINGS_TERMS_4: {
         defaultMessage:
             'You understand that cryptocurrencies are an emerging financial tool and that regulations may be limited in some areas. This may put you at a higher risk of fraud, theft, or market instability.',
         id: 'TR_SAVINGS_TERMS_4',
+        dynamic: true,
     },
     TR_SAVINGS_TERMS_5: {
         defaultMessage:
             "You understand that cryptocurrency transactions are irreversible and you won't be able to receive a refund for your purchase.",
         id: 'TR_SAVINGS_TERMS_5',
+        dynamic: true,
     },
     TR_SAVINGS_I_UNDERSTAND: {
         defaultMessage: 'I understand and agree to all of the above',
         id: 'TR_SAVINGS_I_UNDERSTAND',
+        dynamic: true,
     },
     TR_SAVINGS_CONFIRM: {
         defaultMessage: 'Confirm',
         id: 'TR_SAVINGS_CONFIRM',
+        dynamic: true,
     },
     TR_SAVINGS_SETUP_WAITING_MESSAGE: {
         defaultMessage: 'Please complete the setup on the Invity.io website.',
@@ -1141,34 +1203,41 @@ export default defineMessages({
     TR_BUY_FOR_YOUR_SAFETY: {
         defaultMessage: 'Keep your security in mind',
         id: 'TR_BUY_FOR_YOUR_SAFETY',
+        dynamic: true,
     },
     TR_BUY_I_UNDERSTAND: {
         defaultMessage: 'I understand and agree to all of the above',
         id: 'TR_BUY_I_UNDERSTAND',
+        dynamic: true,
     },
     TR_BUY_CONFIRM: {
         defaultMessage: 'Confirm',
         id: 'TR_BUY_CONFIRM',
+        dynamic: true,
     },
     TR_BUY_TERMS_1: {
         defaultMessage:
             "You're here to buy cryptocurrency. If you were directed to this site for any other reason, please contact {provider} support before proceeding.",
         id: 'TR_BUY_TERMS_1',
+        dynamic: true,
     },
     TR_BUY_TERMS_2: {
         defaultMessage:
             "You're using this feature to purchase funds that will be sent to an account under your direct personal control.",
         id: 'TR_BUY_TERMS_2',
+        dynamic: true,
     },
     TR_BUY_TERMS_3: {
         defaultMessage:
             "You're not using this feature for gambling or any other violation of the provider's terms of service.",
         id: 'TR_BUY_TERMS_3',
+        dynamic: true,
     },
     TR_BUY_TERMS_4: {
         defaultMessage:
             'You understand that cryptocurrencies are an emerging financial tool and that regulations may be limited in some areas. This may put you at a higher risk of fraud, theft, or market instability.',
         id: 'TR_BUY_TERMS_4',
+        dynamic: true,
     },
     TR_BUY_TERMS_5: {
         defaultMessage:
