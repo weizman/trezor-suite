@@ -178,6 +178,9 @@ export const validateFirmwareHash =
             return;
         }
 
+        // hardcoded failure for testing
+        fwHash.payload.hash = 'foo-bar';
+
         if (fwHash.payload.hash !== firmwareHash) {
             dispatch({
                 type: FIRMWARE.SET_HASH_INVALID,
