@@ -275,6 +275,7 @@ suite-desktop build windows codesign:
       - latest*.yml
     expire_in: 7 days
 
+# TODO: don't run for all branches. but which
 suite-native build android:
   image: $CI_DEPENDENCY_PROXY_DIRECT_GROUP_IMAGE_PREFIX/vdovhanych/react-native-android:5.5
   stage: build

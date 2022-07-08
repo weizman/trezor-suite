@@ -10,6 +10,8 @@
   stage: integration testing
   # dependencies:
   #   - install
+  # needs:
+  #   -
   variables:
     COMPOSE_PROJECT_NAME: $CI_JOB_ID
     COMPOSE_FILE: ./docker/docker-compose.suite-ci.yml
@@ -248,10 +250,10 @@ connect-popup:
 
 connect-popup manual:
   extends: .e2e connect-popup
-  needs:
-    - install
-    - connect-web build
-    - connect-explorer deploy dev manual
+  # needs:
+  #   - install
+  #   - connect-web build
+  #   - connect-explorer deploy dev manual
   except:
     <<: *run_everything_rules
   when: manual
