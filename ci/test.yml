@@ -8,8 +8,8 @@
 # @trezor/suite-web
 .e2e web:
   stage: integration testing
-  dependencies:
-    - install
+  # dependencies:
+  #   - install
   variables:
     COMPOSE_PROJECT_NAME: $CI_JOB_ID
     COMPOSE_FILE: ./docker/docker-compose.suite-ci.yml
@@ -121,8 +121,8 @@ suite web 2-master manual:
 # @trezor/suite-desktop
 .e2e desktop:
   stage: integration testing
-  dependencies:
-    - install
+  # dependencies:
+  #   - install
   variables:
     COMPOSE_FILE: ./docker/docker-compose.suite-desktop-ci.yml
   before_script:
@@ -240,9 +240,9 @@ blockchain-link manual:
 
 connect-popup:
   extends: .e2e connect-popup
-  dependencies:
-    - install
-    - connect-web build
+  # dependencies:
+  #   - install
+  #   - connect-web build
   only:
     <<: *run_everything_rules
 
@@ -258,8 +258,8 @@ connect-popup manual:
 
 .connect:
   stage: integration testing
-  dependencies:
-    - install
+  # dependencies:
+  #   - install
   variables:
     COMPOSE_PROJECT_NAME: $CI_JOB_ID
     COMPOSE_FILE: ./docker/docker-compose.connect-test.yml
