@@ -171,6 +171,10 @@ export const validateFirmwareHash =
         const { app: prevApp } = getState().router;
         const { firmwareChallenge, firmwareHash, isCustom } = getState().firmware;
 
+        console.log('firmwareActions.validateFirmwareHash firmwareChallenge', firmwareChallenge);
+        console.log('firmwareActions.validateFirmwareHash firmwareHash', firmwareHash);
+        console.log('firmwareActions.validateFirmwareHash isCustom', isCustom);
+
         if (!isCustom) {
             dispatch(setStatus('validation'));
             const fwHash = await TrezorConnect.getFirmwareHash({
@@ -179,6 +183,9 @@ export const validateFirmwareHash =
                 },
                 challenge: firmwareChallenge,
             });
+
+            console.log('firmwareActions.validateFirmwareHash', fwHash);
+
             if (!fwHash.success) {
                 dispatch({
                     type: FIRMWARE.SET_ERROR,
@@ -194,6 +201,7 @@ export const validateFirmwareHash =
             }
 
             if (fwHash.payload.hash !== firmwareHash) {
+                console.log('firmwareActions.validateFirmwareHash INVALID!!!');
                 dispatch({
                     type: FIRMWARE.SET_HASH_INVALID,
                     // device.id should always be present here (device is initialized and in normal mode) during successful TrezorConnect.getFirmwareHash call
@@ -205,6 +213,7 @@ export const validateFirmwareHash =
                 });
                 return;
             }
+            console.log('firmwareActions.validateFirmwareHash VALID!!!');
         }
 
         // last version of firmware or custom firmware version was installed
