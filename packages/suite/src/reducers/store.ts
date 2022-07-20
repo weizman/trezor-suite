@@ -46,7 +46,7 @@ const middlewares = [
 ];
 
 const enhancers: any[] = [];
-const excludedActions = ['@log/add'];
+const excludedActions = ['@log/add', '@coinjoin/client-log'];
 if (!process.env.CODESIGN_BUILD) {
     const excludeLogger = (_getState: any, action: any): boolean => {
         const pass = excludedActions.filter(act => action.type === act);
