@@ -1,10 +1,16 @@
 // origin: https://github.com/trezor/connect/blob/develop/src/js/core/methods/FirmwareUpdate.js
 
-import randombytes from 'randombytes';
+// import randombytes from 'randombytes';
 import { AbstractMethod } from '../core/AbstractMethod';
 import { ERRORS } from '../constants';
 import { UI, createUiMessage } from '../events';
-import { getBinary, modifyFirmware, uploadFirmware, calculateFirmwareHash } from './firmware';
+import {
+    getBinary,
+    modifyFirmware,
+    stripFwHeaders,
+    uploadFirmware,
+    calculateFirmwareHash,
+} from './firmware';
 import { validateParams } from './common/paramsValidator';
 import { getReleases } from '../data/firmwareInfo';
 import { isStrictFeatures } from '../utils/firmwareUtils';
@@ -84,14 +90,7 @@ export default class FirmwareUpdate extends AbstractMethod<'firmwareUpdate', Par
         let binary: ArrayBuffer;
         try {
             if (params.binary) {
-                if (!isStrictFeatures(device.features)) {
-                    throw new Error('Features of unexpected shape provided');
-                }
-
-                binary = modifyFirmware({
-                    fw: params.binary,
-                    features: device.features,
-                });
+                binary = params.binary;
             } else {
                 const firmware = await getBinary({
                     // features and releases are used for sanity checking
@@ -112,13 +111,44 @@ export default class FirmwareUpdate extends AbstractMethod<'firmwareUpdate', Par
             );
         }
 
+        if (!isStrictFeatures(device.features)) {
+            throw new Error('Features of unexpected shape provided');
+        }
+
+        // calculate firmware hash for
+        const hardcodedChallenge = Buffer.from(
+            '62a4fa3809c3b4bccbf03583b3d74def41dd39bde8ac934305075a82df64f9e6',
+        );
+
+        const { challenge, hash } = calculateFirmwareHash(
+            device.features.major_version,
+            stripFwHeaders(binary),
+            // randombytes(32),
+            hardcodedChallenge,
+        );
+
+        console.log('challenge', challenge);
+
+        if (challenge !== '62a4fa3809c3b4bccbf03583b3d74def41dd39bde8ac934305075a82df64f9e6') {
+            throw new Error('wrong challenge string <---> buffer conversions');
+        }
+
+        // "just received hash"
+        if (hash !== 'c5f717ec7eb6498bb18be927a4d6ea5fb9d4fe59d106fae1ac3b5385977d8844') {
+            throw new Error('hash not match');
+        }
+
         await uploadFirmware(
             this.device.getCommands().typedCall.bind(this.device.getCommands()),
             this.postMessage,
             device,
-            { payload: binary },
+
+            { payload: modifyFirmware({ fw: binary, features: device.features }) },
         );
 
-        return calculateFirmwareHash(device.features.major_version, binary, randombytes(32));
+        return {
+            challenge,
+            hash,
+        };
     }
 }

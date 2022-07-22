@@ -20,5 +20,6 @@ export const calculateFirmwareHash = (major_version: number, fw: ArrayBuffer, ke
     return {
         hash: key && key.length > 0 ? blake2sHex(data, key) : blake2sHex(data),
         challenge: key ? key.toString('hex') : '',
+        // challenge: '62a4fa3809c3b4bccbf03583b3d74def41dd39bde8ac934305075a82df64f9e6',
     };
 };
