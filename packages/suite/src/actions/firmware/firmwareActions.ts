@@ -193,6 +193,21 @@ export const validateFirmwareHash =
         console.log('firmwareActions.validateFirmwareHash firmwareHash', firmwareHash);
         console.log('firmwareActions.validateFirmwareHash isCustom', isCustom);
 
+        if (!firmwareHash) {
+            // this should never happen
+            console.error(
+                'there is no pre-saved firmwareHash from previous TrezorConnect.firmwareUpdate call',
+            );
+            return;
+        }
+        if (!firmwareChallenge) {
+            // this should never happen
+            console.error(
+                'there is no pre-saved firmwareChallenge from previous TrezorConnect.firmwareUpdate call',
+            );
+            return;
+        }
+
         if (!isCustom) {
             dispatch(setStatus('validation'));
             const fwHash = await TrezorConnect.getFirmwareHash({
