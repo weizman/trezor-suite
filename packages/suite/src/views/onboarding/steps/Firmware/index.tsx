@@ -59,7 +59,12 @@ const FirmwareStep = () => {
                 description={<Translation id="TOAST_GENERIC_ERROR" values={{ error }} />}
                 innerActions={<RetryButton onClick={firmwareUpdate} />}
                 outerActions={
-                    <OnboardingButtonBack onClick={() => resetReducer()}>
+                    <OnboardingButtonBack
+                        onClick={() => {
+                            console.log('onboarding/steps/firmware resetReducer()');
+                            resetReducer();
+                        }}
+                    >
                         <Translation id="TR_BACK" />
                     </OnboardingButtonBack>
                 }

@@ -78,6 +78,7 @@ const firmware =
             case SUITE.APP_CHANGED:
                 // leaving firmware update context
                 if (prevApp === 'firmware' || prevApp === 'onboarding') {
+                    console.log('firmwareMiddleware, resetReducer');
                     api.dispatch(firmwareActions.resetReducer());
                 }
 

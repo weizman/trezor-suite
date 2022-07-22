@@ -69,6 +69,7 @@ export const FirmwareCustom = () => {
             acquireDevice(liveDevice);
         }
         closeModalApp();
+        console.log('FirmwareCustom, onClose, resetReducer()');
         resetReducer();
     }, [liveDevice, acquireDevice, closeModalApp, resetReducer]);
 

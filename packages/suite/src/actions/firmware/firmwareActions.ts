@@ -46,8 +46,13 @@ export const setTargetRelease = (payload: AcquiredDevice['firmwareRelease']): Fi
  */
 const firmwareInstall =
     (fwBinary?: ArrayBuffer) => async (dispatch: Dispatch, getState: GetState) => {
+        console.log('firmwareActions.firmwareInstall');
         const { device } = getState().suite;
         const { targetRelease, prevDevice } = getState().firmware;
+        console.log('firmwareActions.firmwareInstall targetRelease', targetRelease);
+        console.log('firmwareActions.firmwareInstall device.release', device?.firmwareRelease);
+
+        console.log('firmwareActions.firmwareInstall prevDevice', prevDevice);
 
         if (fwBinary) {
             dispatch({ type: FIRMWARE.SET_IS_CUSTOM, payload: true });
@@ -102,6 +107,9 @@ const firmwareInstall =
             const isBtcOnlyFirmware = !prevDevice ? false : isBitcoinOnly(prevDevice);
 
             const intermediary = model === 1 && !toRelease.isLatest;
+
+            console.log('intermediary', intermediary);
+
             if (intermediary) {
                 console.warn(
                     'Cannot install latest firmware. Will install intermediary fw instead.',
@@ -129,6 +137,9 @@ const firmwareInstall =
                 intermediary,
             });
 
+            console.log('TrezorConnect.firmwareUpdate finished for release', toRelease);
+            console.log('TrezorConnect.firmwareUpdate updateResponse', updateResponse);
+
             if (updateResponse.success && intermediary) {
                 dispatch({ type: FIRMWARE.SET_INTERMEDIARY_INSTALLED, payload: true });
             }
@@ -145,8 +156,15 @@ const firmwareInstall =
         });
 
         if (!updateResponse.success) {
+            console.log('firmwareActions.firmwareInstall error!');
             return dispatch({ type: FIRMWARE.SET_ERROR, payload: updateResponse.payload.error });
         }
+        console.log(
+            'firmwareActions.firmwareInstall set hash',
+            updateResponse.payload,
+            updateResponse.payload,
+        );
+
         dispatch({ type: FIRMWARE.SET_HASH, payload: updateResponse.payload });
 
         // model 1
@@ -170,6 +188,10 @@ export const validateFirmwareHash =
     (device: Device) => async (dispatch: Dispatch, getState: GetState) => {
         const { app: prevApp } = getState().router;
         const { firmwareChallenge, firmwareHash, isCustom } = getState().firmware;
+        console.log('firmwareActions.validateFirmwareHash');
+        console.log('firmwareActions.validateFirmwareHash firmwareChallenge', firmwareChallenge);
+        console.log('firmwareActions.validateFirmwareHash firmwareHash', firmwareHash);
+        console.log('firmwareActions.validateFirmwareHash isCustom', isCustom);
 
         if (!isCustom) {
             dispatch(setStatus('validation'));
@@ -179,6 +201,7 @@ export const validateFirmwareHash =
                 },
                 challenge: firmwareChallenge,
             });
+            console.log('TrezorConnect.getFirmwareHash success', fwHash.success);
             if (!fwHash.success) {
                 dispatch({
                     type: FIRMWARE.SET_ERROR,
@@ -193,7 +216,10 @@ export const validateFirmwareHash =
                 return;
             }
 
+            console.log('fwHash.payload.hash (just received)', fwHash.payload.hash);
+            console.log('firmwareHash (pre-saved)', firmwareHash);
             if (fwHash.payload.hash !== firmwareHash) {
+                console.log('MISMATCH!');
                 dispatch({
                     type: FIRMWARE.SET_HASH_INVALID,
                     // device.id should always be present here (device is initialized and in normal mode) during successful TrezorConnect.getFirmwareHash call
@@ -205,6 +231,7 @@ export const validateFirmwareHash =
                 });
                 return;
             }
+            console.log('VALID!');
         }
 
         // last version of firmware or custom firmware version was installed

@@ -62,6 +62,8 @@ export const Firmware = () => {
             acquireDevice(device);
         }
         closeModalApp();
+        console.log('views.firmware, onClose, resetReducer()');
+
         resetReducer();
     };
 
