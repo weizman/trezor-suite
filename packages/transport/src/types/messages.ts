@@ -1635,7 +1635,9 @@ export type NextU2FCounter = {
 };
 
 // DoPreauthorized
-export type DoPreauthorized = {};
+export type DoPreauthorized = {
+    warn_no_disconnect?: boolean;
+};
 
 // PreauthorizedRequest
 export type PreauthorizedRequest = {};

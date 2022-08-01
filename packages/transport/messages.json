@@ -4599,7 +4599,13 @@
             }
         },
         "DoPreauthorized": {
-            "fields": {}
+            "fields": {
+                "warn_no_disconnect": {
+                    "rule": "optional",
+                    "type": "bool",
+                    "id": 1
+                }
+            }
         },
         "PreauthorizedRequest": {
             "fields": {}

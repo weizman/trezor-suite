@@ -106,6 +106,8 @@ export const factory = ({
 
         composeTransaction: params => call({ ...params, method: 'composeTransaction' }),
 
+        doPreauthorized: params => call({ ...params, method: 'doPreauthorized' }),
+
         ethereumGetAddress: params =>
             call({
                 ...params,

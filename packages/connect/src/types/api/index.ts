@@ -27,6 +27,7 @@ import { composeTransaction } from './composeTransaction';
 import { customMessage } from './customMessage';
 import { disableWebUSB } from './disableWebUSB';
 import { dispose } from './dispose';
+import { doPreauthorized } from './doPreauthorized';
 import { eosGetPublicKey } from './eosGetPublicKey';
 import { eosSignTransaction } from './eosSignTransaction';
 import { ethereumGetAddress } from './ethereumGetAddress';
@@ -157,6 +158,9 @@ export interface TrezorConnect {
 
     // https://github.com/trezor/trezor-suite/tree/develop/packages/connect/docs/methods/disableWebUSB.md
     disableWebUSB: typeof disableWebUSB;
+
+    // https://github.com/trezor/trezor-suite/tree/develop/packages/connect/docs/methods/doPreauthorized.md
+    doPreauthorized: typeof doPreauthorized;
 
     // https://github.com/trezor/trezor-suite/tree/develop/packages/connect/docs/methods/dispose.md
     dispose: typeof dispose;

@@ -27,6 +27,7 @@ export { default as composeTransaction } from './composeTransaction';
 export { default as customMessage } from './customMessage';
 // export { default as disableWebUSB } from './disableWebUSB';
 // export { default as dispose } from './dispose';
+export { default as doPreauthorized } from './doPreauthorized';
 export { default as eosGetPublicKey } from './eosGetPublicKey';
 export { default as eosSignTransaction } from './eosSignTransaction';
 export { default as ethereumGetAddress } from './ethereumGetAddress';
