@@ -94,6 +94,10 @@ export function transactionWeight(inputs: Vin[], outputs: VinVout[]) {
     );
 }
 
+/**
+ * calculate virtual transaction size
+ * which is defined as Transaction weight / 4 (rounded up to the next integer).
+ */
 export function transactionBytes(inputs: Vin[], outputs: VinVout[]) {
     return Math.ceil(transactionWeight(inputs, outputs) / 4);
 }

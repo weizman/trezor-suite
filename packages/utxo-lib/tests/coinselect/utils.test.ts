@@ -1,4 +1,4 @@
-import { bignumberOrNaN, getFee } from '../../src/coinselect/utils';
+import { bignumberOrNaN, getFee, transactionBytes } from '../../src/coinselect/utils';
 
 describe('coinselect utils', () => {
     it('bignumberOrNaN', () => {
@@ -66,5 +66,38 @@ describe('coinselect utils', () => {
                 ],
             ),
         ).toEqual(5000);
+    });
+
+    it('transactionBytes', () => {
+        expect(
+            transactionBytes(
+                // TODO: commented values are in fact consumed by transactionWeight but are not
+                // allowed by types. should we do something about it?
+                [
+                    {
+                        // coinbase: false,
+                        // confirmations: 1,
+                        // i: 0,
+                        // own: true,
+                        // required: undefined,
+                        script: {
+                            length: 107,
+                        },
+                        type: 'p2wpkh',
+                        // value: '200000',
+                        weight: 272,
+                    },
+                ],
+                [
+                    {
+                        script: {
+                            length: 22,
+                        },
+                        // value: '181124',
+                        weight: 124,
+                    },
+                ],
+            ),
+        ).toEqual(110);
     });
 });
