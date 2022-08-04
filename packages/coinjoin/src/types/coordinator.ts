@@ -116,7 +116,7 @@ export interface AllowedRange {
     min: number;
     max: number;
 }
-export type AllowedScriptTypes = 'p2wpkh' | 'taproot';
+export type AllowedScriptTypes = 'P2WPKH' | 'Taproot';
 
 export interface CoinjoinState {
     Type: string; // TODO enum?
