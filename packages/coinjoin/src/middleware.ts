@@ -1,6 +1,7 @@
 import { httpRequest as request, RequestOptions } from './http';
 import {
     AllowedRange,
+    AllowedScriptTypes,
     IssuerParameter,
     ZeroCredentials,
     RealCredentials,
@@ -78,4 +79,35 @@ export const decomposeAmounts = async (
         options,
     );
     return data.outputAmounts;
+};
+
+type U = {
+    outpoint: string;
+    amount: number;
+    scriptType: AllowedScriptTypes;
+    anonymitySet: number;
+};
+
+export const selectUtxoForRound = async (
+    constants: {
+        allowedInputTypes: AllowedScriptTypes[];
+        coordinationFeeRate: any;
+        miningFeeRate: number;
+        allowedInputAmounts: AllowedRange;
+        allowedOutputAmounts: AllowedRange;
+    },
+    utxos: U[],
+    anonScoreTarget: number,
+    options: RequestOptions,
+) => {
+    const data = await request<{ indices: number[] }>(
+        'select-utxo-for-round',
+        {
+            utxos,
+            constants,
+            anonScoreTarget,
+        },
+        options,
+    );
+    return data.indices;
 };
