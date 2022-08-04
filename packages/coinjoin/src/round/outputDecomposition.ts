@@ -12,7 +12,7 @@ import { ActiveRound, ActiveRoundOptions, RegisteredAccount, DecomposedOutputs }
 
 /**
  * RoundPhase: 2, step 1
- * Join all registred Credentials in to one
+ * Join all registered Credentials in to one
  */
 
 const joinInputsCredentials = async (
@@ -69,7 +69,7 @@ const joinInputsCredentials = async (
             { signal, baseUrl: middlewareUrl },
         );
 
-        // TODO: delay + identity (new indentity for each loop?)
+        // TODO: delay + identity (new identity for each loop)
         const joinedIssuance = await coordinator.credentialIssuance(
             round.id,
             realAmountCredentials,
@@ -99,7 +99,7 @@ const joinInputsCredentials = async (
     };
 };
 
-const getOuputAmounts = async (
+const getOutputAmounts = async (
     round: ActiveRound,
     availableVsize: number,
     outputSize: number,
@@ -176,7 +176,7 @@ export const outputDecomposition = async (
     //     return response;
     // }, {} as Record<string, GroupedUtxos>);
 
-    // join registred credentials
+    // join registered credentials
     const joinedCredentials = await Promise.all(
         Object.values(round.accounts).map(account => {
             const outputSize = getOutputSize(account.type);
@@ -191,7 +191,7 @@ export const outputDecomposition = async (
     const outputAmounts = await Promise.all(
         joinedCredentials.map(({ vsizeCredentials, outputSize }) => {
             const availableVsize = sumCredentials(vsizeCredentials);
-            return getOuputAmounts(round, availableVsize, outputSize, options);
+            return getOutputAmounts(round, availableVsize, outputSize, options);
         }),
     );
 

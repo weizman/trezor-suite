@@ -35,7 +35,7 @@ const getTransactionData = async (
 
             return {
                 path: internal?.path,
-                outpoint: internal?.outpoint || input.coin.outpoint, // NOTE: internlal outpoints are in lowercase, coordinators in uppercase
+                outpoint: internal?.outpoint || input.coin.outpoint, // NOTE: internal outpoints are in lowercase, coordinators in uppercase
                 hash,
                 index,
                 amount: input.coin.txOut.value,
@@ -59,7 +59,7 @@ const getTransactionData = async (
             };
         });
 
-    // TODO: should paymanet request amount (for each account is different) be calc. here or in suite?
+    // TODO: should payment request amount (for each account is different) be calc. here or in suite?
     const paymentRequest = await coordinator.getPaymentRequest(
         options.coordinatorName,
         outputs.map(o => ({
@@ -106,7 +106,7 @@ export const transactionSigning = async (
         const alreadyRequested = inputsWithoutWitness.find(utxo => utxo.requested === 'witness');
         if (alreadyRequested) {
             options.log('Trying to sign but request was not fulfilled yet', inputsWithoutWitness);
-            throw new Error('Wittness not provided');
+            throw new Error('Wittiness not provided');
         }
         const transactionData = await getTransactionData(round, options);
         return {

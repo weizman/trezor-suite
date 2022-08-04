@@ -47,7 +47,7 @@ const confirmationInterval = (
                 if (timeLeft > utxoDeadline) {
                     timeout = setTimeout(timeoutFn, utxoDeadline);
                 } else {
-                    // Alice deadline shoud be ok now
+                    // Alice deadline should be ok now
                     resolve(utxo);
                 }
             } catch (error) {
@@ -126,7 +126,7 @@ const registerInput = async (
         });
 
     // NOTE: registration data processing is intentionally not using abort signal
-    // should not be aborted if round.phase was changed imediately (triggered by Status change)
+    // should not be aborted if round.phase was changed immediately (triggered by Status change)
     try {
         const amountCredentials = await middleware.getCredentials(
             round.amountCredentialIssuerParameters,

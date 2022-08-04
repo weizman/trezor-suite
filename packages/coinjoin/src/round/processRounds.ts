@@ -33,7 +33,7 @@ const locks: ReturnType<typeof lockRound>[] = [];
 
 // Function used for interruption of currently running process.
 // Usually it means that the Status was changed before process finish, so it is pointless to even try to continue.
-// Not every step/phase is finished imediatelly, in some cases (inputRegistration, connectionConfirmation) post processing data from coordinator should not be interrupted.
+// Not every step/phase is finished immediately, in some cases (inputRegistration, connectionConfirmation) post processing data from coordinator should not be interrupted.
 export const finishCurrentProcess = (rounds: Round[]) => {
     const lockedRounds = locks.filter(locked => rounds.find(round => locked.round === round.id));
     if (lockedRounds.length > 0) {
@@ -107,12 +107,6 @@ const postProcessResult = (rounds: ActiveRound[]) => {
             accounts: updateAccountsUtxos(round.accounts, successfulUtxos),
         };
     });
-
-    // updateRounds.forEach(round => {
-    //     if (round.phase === RoundPhase.Ended) {
-    //         console.warn('KONEEEEC', round);
-    //     }
-    // });
 
     return {
         rounds: updateRounds,
