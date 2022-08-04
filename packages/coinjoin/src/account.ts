@@ -22,12 +22,15 @@ const enhanceAddresses = (
         };
     });
 
-export const registerAccount = (account: Account): RegisteredAccount => ({
-    ...account, // TODO: no not spread input objects
-    completedRounds: 0,
-    utxos: enhanceUtxo(account.utxos),
-    addresses: enhanceAddresses(account.addresses, account.type),
-});
+export const registerAccount = (account: Account): RegisteredAccount => {
+    const utxos = enhanceUtxo(account.utxos);
+    return {
+        ...account, // TODO: no not spread input objects
+        completedRounds: 0,
+        utxos,
+        addresses: enhanceAddresses(account.addresses, account.type),
+    };
+};
 
 export const updateAccount = (_account: Account) => {
     // TODO

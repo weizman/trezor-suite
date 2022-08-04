@@ -29,6 +29,7 @@ export interface Account {
     descriptor: string;
     utxos: AccountUtxo[];
     addresses: AccountAddress[];
+    anonymityLevel: number;
     maxRounds: number;
     maxFeePerKvbyte: number;
     maxCoordinatorFeeRate: number;
