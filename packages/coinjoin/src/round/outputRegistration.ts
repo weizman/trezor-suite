@@ -13,7 +13,7 @@ import {
 
 /**
  * RoundPhase: 2
-
+ *
  */
 
 const registerOutput = async (
@@ -108,10 +108,10 @@ const registerOutput = async (
     );
 
     // TODO: catch "AlreadyRegisteredScript" error
-    // TODO: keep used addesess in round? dedicated field? in case if accountUpdate is not called on time
+    // TODO: keep used addresses in round? dedicated field? in case if accountUpdate is not called on time
     // TODO: tricky, if for some reason AlreadyRegisteredScript is called then we have 2 options:
     // - try again with different address and link my new address with old address (privacy loss?)
-    // - intentionaly stop output regsitrations for all credentails? which utxo will be banned if i call readyToSign on each?
+    // - intentionally stop output registrations for all credentials? which utxo will be banned if i call readyToSign on each?
     const cycle = (index: number): Promise<any> =>
         coordinator
             .outputRegistration(
@@ -156,12 +156,12 @@ export const outputRegistration = async (
     options: ActiveRoundOptions,
 ): Promise<ActiveRound> => {
     // TODO:
-    // - decide if there is only 1 account registered should i abbadon this round and blame it on some "jungest" utxo?
+    // - decide if there is only 1 account registered should i abaddon this round and blame it on some "youngest" utxo?
     // - maybe if there is only 1 account utxos are so "far away" from each other that it is wort to mix anyway?
     try {
         // decompose output amounts for all registered utxos grouped by Account
         const decomposedGroup = await outputDecomposition(round, accounts, options);
-        // collect all used adderesses
+        // collect all used addresses
         const usedAddresses: RegisteredAccount['addresses'] = [];
         // try to register outputs for each account (each utxo in account group)
         for (let group = 0; group < decomposedGroup.length; group++) {
