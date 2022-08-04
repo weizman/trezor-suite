@@ -4,6 +4,9 @@ import * as http from 'http';
 // Mock coordinator and middleware responses
 
 const DEFAULT = {
+    'select-utxo-for-round': {
+        indices: [],
+    },
     'create-request': {
         realCredentialsRequestData: {},
     },
@@ -98,7 +101,7 @@ export const createServer = async () => {
 
     // @ts-ignore
     server.requestOptions = {
-        coordinatorName: 'CoortinatorName',
+        coordinatorName: 'CoinJoinCoordinatorIdentifier',
         coordinatorUrl: `http://localhost:${port}/`,
         middlewareUrl: `http://localhost:${port}/`,
         signal: new AbortController().signal,
