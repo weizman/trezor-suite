@@ -113,7 +113,7 @@ describe('inputRegistration', () => {
         });
     });
 
-    it('fees calculation (remix/coordinator/plebs)', async () => {
+    it('fees calculation for P2WPKH and Taproot (remix/coordinator/plebs)', async () => {
         server?.addListener('test-request', (data, req, _res) => {
             const requestedUrl = req.url || '';
             let response: any;
@@ -143,7 +143,7 @@ describe('inputRegistration', () => {
                 ...DEFAULT_ROUND,
                 accounts: {
                     account1: {
-                        type: 'p2wpkh',
+                        type: 'P2WPKH',
                         utxos: [
                             { outpoint: 'AA', amount: 123456789, ownershipProof: 'AA01' },
                             { outpoint: 'AB', amount: 123456789, ownershipProof: 'AB01' },
@@ -151,7 +151,7 @@ describe('inputRegistration', () => {
                         ],
                     },
                     account2: {
-                        type: 'taproot',
+                        type: 'Taproot',
                         utxos: [
                             { outpoint: 'BA', amount: 123456789, ownershipProof: 'BA01' },
                             { outpoint: 'BB', amount: 123456789, ownershipProof: 'BB01' },
