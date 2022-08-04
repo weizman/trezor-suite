@@ -10,8 +10,8 @@ export interface CoinjoinSettings {
     middlewareUrl: string;
 }
 
-// data sent as request to wallet (wittness request)
-// contains data required to sign transaction and provide wittnesses in return
+// data sent as request to wallet (witness request)
+// contains data required to sign transaction and provide witnesses in return
 
 type TxInputs = {
     path?: string;

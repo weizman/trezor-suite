@@ -72,7 +72,7 @@ export class CoinjoinClient extends EventEmitter {
     }
 
     private async onStatusUpdate({ changed, rounds }: OnStatusUpdate) {
-        // try to conrollable finish/interrupt current running process on changed round (if exists)
+        // try to finish/interrupt current running process on changed round (if exists)
         await finishCurrentProcess(changed);
 
         // find all ActiveRounds affected by changed Status/Rounds
@@ -97,7 +97,7 @@ export class CoinjoinClient extends EventEmitter {
 
         // there are no ActiveRounds to process. try to create new ActiveRound
         if (roundsToProcess.length === 0) {
-            const round = selectRound(this.accounts, rounds, this.activeRounds, options);
+            const round = await selectRound(this.accounts, rounds, this.activeRounds, options);
             if (round) {
                 roundsToProcess.push(round);
             }
@@ -235,7 +235,7 @@ export class CoinjoinClient extends EventEmitter {
     }
 
     resolveRequest(response: RequestEvent[]) {
-        // TODO: valiate errors or missing but expected fields (ownership, witness)
+        // TODO: validate errors or missing but expected fields (ownership, witness)
         const roundsToUpdate = resolveRequests(this.activeRounds, response);
         // const acctoupdate = response.flatMap(event => {
         //     if (event.type === 'witness') {

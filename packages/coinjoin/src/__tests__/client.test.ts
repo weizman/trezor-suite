@@ -248,9 +248,10 @@ describe('CoinjoinClient', () => {
         });
 
         cli.registerAccount({
-            type: 'taproot',
+            type: 'Taproot',
             symbol: 'regtest',
             descriptor: 'xpub',
+            anonymityLevel: 0,
             maxRounds: 1,
             maxFeePerKvbyte: 1000,
             maxCoordinatorFeeRate: 1000,
