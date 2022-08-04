@@ -38,7 +38,7 @@ export const getOutpoint = (utxo: AccountUtxo) => {
 export const getScriptPubKey = (address: string, type: AllowedScriptTypes) => {
     // OP_1: 51
     const scriptPubKey =
-        type === 'taproot'
+        type === 'Taproot'
             ? `1 ${payments
                   .p2tr({
                       address,
@@ -60,14 +60,14 @@ export const compareOutpoint = (a: string, b: string) =>
 export const sumCredentials = (c: Credentials[]) => c[0].value + c[1].value;
 
 export const getInputSize = (type: AllowedScriptTypes) => {
-    if (type === 'taproot') return 58;
-    if (type === 'p2wpkh') return 68;
+    if (type === 'Taproot') return 58;
+    if (type === 'P2WPKH') return 68;
     return 0;
 };
 
 export const getOutputSize = (type: AllowedScriptTypes) => {
-    if (type === 'taproot') return 43;
-    if (type === 'p2wpkh') return 31;
+    if (type === 'Taproot') return 43;
+    if (type === 'P2WPKH') return 31;
     return 0;
 };
 
@@ -86,11 +86,11 @@ export const getScriptTypeFromPubKey = (scriptPubKey: string) => {
     const [OP] = scriptPubKey.split(' ');
     switch (OP) {
         case '0':
-            return 'p2wpkh';
+            return 'P2WPKH';
         case '1':
-            return 'taproot';
+            return 'Taproot';
         default:
-            return 'p2wpkh'; // TODO: throw error?
+            return 'P2WPKH'; // TODO: throw error?
     }
 };
 
