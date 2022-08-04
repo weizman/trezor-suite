@@ -8,11 +8,11 @@ const getAccountType = (path: string) => {
     switch (bip43) {
         case 'bip86':
         case 'coinjoin':
-            return 'taproot';
+            return 'Taproot';
         case 'bip84':
-            return 'p2wpkh';
+            return 'P2WPKH';
         default:
-            return 'p2wpkh';
+            return 'P2WPKH';
     }
 };
 
@@ -21,11 +21,11 @@ export const getInputScriptType = (path: string) => {
     switch (bip43) {
         case 'bip86':
         case 'coinjoin':
-            return 'taproot';
+            return 'Taproot';
         case 'bip84':
-            return 'p2wpkh';
+            return 'P2WPKH';
         default:
-            return 'p2wpkh';
+            return 'P2WPKH';
     }
 };
 
@@ -35,6 +35,7 @@ export const sanitizeAccount = (account: Account, params: CoinjoinParameters): C
     type: getAccountType(account.path),
     symbol: account.symbol as any,
     descriptor: account.key,
+    anonymityLevel: 0,
     maxRounds: params.maxRounds,
     maxFeePerKvbyte: params.maxFeePerKvbyte,
     maxCoordinatorFeeRate: params.maxCoordinatorFeeRate,
@@ -42,5 +43,5 @@ export const sanitizeAccount = (account: Account, params: CoinjoinParameters): C
     addresses: account.addresses!.change,
 });
 
-// export const getCoinjoinUrl = () => 'http://localhost:8081/';
-export const getCoinjoinUrl = () => 'https://coinjoin.corp.sldev.cz/';
+export const getCoinjoinUrl = () => 'http://localhost:8081/';
+// export const getCoinjoinUrl = () => 'https://coinjoin.corp.sldev.cz/';
