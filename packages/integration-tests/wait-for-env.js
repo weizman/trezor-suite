@@ -9,6 +9,8 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const filterFirmwares = firmwares => {
     const firmwareArg = process.env.TESTS_FIRMWARE;
+    process.stderr.write(`\ntrezor-user-env: firmwareArg: ${firmwareArg}`);
+
     const latest2 = firmwares['2'].find(fw => !fw.includes('-'));
 
     if (firmwareArg === '2-latest') {
@@ -51,10 +53,20 @@ const wait = async () => {
             resolve();
         });
 
-        process.stderr.write('\ntrezor-user-env: ready');
+        process.stderr.write('\ntrezor-user-env: ready to connect');
 
         const res = await controller.connect();
+
+        process.stderr.write('\ntrezor-user-env: connected');
+        process.stderr.write(
+            '\ntrezor-user-env: received list of firmwares: ',
+            JSON.stringify(res),
+        );
+
         const firmware = filterFirmwares(res);
+
+        process.stderr.write(`\ntrezor-user-env: final firmware: ${firmware}`);
+
         // translate 'n-latest' into specific fw number
         if (process.env.TESTS_FIRMWARE !== firmware) {
             writeOut(firmware);
