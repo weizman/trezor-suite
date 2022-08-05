@@ -1,6 +1,5 @@
 import { AbstractMethod } from '../core/AbstractMethod';
 import { PROTO } from '../constants';
-import { UI } from '../events';
 import { getFirmwareRange, validateParams } from './common/paramsValidator';
 
 export default class DoPreauthorized extends AbstractMethod<
@@ -8,10 +7,7 @@ export default class DoPreauthorized extends AbstractMethod<
     PROTO.DoPreauthorized
 > {
     init() {
-        this.requiredPermissions = ['management'];
-        this.useEmptyPassphrase = true;
-        this.useDeviceState = false;
-        this.allowDeviceMode = [UI.INITIALIZE];
+        this.skipFinalReload = true;
 
         const { payload } = this;
 
