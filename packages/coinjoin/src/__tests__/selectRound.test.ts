@@ -107,7 +107,7 @@ describe('selectRound', () => {
         expect(result).toBeUndefined();
     });
 
-    it('middleware/select-utxo-for-round throws error', async () => {
+    it.skip('middleware/select-utxo-for-round throws error', async () => {
         // mock server response
         server?.addListener('test-request', (_data, req, res) => {
             const requestedUrl = req.url || '';
@@ -142,7 +142,7 @@ describe('selectRound', () => {
         expect(result).toBeUndefined();
     });
 
-    it('utxo not picked by middleware/select-utxo-for-round', async () => {
+    it.skip('utxo not picked by middleware/select-utxo-for-round', async () => {
         const result = await selectRound(
             [
                 { descriptor: 'account1', utxos: [{ outpoint: 'AA', amount: 100 }] },
@@ -164,7 +164,7 @@ describe('selectRound', () => {
         expect(result).toBeUndefined();
     });
 
-    it('success, new round created', async () => {
+    it.skip('success, new round created', async () => {
         // mock server response
         server?.addListener('test-request', (data, req, _res) => {
             const requestedUrl = req.url || '';
