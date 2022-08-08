@@ -95,6 +95,8 @@ export function transactionWeight(inputs: Vin[], outputs: VinVout[]) {
 }
 
 export function transactionBytes(inputs: Vin[], outputs: VinVout[]) {
+    console.log('inputs', inputs);
+    console.log('outputs', outputs);
     return Math.ceil(transactionWeight(inputs, outputs) / 4);
 }
 
