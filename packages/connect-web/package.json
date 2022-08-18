@@ -28,6 +28,7 @@
         "lint": "eslint '**/*.{ts,tsx,js}'",
         "test:unit": "jest --passWithNoTests",
         "test:e2e:connect-explorer": "yarn workspace @trezor/integration-tests wait-for-env && xvfb-maybe -- playwright test --config=./e2e/connect-explorer/playwright.config.ts",
+        "test:e2e:adalite": "yarn workspace @trezor/integration-tests wait-for-env && xvfb-maybe -- playwright test --config=./e2e/adalite/playwright.config.ts",
         "type-check": "tsc --build",
         "build:lib": "rimraf ./lib && tsc --build tsconfig.lib.json",
         "dev": "rimraf build && TS_NODE_PROJECT=\"tsconfig.lib.json\" webpack --config ./webpack/dev.webpack.config.ts",

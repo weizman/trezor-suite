@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  trezor-user-env-unix:
+    image: ghcr.io/trezor/trezor-user-env
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - LOCAL_USER_ID=$LOCAL_USER_ID
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+  test-target:
+    container_name: test-target
+    image: node:14.16
+    volumes:
+      - ..:/usr/src/service
+      - ../node_modules:/usr/src/service/node_modules
+    working_dir: /usr/src/service
+    # extends:
+    #   service: suite-base
+    #   file: docker-compose.suite-base.yml
+    command: bash -c "./packages/connect-web/e2e/adalite/run_target.sh"
+    # network_mode: host
+    network_mode: service:trezor-user-env-unix
+
+  test-runner:
+    image: mcr.microsoft.com/playwright:focal
+    container_name: test-runner-2 #todo: solve naming collisions
+    depends_on:
+      - trezor-user-env-unix
+      - test-target
+    network_mode: service:trezor-user-env-unix
+    environment:
+      - LOCAL_USER_ID=$LOCAL_USER_ID
+      - DISPLAY=$DISPLAY
+      - HEADLESS=false
+      # useful for debugging tests
+      - PWDEBUG=console
+    working_dir: /trezor-suite
+    command: bash -c "npx playwright install && docker/wait-for-200.sh https://localhost:3000 && yarn workspace @trezor/connect-web test:e2e:adalite"
+    volumes:
+      - ../:/trezor-suite
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
