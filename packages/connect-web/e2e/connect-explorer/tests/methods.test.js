@@ -4,7 +4,7 @@
 const { test } = require('@playwright/test');
 const fs = require('fs');
 
-const { Controller } = require('../../../websocket-client');
+const { Controller } = require('../../../../integration-tests/websocket-client');
 const fixtures = require('./__fixtures__/methods');
 const buildOverview = require('../support/buildOverview');
 
