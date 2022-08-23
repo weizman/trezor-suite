@@ -116,8 +116,7 @@ connect v9 rollback production:
   tags:
     - connect_deploy
 
-# Deploy connect v9 to connect.trezor.io
-connect v9 deploy production:
+.connect v9 deploy base:
   stage: deploy to production
   only:
     refs:
@@ -126,9 +125,20 @@ connect v9 deploy production:
   dependencies:
     - connect-web build
     - connect-explorer build
-  before_script: []
-  script:
+  before_script:
     - source ${CONNECT_DEPLOY_KEYFILE}
-    - ./ci/scripts/connect-release.sh 9
   tags:
     - connect_deploy
+
+# Deploy connect v9 to connect.trezor.io
+connect v9 deploy production:
+  extends: .connect v9 deploy base
+  script:
+    - ./ci/scripts/connect-release.sh 9
+
+# Deploy connect v9 to staging-connect.trezor.io
+connect v9 deploy staging:
+  extends: .connect v9 deploy base
+  script:
+    # not sure should that be connect-release-staging.sh file?
+    - ./ci/scripts/connect-release-staging.sh 9
