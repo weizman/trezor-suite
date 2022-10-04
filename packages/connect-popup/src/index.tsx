@@ -11,6 +11,8 @@ import {
     UI,
     createUiResponse,
 } from '@trezor/connect';
+import { initAnalytics } from './utils/analytics';
+import { load, TRACKING_ENABLED } from '@trezor/connect-common/src/storage';
 
 import * as view from './view';
 import {
@@ -26,6 +28,7 @@ import {
     showFirmwareUpdateNotification,
     showBridgeUpdateNotification,
     showBackupNotification,
+    showAnalyticsConsent,
 } from './view/notification';
 
 let handshakeTimeout: ReturnType<typeof setTimeout>;
@@ -214,6 +217,14 @@ const onLoad = () => {
     if (window.location.hash === '#unsupported') {
         view.initBrowserView(false);
         return;
+    }
+
+    const userAllowedTracking = load(TRACKING_ENABLED);
+    initAnalytics();
+
+    // no consent yet
+    if (userAllowedTracking === undefined) {
+        showAnalyticsConsent();
     }
 
     postMessageToParent(createPopupMessage(POPUP.LOADED));

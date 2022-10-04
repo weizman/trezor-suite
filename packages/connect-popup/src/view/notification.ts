@@ -3,6 +3,7 @@
 import { UiRequestUnexpectedDeviceMode } from '@trezor/connect';
 import { SUITE_FIRMWARE_URL } from '@trezor/urls';
 import { views } from './common';
+import { analytics } from '@trezor/connect-analytics';
 
 export const showFirmwareUpdateNotification = (
     device: UiRequestUnexpectedDeviceMode['payload'],
@@ -86,6 +87,43 @@ export const showBackupNotification = (_device: UiRequestUnexpectedDeviceMode['p
     if (close) {
         close.addEventListener('click', () => {
             container.removeChild(notification);
+        });
+    }
+};
+
+// TODO: temporary UI solution
+export const showAnalyticsConsent = () => {
+    const container = document.getElementsByClassName('notification')[0];
+    const warning = container.querySelector('.tracking-consent-container');
+
+    if (warning) {
+        return;
+    }
+
+    const view = views.getElementsByClassName('tracking-consent-container');
+    const notification = document.createElement('div');
+    notification.className = 'tracking-consent-container notification-item';
+    const viewItem = view.item(0);
+    if (viewItem) {
+        notification.innerHTML = viewItem.innerHTML;
+    }
+
+    container.appendChild(notification);
+
+    const close = notification.querySelector('.close-icon');
+    if (close) {
+        close.addEventListener('click', () => {
+            container.removeChild(notification);
+            analytics.disable();
+        });
+    }
+
+    const ok = notification.querySelector('.tracking-consent-agree');
+    if (ok) {
+        ok.addEventListener('click', e => {
+            e.preventDefault();
+            container.removeChild(notification);
+            analytics.enable();
         });
     }
 };
