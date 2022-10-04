@@ -12,7 +12,7 @@ import {
     createUiResponse,
 } from '@trezor/connect';
 import { initAnalytics } from './utils/analytics';
-import { load, TRACKING_ENABLED } from '@trezor/connect-common/src/storage';
+import { storage } from '@trezor/connect-common';
 
 import * as view from './view';
 import {
@@ -219,10 +219,10 @@ const onLoad = () => {
         return;
     }
 
-    const userAllowedTracking = load(TRACKING_ENABLED);
     initAnalytics();
 
     // no consent yet
+    const userAllowedTracking = storage.load()[storage.TRACKING_ENABLED];
     if (userAllowedTracking === undefined) {
         showAnalyticsConsent();
     }
