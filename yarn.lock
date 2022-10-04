@@ -7043,6 +7043,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@trezor/connect-analytics@*, @trezor/connect-analytics@workspace:packages/connect-analytics":
+  version: 0.0.0-use.local
+  resolution: "@trezor/connect-analytics@workspace:packages/connect-analytics"
+  dependencies:
+    "@trezor/analytics": "*"
+    typescript: 4.7.4
+  languageName: unknown
+  linkType: soft
+
 "@trezor/connect-common@*, @trezor/connect-common@0.0.9, @trezor/connect-common@workspace:packages/connect-common":
   version: 0.0.0-use.local
   resolution: "@trezor/connect-common@workspace:packages/connect-common"
@@ -7144,6 +7153,7 @@ __metadata:
     "@playwright/test": ^1.22.2
     "@trezor/components": "*"
     "@trezor/connect": 9.0.3
+    "@trezor/connect-analytics": "*"
     "@trezor/connect-ui": "*"
     "@trezor/crypto-utils": "*"
     "@trezor/trezor-user-env-link": "*"

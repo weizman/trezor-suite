@@ -4,12 +4,14 @@
         "outDir": "./libDev",
         "types": ["web"]
     },
+    "include": [".", "**/*.json"],
     "references": [
         { "path": "../components" },
         { "path": "../connect" },
         { "path": "../connect-ui" },
         { "path": "../crypto-utils" },
         { "path": "../urls" },
+        { "path": "../connect-analytics" },
         { "path": "../trezor-user-env-link" }
     ],
     "ts-node": {
