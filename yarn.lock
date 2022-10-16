@@ -7153,7 +7153,6 @@ __metadata:
     "@playwright/test": ^1.22.2
     "@trezor/components": "*"
     "@trezor/connect": 9.0.3
-    "@trezor/connect-analytics": "*"
     "@trezor/connect-ui": "*"
     "@trezor/crypto-utils": "*"
     "@trezor/trezor-user-env-link": "*"
@@ -7180,6 +7179,8 @@ __metadata:
   dependencies:
     "@trezor/components": "*"
     "@trezor/connect": 9.0.3
+    "@trezor/connect-analytics": "*"
+    "@trezor/connect-common": "*"
     "@trezor/env-utils": "*"
     "@trezor/urls": "*"
     "@types/react": 18.0.21

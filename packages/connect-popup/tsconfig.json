@@ -11,7 +11,6 @@
         { "path": "../connect-ui" },
         { "path": "../crypto-utils" },
         { "path": "../urls" },
-        { "path": "../connect-analytics" },
         { "path": "../trezor-user-env-link" }
     ],
     "ts-node": {
