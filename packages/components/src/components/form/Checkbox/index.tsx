@@ -17,7 +17,7 @@ const Wrapper = styled.div<Pick<CheckboxProps, 'isDisabled'>>`
     }
 `;
 
-const IconWrapper = styled.div<Pick<CheckboxProps, 'isChecked' | 'isDisabled'>>`
+const IconWrapper = styled.div<Pick<CheckboxProps, 'isChecked' | 'isDisabled' | 'isRed'>>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,9 +26,19 @@ const IconWrapper = styled.div<Pick<CheckboxProps, 'isChecked' | 'isDisabled'>>`
     max-width: 24px;
     height: 24px;
     border-radius: 4px;
-    background: ${({ theme, isChecked }) => (isChecked ? theme.BG_GREEN : theme.BG_WHITE)};
+    background: ${({ theme, isChecked, isRed }) => {
+        if (isChecked) {
+            return isRed ? theme.BG_RED : theme.BG_GREEN;
+        }
+        return theme.BG_WHITE;
+    }};
     border: 2px solid
-        ${({ theme, isChecked }) => (isChecked ? theme.TYPE_GREEN : theme.STROKE_GREY)};
+        ${({ theme, isChecked, isRed }) => {
+            if (isChecked) {
+                return isRed ? theme.BG_RED : theme.BG_GREEN;
+            }
+            return theme.STROKE_GREY;
+        }};
 
     :hover,
     :focus {
@@ -64,9 +74,17 @@ export interface CheckboxProps extends React.HTMLAttributes<HTMLDivElement> {
     ) => any;
     isChecked?: boolean;
     isDisabled?: boolean;
+    isRed?: boolean;
 }
 
-export const Checkbox = ({ isChecked, isDisabled, children, onClick, ...rest }: CheckboxProps) => {
+export const Checkbox = ({
+    children,
+    isChecked,
+    isDisabled,
+    isRed,
+    onClick,
+    ...rest
+}: CheckboxProps) => {
     const theme = useTheme();
 
     const handleClick = isDisabled ? undefined : onClick;
@@ -79,7 +97,7 @@ export const Checkbox = ({ isChecked, isDisabled, children, onClick, ...rest }: 
             tabIndex={0}
             {...rest}
         >
-            <IconWrapper isChecked={isChecked} isDisabled={isDisabled}>
+            <IconWrapper isRed={isRed} isChecked={isChecked} isDisabled={isDisabled}>
                 {isChecked && <Icon size={24} color={theme.TYPE_WHITE} icon="CHECK" />}
             </IconWrapper>
 
