@@ -76,6 +76,8 @@ export type SendContextValues = Omit<UseFormMethods<FormState>, 'register'> &
         register: (rules?: TypedValidationRules) => (ref: any) => void; // TODO: ReturnType of UseFormMethods['register'] union
         // additional fields
         outputs: Partial<Output & { id: string }>[]; // useFieldArray fields
+        totalAmount: string;
+        outputsWithWarning: number[];
         updateContext: (value: Partial<UseSendFormState>) => void;
         resetContext: () => void;
         composeTransaction: (field?: string) => void;
@@ -103,6 +105,9 @@ export type SendContextValues = Omit<UseFormMethods<FormState>, 'register'> &
         isCoinControlEnabled: boolean;
         selectedUtxos: AccountUtxo[];
         spendableUtxos: AccountUtxo[];
+        isLowAnonymityUtxoSelected: boolean;
+        anonymityWarningChecked: boolean;
+        toggleAnonymityWarning: () => void;
         toggleCheckAllUtxos: () => void;
         toggleCoinControl: () => void;
         toggleUtxoSelection: (utxo: AccountUtxo) => void;
