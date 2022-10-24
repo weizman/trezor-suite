@@ -16,12 +16,12 @@ const Wrapper = styled.div<Pick<WarningProps, 'critical' | 'withIcon'>>`
     font-size: ${variables.FONT_SIZE.SMALL};
     font-weight: ${variables.FONT_WEIGHT.MEDIUM};
     justify-content: ${({ withIcon }) => !withIcon && 'center'};
-    padding: 14px;
+    padding: 14px 20px;
     width: 100%;
 `;
 
 const StyledIcon = styled(Icon)`
-    margin-right: 10px;
+    margin-right: 14px;
 `;
 
 interface WarningProps {

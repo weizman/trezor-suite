@@ -17,7 +17,9 @@ const Wrapper = styled.div<Pick<CheckboxProps, 'isDisabled'>>`
     }
 `;
 
-const IconWrapper = styled.div<Pick<CheckboxProps, 'isChecked' | 'isDisabled' | 'isRed'>>`
+const IconWrapper = styled.div<
+    Pick<CheckboxProps, 'isChecked' | 'isDisabled'> & { $color?: string }
+>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,19 +28,11 @@ const IconWrapper = styled.div<Pick<CheckboxProps, 'isChecked' | 'isDisabled' | 
     max-width: 24px;
     height: 24px;
     border-radius: 4px;
-    background: ${({ theme, isChecked, isRed }) => {
-        if (isChecked) {
-            return isRed ? theme.BG_RED : theme.BG_GREEN;
-        }
-        return theme.BG_WHITE;
-    }};
+    background: ${({ $color, isChecked, theme }) =>
+        isChecked ? $color || theme.BG_GREEN : theme.BG_WHITE};
     border: 2px solid
-        ${({ theme, isChecked, isRed }) => {
-            if (isChecked) {
-                return isRed ? theme.BG_RED : theme.BG_GREEN;
-            }
-            return theme.STROKE_GREY;
-        }};
+        ${({ $color, isChecked, theme }) =>
+            isChecked ? $color || theme.BG_GREEN : theme.STROKE_GREY};
 
     :hover,
     :focus {
@@ -69,19 +63,19 @@ const handleKeyboard = (
 };
 
 export interface CheckboxProps extends React.HTMLAttributes<HTMLDivElement> {
+    color?: string;
+    isChecked?: boolean;
+    isDisabled?: boolean;
     onClick: (
         event: React.KeyboardEvent<HTMLElement> | React.MouseEvent<HTMLElement> | null,
     ) => any;
-    isChecked?: boolean;
-    isDisabled?: boolean;
-    isRed?: boolean;
 }
 
 export const Checkbox = ({
     children,
+    color,
     isChecked,
     isDisabled,
-    isRed,
     onClick,
     ...rest
 }: CheckboxProps) => {
@@ -97,7 +91,7 @@ export const Checkbox = ({
             tabIndex={0}
             {...rest}
         >
-            <IconWrapper isRed={isRed} isChecked={isChecked} isDisabled={isDisabled}>
+            <IconWrapper $color={color} isChecked={isChecked} isDisabled={isDisabled}>
                 {isChecked && <Icon size={24} color={theme.TYPE_WHITE} icon="CHECK" />}
             </IconWrapper>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWatch } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { Checkbox, TooltipButton, Warning, variables } from '@trezor/components';
 import { useDevice } from '@suite-hooks';
@@ -76,6 +76,8 @@ export const ReviewButton = () => {
         control,
     });
 
+    const theme = useTheme();
+
     const values = getValues();
     const broadcastEnabled = options.includes('broadcast');
     const coinControlOpen = options.includes('utxoSelection');
@@ -133,7 +135,7 @@ export const ReviewButton = () => {
             {possibleToSubmit && isLowAnonymityUtxoSelected && (
                 <StyledWarning critical>
                     <Checkbox
-                        isRed
+                        color={theme.BG_RED}
                         isChecked={anonymityWarningChecked}
                         onClick={toggleAnonymityWarning}
                     >
