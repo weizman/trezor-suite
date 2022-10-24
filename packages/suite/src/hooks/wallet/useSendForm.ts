@@ -73,8 +73,8 @@ const getStateFromProps = (props: UseSendFormProps) => {
         account.utxo?.forEach((utxo, i) => {
             const outpoint = getUtxoOutpoint(utxo);
             // uncomment to mock the first address having higher anonymity for testing purposes
-            // const anonymity = i === 0 ? 80 : anonymitySet[utxo.address] || 1;
-            const anonymity = anonymitySet[utxo.address] || 1;
+            const anonymity = i === 0 ? 80 : anonymitySet[utxo.address] || 1;
+            // const anonymity = anonymitySet[utxo.address] || 1;
             if (coinjoinSession && coinjoinSession.registeredUtxos.includes(outpoint)) {
                 // utxo is registered in coinjoin
                 excludedUtxos[outpoint] = 'mixing';
@@ -154,19 +154,6 @@ export const useSendForm = (props: UseSendFormProps): SendContextValues => {
         control,
         name: 'outputs',
     });
-
-    const { shouldSendInSats } = useBitcoinAmountUnit(props.selectedAccount.account.symbol);
-
-    // total amount in output fields
-    const totalAmount = getValues().outputs.reduce(
-        (total, output) =>
-            total.plus(
-                shouldSendInSats
-                    ? output.amount || 0
-                    : amountToSatoshi(output.amount || '0', state.network.decimals) || 0,
-            ),
-        new BigNumber(0),
-    );
 
     // enhance DEFAULT_VALUES with last remembered FeeLevel and localCurrencyOption
     // used in "loadDraft" useEffect and "importTransaction" callback
@@ -255,6 +242,19 @@ export const useSendForm = (props: UseSendFormProps): SendContextValues => {
         feeInfo: state.feeInfo,
         ...useFormMethods,
     });
+
+    const { shouldSendInSats } = useBitcoinAmountUnit(props.selectedAccount.account.symbol);
+
+    // total amount in output fields typed by the user
+    const totalAmount = getValues().outputs.reduce(
+        (total, output) =>
+            total.plus(
+                shouldSendInSats
+                    ? output.amount || 0
+                    : amountToSatoshi(output.amount || '0', state.network.decimals) || 0,
+            ),
+        new BigNumber(0),
+    );
 
     // determine whether low anonymity warning should be displayed
     const { anonymized, notAnonymized } = useSelector(selectCurrentCoinjoinBalanceBreakdown);
@@ -427,7 +427,6 @@ export const useSendForm = (props: UseSendFormProps): SendContextValues => {
         ...useFormMethods,
         register: typedRegister,
         outputs: outputsFieldArray.fields,
-        totalAmount: totalAmount.toString(),
         outputsWithWarning,
         composedLevels,
         updateContext,
