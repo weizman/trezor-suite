@@ -257,14 +257,9 @@ export const useSendFormCompose = ({
         composeRequestRef.current = 'outputs[0].amount';
         // set ref for later use in processComposeRequest function
         composeRequestID.current++;
-        // clear errors from compose process
-        const composeErrors = findComposeErrors(errors);
-        if (composeErrors.length > 0) {
-            clearErrors(composeErrors);
-        }
         // start composing
         updateContext({ account, isLoading: true });
-    }, [state.account, state.isDirty, account, clearErrors, errors, updateContext]);
+    }, [state.account, state.isDirty, account, updateContext]);
 
     return {
         composeDraft,
