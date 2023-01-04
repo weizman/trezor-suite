@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
-import { variables, Button, Card } from '@trezor/components';
+import { variables, Button, Card, Tooltip, Icon } from '@trezor/components';
 import { Translation } from '@suite-components';
 import { useActions } from '@suite-hooks';
 import * as modalActions from '@suite-actions/modalActions';
@@ -32,10 +32,12 @@ import { AccountTransactionBaseAnchor } from '@suite-constants/anchors';
 import { SECONDARY_PANEL_HEIGHT } from '@suite-components/AppNavigation';
 import { anchorOutlineStyles } from '@suite-utils/anchor';
 import { TransactionTimestamp } from '@wallet-components/TransactionTimestamp';
+import BigNumber from 'bignumber.js';
 
 const Wrapper = styled(Card)<{
     isPending?: boolean;
     shouldHighlight?: boolean;
+    isProbablyZeroValuePhishing?: boolean;
 }>`
     display: flex;
     flex-direction: row;
@@ -44,6 +46,13 @@ const Wrapper = styled(Card)<{
     @media (max-width: ${variables.SCREEN_SIZE.SM}) {
         padding: 0px 16px;
     }
+
+    ${props =>
+        props.isProbablyZeroValuePhishing &&
+        css`
+            font-style: italic;
+            opacity: 70%;
+        `}
 
     ${props =>
         props.isPending &&
@@ -146,6 +155,11 @@ const TransactionItem = React.memo(
             });
         };
 
+        const isProbablyZeroValuePhishing =
+            new BigNumber(transaction.amount).isEqualTo(0) &&
+            !!transaction.tokens.length &&
+            transaction.tokens.every(token => new BigNumber(token.amount).isEqualTo(0));
+
         // we are using slightly different layout for 1 targets txs to better match the design
         // the only difference is that crypto amount is in the same row as tx heading/description
         // fiat amount is in the second row along with address
@@ -158,6 +172,7 @@ const TransactionItem = React.memo(
                 ref={anchorRef}
                 shouldHighlight={shouldHighlight}
                 className={className}
+                isProbablyZeroValuePhishing={isProbablyZeroValuePhishing}
             >
                 <Body>
                     <TxTypeIconWrapper
@@ -173,6 +188,19 @@ const TransactionItem = React.memo(
 
                     <Content>
                         <Description>
+                            {isProbablyZeroValuePhishing && (
+                                <Tooltip
+                                    cursor="default"
+                                    maxWidth={200}
+                                    delay={[600, 0]}
+                                    placement="bottom"
+                                    interactive={false}
+                                    hideOnClick={false}
+                                    content="This is scam transaction"
+                                >
+                                    <Icon size={24} icon="WARNING" />
+                                </Tooltip>
+                            )}
                             <TransactionHeading
                                 transaction={transaction}
                                 isPending={isPending}
