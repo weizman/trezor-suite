@@ -141,6 +141,15 @@ export abstract class BaseProcess {
                 env: processEnv,
                 stdio: this.options.stdio || ['ignore', 'ignore', 'ignore'],
             });
+
+            this.process.stdout?.on('data', data => {
+                this.logger.info(this.logTopic, `stdout: ${data}`);
+            });
+
+            this.process.stderr?.on('data', data => {
+                this.logger.info(this.logTopic, `stderr: ${data}`);
+            });
+
             this.process.on('error', err => this.onError(err));
             this.process.on('exit', code => this.onExit(code));
 
