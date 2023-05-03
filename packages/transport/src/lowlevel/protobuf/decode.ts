@@ -41,7 +41,7 @@ const transform = (field: Field, value: any) => {
     throw new Error(`transport: decode: case not handled: ${field}`);
 };
 
-function messageToJSON(Message: Message<Record<string, unknown>>, fields: Type['fields']) {
+export function messageToJSON(Message: Message<Record<string, unknown>>, fields: Type['fields']) {
     // get rid of Message.prototype references
     const { ...message } = Message;
     const res: { [key: string]: any } = {};
