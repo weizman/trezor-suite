@@ -24,6 +24,9 @@
         "noUnusedParameters": true,
         "noImplicitAny": true
     },
-    "include": ["**/*.ts"],
+    "include": [
+        "**/*.ts",
+        "../../suite-desktop/uriSchemes.json"
+    ],
     "exclude": ["**/*.js"]
 }
