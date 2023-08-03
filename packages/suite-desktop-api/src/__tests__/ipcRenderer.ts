@@ -1,4 +1,4 @@
-import * as EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { StrictIpcRenderer } from '../ipc';
 
 class IpcRendererMock extends EventEmitter implements StrictIpcRenderer<any> {

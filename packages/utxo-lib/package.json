@@ -29,7 +29,7 @@
     "typings": "lib/index.d.ts",
     "scripts": {
         "lint:js": "yarn g:eslint '**/*.{ts,tsx,js}'",
-        "test:unit": "jest --verbose -c jest.config.js",
+        "test:unit": "jest",
         "type-check": "tsc --build tsconfig.json",
         "build:lib": "rimraf lib && yarn tsc --build ./tsconfig.lib.json",
         "prepublishOnly": "yarn tsx ../../scripts/prepublishNPM.js",

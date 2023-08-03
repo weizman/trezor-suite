@@ -1,11 +1,19 @@
-const { testPathIgnorePatterns } = require('../../jest.config.base');
+// eslint-disable-next-line import/extensions
+const sharedConfig = require('../../jest.config.base.js');
 
 module.exports = {
-    preset: '../../jest.config.base.js',
-    testEnvironment: 'node',
-    testMatch: ['**/tests/*.test.ts'],
-    modulePathIgnorePatterns: ['node_modules', '<rootDir>/lib', '<rootDir>/libDev'],
+    ...sharedConfig,
+    rootDir: './',
+    coverageDirectory: './coverage',
     collectCoverage: true,
-    collectCoverageFrom: ['src/**/*.ts'],
-    testPathIgnorePatterns: [...testPathIgnorePatterns, 'e2e'],
+    collectCoverageFrom: ['<rootDir>/src/**'],
+    coverageThreshold: {
+        global: {
+            statements: 50,
+            branches: 40,
+            functions: 50,
+            lines: 50,
+        },
+    },
+    testPathIgnorePatterns: [...sharedConfig.testPathIgnorePatterns, 'e2e'],
 };

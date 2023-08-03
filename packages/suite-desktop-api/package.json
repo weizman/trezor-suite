@@ -15,7 +15,7 @@
     "browser": "./src/renderer.ts",
     "scripts": {
         "lint:js": "yarn g:eslint '**/*{.ts,.tsx}'",
-        "test:unit": "jest --verbose -c jest.config.js",
+        "test:unit": "jest",
         "type-check": "tsc --build tsconfig.json"
     },
     "devDependencies": {

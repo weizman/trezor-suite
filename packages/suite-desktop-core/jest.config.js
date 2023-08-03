@@ -1,27 +1,19 @@
+// eslint-disable-next-line import/extensions
+const sharedConfig = require('../../jest.config.base.js');
+
 module.exports = {
-    roots: ['<rootDir>/src'],
-    moduleFileExtensions: ['js', 'ts', 'tsx'],
+    ...sharedConfig,
+    rootDir: './',
     coverageDirectory: './coverage',
     collectCoverage: true,
     collectCoverageFrom: ['<rootDir>/src/libs/*'],
+    testPathIgnorePatterns: [...sharedConfig.testPathIgnorePatterns, 'e2e'],
     coverageThreshold: {
         global: {
             statements: 25,
             branches: 25,
             functions: 20,
             lines: 25,
-        },
-    },
-    modulePathIgnorePatterns: ['node_modules', '<rootDir>/lib', '<rootDir>/libDev'],
-    transformIgnorePatterns: ['/node_modules/'],
-    testMatch: ['**/*.test.(ts|tsx|js)'],
-    transform: {
-        '^.+\\.(ts|tsx)$': 'ts-jest',
-    },
-    verbose: false,
-    globals: {
-        'ts-jest': {
-            tsconfig: '<rootDir>/tsconfig.json',
         },
     },
 };

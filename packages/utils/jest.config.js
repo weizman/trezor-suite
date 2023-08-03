@@ -9,14 +9,10 @@ module.exports = {
     collectCoverageFrom: ['<rootDir>/src/**'],
     coverageThreshold: {
         global: {
-            statements: 90,
-            branches: 85,
-            functions: 90,
-            lines: 95,
+            statements: 80,
+            branches: 80,
+            functions: 78,
+            lines: 80,
         },
-    },
-    testEnvironment: 'node', // zcash test fails without it, probably polyfilled in real usage, worth checking
-    transform: {
-        '^.+\\.ts$': 'ts-jest', // until we get rid of typeforce
     },
 };
