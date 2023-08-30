@@ -159,3 +159,6 @@ packages/suite-data/files/translations/master.json
 
 # lottie animations
 packages/suite/**/lottie/*.json
+
+# @trezor/protobuf, ts code in js files
+packages/protobuf/scripts/protobuf-patches/*.js
