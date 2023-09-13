@@ -20,8 +20,9 @@ import {
     RebootMethod,
 } from 'src/hooks/firmware/useRebootRequest';
 import type { TrezorDevice } from 'src/types/suite';
-import { AbortButton } from 'src/components/suite/Modal/DevicePromptModal';
+import { AbortButton } from 'src/components/suite/modals/AbortButton';
 import { DeviceModelInternal } from '@trezor/connect';
+import { pickByDeviceModel, getFirmwareVersion } from '@trezor/device-utils';
 
 const StyledModal = styled(Modal)`
     width: 580px;
