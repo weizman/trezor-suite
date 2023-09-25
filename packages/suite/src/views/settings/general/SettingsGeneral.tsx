@@ -24,6 +24,7 @@ import { VersionWithUpdate } from './VersionWithUpdate';
 import { EarlyAccess } from './EarlyAccess';
 import { BitcoinAmountUnit } from './BitcoinAmountUnit';
 import { DesktopSuiteBanner } from './DesktopSuiteBanner';
+import { AddressDisplay } from './AddressDisplay';
 
 export const SettingsGeneral = () => {
     const isPromoHidden = useSelector(state => state.suite.settings.isDesktopSuitePromoHidden);
@@ -73,6 +74,7 @@ export const SettingsGeneral = () => {
 
             <SettingsSection title={<Translation id="TR_APPLICATION" />} icon="APP">
                 <Theme />
+                <AddressDisplay />
                 <Analytics />
                 <ShowApplicationLog />
                 <ClearStorage />

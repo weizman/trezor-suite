@@ -67,6 +67,7 @@ export enum EventType {
     SettingsDeviceChangePassphraseProtection = 'settings/device/change-passphrase-protection',
     SettingsGeneralChangeLanguage = 'settings/general/change-language',
     SettingsGeneralChangeTheme = 'settings/general/change-theme',
+    SettingsGeneralChangeAddressDisplay = 'settings/general/change-address-display',
     SettingsGeneralChangeFiat = 'settings/general/change-fiat',
     SettingsGeneralChangeBitcoinUnit = 'settings/general/change-bitcoin-unit',
     SettingsGeneralEarlyAccess = 'settings/general/early-access',

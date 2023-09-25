@@ -301,6 +301,12 @@ export type SuiteAnalyticsEvent =
           };
       }
     | {
+          type: EventType.SettingsGeneralChangeAddressDisplay;
+          payload: {
+              addressDisplay: 'Continuous' | 'Spaced';
+          };
+      }
+    | {
           type: EventType.SettingsGeneralChangeFiat;
           payload: {
               fiat: string;
