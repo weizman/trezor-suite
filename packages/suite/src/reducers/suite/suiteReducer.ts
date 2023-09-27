@@ -34,8 +34,8 @@ export interface AutodetectSettings {
 }
 
 export enum AddressDisplayOptions {
-    CONTINUOUS = 'Continuous',
-    SPACED = 'Spaced',
+    ORIGINAL = 'original',
+    CHUNKED = 'chunked',
 }
 
 export type SuiteLifecycle =
@@ -126,7 +126,7 @@ const initialState: SuiteState = {
             language: true,
             theme: true,
         },
-        addressDisplay: AddressDisplayOptions.SPACED,
+        addressDisplay: AddressDisplayOptions.CHUNKED,
     },
 };
 

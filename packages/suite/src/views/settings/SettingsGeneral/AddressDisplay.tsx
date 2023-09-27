@@ -11,12 +11,12 @@ import { setDisplayAddress } from 'src/actions/suite/suiteActions';
 
 const options = [
     {
-        label: <Translation id="TR_CONTINUOUS_ADDRESS" />,
-        value: AddressDisplayOptions.CONTINUOUS,
+        label: <Translation id="TR_ORIGINAL_ADDRESS" />,
+        value: AddressDisplayOptions.ORIGINAL,
     },
     {
-        label: <Translation id="TR_SPACED_ADDRESS" />,
-        value: AddressDisplayOptions.SPACED,
+        label: <Translation id="TR_CHUNKED_ADDRESS" />,
+        value: AddressDisplayOptions.CHUNKED,
     },
 ];
 
@@ -27,7 +27,7 @@ export const AddressDisplay = () => {
 
     const onChange = (value: AddressDisplayOptions) => {
         analytics.report({
-            type: EventType.SettingsGeneralChangeAddressDisplay,
+            type: EventType.SettingsGeneralAddressDisplay,
             payload: {
                 addressDisplay: value,
             },
