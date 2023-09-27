@@ -1985,13 +1985,13 @@ export default defineMessages({
             'Show address in list: bc1wetes...v54d8d or chunks: bc1w etes ... v54d 8d. Right now compatible only with Trezor Safe 3.',
         id: 'TR_ADDRESS_DISPLAY_DESCRIPTION',
     },
-    TR_CONTINUOUS_ADDRESS: {
+    TR_ORIGINAL_ADDRESS: {
         defaultMessage: 'Continuous',
-        id: 'TR_CONTINUOUS',
+        id: 'TR_ORIGINAL_ADDRESS',
     },
-    TR_SPACED_ADDRESS: {
+    TR_CHUNKED_ADDRESS: {
         defaultMessage: 'Spaced',
-        id: 'TR_ADDRESS_DISPLAY_SPACED',
+        id: 'TR_CHUNKED_ADDRESS',
     },
     TR_ASSETS: {
         defaultMessage: 'Coin',
