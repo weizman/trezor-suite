@@ -18,8 +18,6 @@ import { SCREEN_SIZE } from '@trezor/components/src/config/variables';
 
 const Wrapper = styled.div`
     display: flex;
-    flex-direction: column;
-    gap: 21px;
 `;
 
 const Content = styled.div`
