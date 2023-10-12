@@ -43,10 +43,14 @@ describe('T2B1 - Device settings', () => {
         // navigate to device settings page
         cy.prefixedVisit('/settings/device');
         cy.passThroughInitialRun();
+        cy.passThroughAuthenticityCheck();
 
         //
         // Test execution
         //
+
+        // cy.getTestElement('@suite/menu/settings').click();
+        // cy.getTestElement('@settings/menu/device').click();
 
         // verify firmware modal
         cy.log('open firmware modal and close it again');
@@ -98,6 +102,7 @@ describe('T2B1 - Device settings', () => {
         // navigate to device settings page
         cy.prefixedVisit('/settings/device');
         cy.passThroughInitialRun();
+        cy.passThroughAuthenticityCheck();
 
         cy.getTestElement('@settings/device/check-seed-button').should('be.disabled');
         cy.getTestElement('@settings/device/failed-backup-row').should('not.exist');
@@ -112,6 +117,7 @@ describe('T2B1 - Device settings', () => {
         // navigate to device settings page
         cy.prefixedVisit('/settings/device');
         cy.passThroughInitialRun();
+        cy.passThroughAuthenticityCheck();
 
         cy.getTestElement('@settings/device/open-wipe-modal-button').click();
         cy.getTestElement('@wipe/checkbox-1').click();
