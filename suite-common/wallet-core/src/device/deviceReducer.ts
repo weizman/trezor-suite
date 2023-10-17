@@ -545,6 +545,8 @@ export const selectIsDeviceConnectedAndAuthorized = (state: DeviceRootState) => 
 
     return !!deviceState && !!deviceFeatures;
 };
+export const selectDeviceInternalModel = (state: DeviceRootState) =>
+    state.device.selectedDevice?.features?.internal_model;
 
 export const selectDeviceUnavailableCapabilities = (state: DeviceRootState) =>
     state.device.selectedDevice?.unavailableCapabilities;

@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { Truncate, variables } from '@trezor/components';
@@ -6,10 +6,11 @@ import { FiatValue, FormattedCryptoAmount, Translation } from 'src/components/su
 import { Network, Account, NetworkSymbol } from 'src/types/wallet';
 import { TokenInfo } from '@trezor/connect';
 import { amountToSatoshi } from '@suite-common/wallet-utils';
+import { DeviceDisplay } from 'src/components/suite/DeviceDisplay';
+import { TransactionReviewStepIndicatorProps } from './TransactionReviewStepIndicator';
 
 const OutputWrapper = styled.div`
     display: flex;
-    padding: 0 20px 0 0;
     margin-top: 32px;
     &:first-child {
         margin-top: 0;
@@ -36,7 +37,6 @@ const OutputValue = styled.div`
 const OutputLeft = styled.div`
     display: flex;
     width: 30px;
-    justify-content: center;
     flex-direction: column;
 `;
 
@@ -128,6 +128,8 @@ export type OutputElementLine = {
     label: ReactNode;
     value: string;
     plainValue?: boolean;
+    confirmLabel?: ReactNode;
+    displayValue?: ReactNode;
 };
 
 export type TransactionReviewOutputElementProps = {
@@ -139,6 +141,7 @@ export type TransactionReviewOutputElementProps = {
     fiatVisible?: boolean;
     token?: TokenInfo;
     account: Account;
+    state?: TransactionReviewStepIndicatorProps['state'];
 };
 
 export const TransactionReviewOutputElement = forwardRef<
@@ -155,6 +158,7 @@ export const TransactionReviewOutputElement = forwardRef<
             hasExpansion = false,
             fiatVisible = false,
             account,
+            state,
         },
         ref,
     ) => {
@@ -176,33 +180,47 @@ export const TransactionReviewOutputElement = forwardRef<
                     {lines.map(line => (
                         <OutputRightLine key={line.id}>
                             <OutputHeadline>
-                                <Truncate>{line.label}</Truncate>
+                                <Truncate>
+                                    {state === 'active' && line.displayValue
+                                        ? line.confirmLabel
+                                        : line.label}
+                                </Truncate>
                             </OutputHeadline>
                             <OutputValue>
                                 <TruncateWrapper condition={hasExpansion}>
-                                    <OutputValueWrapper>
-                                        {line.plainValue ? (
-                                            line.value
-                                        ) : (
-                                            <FormattedCryptoAmount
-                                                disableHiddenPlaceholder
-                                                value={line.value}
-                                                symbol={cryptoSymbol}
-                                            />
-                                        )}
-                                    </OutputValueWrapper>
-                                    {fiatVisible && (
+                                    {state === 'active' && line.displayValue ? (
+                                        <DeviceDisplay
+                                            variant={line.id === 'address' ? 'address' : 'summary'}
+                                        >
+                                            {line.displayValue}
+                                        </DeviceDisplay>
+                                    ) : (
                                         <>
-                                            <DotSeparatorWrapper>
-                                                <DotSeparator />
-                                            </DotSeparatorWrapper>
                                             <OutputValueWrapper>
-                                                <FiatValue
-                                                    disableHiddenPlaceholder
-                                                    amount={line.value}
-                                                    symbol={fiatSymbol}
-                                                />
+                                                {line.plainValue ? (
+                                                    line.value
+                                                ) : (
+                                                    <FormattedCryptoAmount
+                                                        disableHiddenPlaceholder
+                                                        value={line.value}
+                                                        symbol={cryptoSymbol}
+                                                    />
+                                                )}
                                             </OutputValueWrapper>
+                                            {fiatVisible && (
+                                                <>
+                                                    <DotSeparatorWrapper>
+                                                        <DotSeparator />
+                                                    </DotSeparatorWrapper>
+                                                    <OutputValueWrapper>
+                                                        <FiatValue
+                                                            disableHiddenPlaceholder
+                                                            amount={line.value}
+                                                            symbol={fiatSymbol}
+                                                        />
+                                                    </OutputValueWrapper>
+                                                </>
+                                            )}
                                         </>
                                     )}
                                 </TruncateWrapper>
