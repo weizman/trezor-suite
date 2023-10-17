@@ -159,6 +159,22 @@ export default defineMessages({
         defaultMessage: 'Receive address',
         id: 'TR_RECEIVE_ADDRESS',
     },
+    TR_SEND_ADDRESS_MATCH: {
+        defaultMessage: 'Send address match?',
+        id: 'TR_SEND_ADDRESS_MATCH',
+    },
+    TR_RECEIVE_ADDRESS_MATCH: {
+        defaultMessage: 'Receive address match?',
+        id: 'TR_RECEIVE_ADDRESS_MATCH',
+    },
+    TR_AMOUNT_MATCH: {
+        defaultMessage: 'Amount matching?',
+        id: 'TR_AMOUNT_MATCH',
+    },
+    TR_TOTAL_WITH_FEE_MATCH: {
+        defaultMessage: 'Total amount incl. fee matching?',
+        id: 'TR_TOTAL_WITH_FEE_MATCH',
+    },
     TR_ADDRESSES_FRESH: {
         id: 'TR_ADDRESSES_FRESH',
         defaultMessage: 'Fresh addresses',
