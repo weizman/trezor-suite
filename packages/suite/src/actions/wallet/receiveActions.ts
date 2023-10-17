@@ -72,6 +72,7 @@ export const showAddress =
             unlockPath: account.unlockPath,
             useEmptyPassphrase: device.useEmptyPassphrase,
             coin: account.symbol,
+            chunkify: true,
         };
 
         dispatch(modalActions.preserve());

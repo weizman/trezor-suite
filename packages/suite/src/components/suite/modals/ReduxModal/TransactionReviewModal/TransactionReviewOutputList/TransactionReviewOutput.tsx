@@ -14,6 +14,8 @@ import {
     OutputElementLine,
 } from './TransactionReviewOutputElement';
 import type { Account } from 'src/types/wallet';
+import { useBitcoinAmountUnit } from 'src/hooks/wallet/useBitcoinAmountUnit';
+import { useSelector } from 'src/hooks/suite';
 
 export type TransactionReviewOutputProps = {
     state: TransactionReviewStepIndicatorProps['state'];
@@ -25,6 +27,12 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
     const { type, state, label, value, symbol, token, account } = props;
     let outputLabel: ReactNode = label;
     const { networkType } = account;
+
+    const locale = useSelector(state => state.suite.settings.language);
+
+    const { areSatsDisplayed, areUnitsSupportedByNetwork } = useBitcoinAmountUnit(symbol);
+
+    const areSatoshisUsed = areSatsDisplayed && areUnitsSupportedByNetwork;
 
     if (type === 'locktime') {
         const isTimestamp = new BigNumber(value).gte(BTC_LOCKTIME_VALUE);
@@ -138,6 +146,8 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
                 label: outputLabel,
                 value: outputValue,
                 plainValue: true,
+                confirmLabel: <Translation id="TR_SEND_ADDRESS_MATCH" />,
+                displayValue: outputValue,
             },
         ];
     } else if (type === 'opreturn') {
@@ -149,6 +159,17 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
                 plainValue: true,
             },
         ];
+    } else if (type === 'amount') {
+        outputLines = [
+            {
+                id: 'amount',
+                label: outputLabel,
+                value: outputValue,
+                confirmLabel: <Translation id="TR_AMOUNT_MATCH" />,
+                displayValue: formatNetworkAmount(value, symbol, true, areSatoshisUsed, locale),
+            },
+        ];
+        fiatVisible = false;
     } else {
         outputLines = [
             {
@@ -167,6 +188,7 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
             indicator={<TransactionReviewStepIndicator state={state} size={16} />}
             lines={outputLines}
             token={token}
+            state={state}
             cryptoSymbol={outputSymbol as NetworkSymbol}
             fiatSymbol={symbol}
             hasExpansion={hasExpansion}
