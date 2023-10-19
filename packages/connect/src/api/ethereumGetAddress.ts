@@ -59,7 +59,7 @@ export default class EthereumGetAddress extends AbstractMethod<'ethereumGetAddre
                 show_display: typeof batch.showOnTrezor === 'boolean' ? batch.showOnTrezor : true,
                 address: batch.address,
                 network,
-                chunkify: typeof batch.chunkify === 'boolean' ? batch.chunkify : true,
+                chunkify: typeof batch.chunkify === 'boolean' ? batch.chunkify : false,
             };
         });
 

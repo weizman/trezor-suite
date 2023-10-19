@@ -52,7 +52,7 @@ export default class NEMGetAddress extends AbstractMethod<'nemGetAddress', Param
                 network: batch.network || MAINNET,
                 show_display: typeof batch.showOnTrezor === 'boolean' ? batch.showOnTrezor : true,
                 address: batch.address,
-                chunkify: typeof batch.chunkify === 'boolean' ? batch.chunkify : true,
+                chunkify: typeof batch.chunkify === 'boolean' ? batch.chunkify : false,
             };
         });
 
