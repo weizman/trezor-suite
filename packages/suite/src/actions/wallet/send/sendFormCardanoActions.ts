@@ -19,6 +19,7 @@ import {
     transformUserOutputs,
     formatMaxOutputAmount,
 } from 'src/utils/wallet/cardanoUtils';
+import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 export const composeTransaction =
     (formValues: FormState, formState: ComposeActionContext) =>
@@ -134,6 +135,8 @@ export const signTransaction =
 
         if (account.networkType !== 'cardano') return;
 
+        const addressDisplay = selectAddressDisplay(getState());
+
         const res = await TrezorConnect.cardanoSignTransaction({
             signingMode: PROTO.CardanoTxSigningMode.ORDINARY_TRANSACTION,
             device: {
@@ -151,6 +154,7 @@ export const signTransaction =
             fee: transactionInfo.fee,
             ttl: transactionInfo.ttl?.toString(),
             derivationType: getDerivationType(account.accountType),
+            chunkify: addressDisplay === 'chunked',
         });
 
         if (!res.success) {

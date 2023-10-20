@@ -2,9 +2,9 @@ import { Children, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { useSelector } from 'src/hooks/suite/useSelector';
-import { DeviceModelInternal } from '@trezor/connect';
 import { MAX_ADDRESS_DISPLAY_LENGTH } from 'src/constants/suite/device';
-import { selectDeviceInternalModel } from '@suite-common/wallet-core';
+import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { selectDeviceUnavailableCapabilities } from '@suite-common/wallet-core';
 
 type DisplayVariant = 'address' | 'summary';
 
@@ -47,12 +47,10 @@ export interface DeviceDisplayProps {
 }
 
 export const DeviceDisplay = ({ children, variant }: DeviceDisplayProps) => {
-    const selectedDeviceInternalModel = useSelector(selectDeviceInternalModel);
-    const selectedAddressDisplay = useSelector(state => state.suite.settings.addressDisplay);
+    const unavailableCapabilities = useSelector(selectDeviceUnavailableCapabilities);
+    const addressDisplay = useSelector(selectAddressDisplay);
 
-    const showInChunks =
-        selectedAddressDisplay === 'chunked' &&
-        selectedDeviceInternalModel === DeviceModelInternal.T2B1;
+    const areChunksUsed = addressDisplay === 'chunked' && !unavailableCapabilities?.chunkify;
     const isPixelType = false;
     const isPaginated = Children.toArray(children).join('').length >= MAX_ADDRESS_DISPLAY_LENGTH;
 
@@ -86,7 +84,7 @@ export const DeviceDisplay = ({ children, variant }: DeviceDisplayProps) => {
     const getContent = () => {
         switch (variant) {
             case 'address':
-                return showInChunks ? (
+                return areChunksUsed ? (
                     chunkAddress(children as string)
                 ) : (
                     <Text isPixelType={isPixelType}>{children}</Text>

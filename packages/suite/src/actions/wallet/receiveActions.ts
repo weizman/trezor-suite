@@ -12,6 +12,7 @@ import {
     getNetworkId,
     getAddressParameters,
 } from 'src/utils/wallet/cardanoUtils';
+import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 export type ReceiveAction =
     | { type: typeof RECEIVE.DISPOSE }
@@ -49,6 +50,8 @@ export const showAddress =
         const { account } = getState().wallet.selectedAccount;
         if (!device || !account) return;
 
+        const addressDisplay = selectAddressDisplay(getState());
+
         const modalPayload = {
             value: address,
             addressPath: path,
@@ -72,7 +75,7 @@ export const showAddress =
             unlockPath: account.unlockPath,
             useEmptyPassphrase: device.useEmptyPassphrase,
             coin: account.symbol,
-            chunkify: true,
+            chunkify: addressDisplay === 'chunked',
         };
 
         dispatch(modalActions.preserve());
@@ -89,6 +92,7 @@ export const showAddress =
                     protocolMagic: getProtocolMagic(account.symbol),
                     networkId: getNetworkId(account.symbol),
                     derivationType: getDerivationType(account.accountType),
+                    chunkify: addressDisplay === 'chunked',
                 });
                 break;
             case 'ripple':
