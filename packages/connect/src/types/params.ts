@@ -13,7 +13,6 @@ export interface CommonParams {
     override?: boolean;
     skipFinalReload?: boolean;
     useCardanoDerivation?: boolean;
-    chunkify?: boolean;
 }
 
 export type Params<T> = CommonParams & T & { bundle?: undefined };
