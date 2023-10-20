@@ -204,5 +204,12 @@ export const config = {
             min: ['0', '2.6.1'],
             comment: ['Only on T2B1'],
         },
+        {
+            capabilities: ['chunkify'],
+            min: ['0', '2.6.3'],
+            comment: [
+                "Since firmware 2.6.3 there is a new protobuf field 'chunkify' in almost all getAddress and signTx methods",
+            ],
+        },
     ],
 };
