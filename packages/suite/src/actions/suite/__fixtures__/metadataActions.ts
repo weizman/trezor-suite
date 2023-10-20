@@ -107,8 +107,8 @@ const setAccountMetadataKey = [
             metadata: {
                 2: {
                     fileName:
-                        'a192c50b957ca7cf41db1e1d6ec66dddc7f42bac9115e0f21da78767ec6e0e68_v2.mtdt',
-                    aesKey: '2dd5d34a3d9da743f1bb2a95508fbba39527e05e8dc7274adfb2325b61f26f5a',
+                        '828652b66f2e6f919fbb7fe4c9609d4891ed531c6fac4c28441e53ebe577ac85_v2.mtdt',
+                    aesKey: '9bc3736f0b45cd681854a724b5bba67b9da1e50bc9983fd2dd56e53e74b75480',
                 },
             },
         },
@@ -534,6 +534,36 @@ const init = [
     },
 ];
 
+const getLabelableEntitiesDescriptors = [
+    {
+        description: 'device with state',
+        initialState: {
+            device: { state: 'device-state' },
+        },
+        result: ['device-state'],
+    },
+    {
+        description: 'device without state',
+        initialState: {
+            device: { state: undefined },
+        },
+        result: [],
+    },
+    {
+        description: 'accounts',
+        initialState: {
+            device: { state: 'meow' },
+            accounts: [
+                {
+                    deviceState: 'meow',
+                    key: 'account-key',
+                },
+            ],
+        },
+        result: ['account-key', 'meow'],
+    },
+];
+
 const disposeMetadata = [
     {
         description: '',
@@ -630,5 +660,6 @@ export {
     connectProvider,
     addMetadata,
     init,
+    getLabelableEntitiesDescriptors,
     disposeMetadata,
 };
