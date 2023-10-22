@@ -46,7 +46,7 @@ import { CryptoAmountLimits } from 'src/types/wallet/coinmarketCommonTypes';
 import { useCoinmarketExchangeFormDefaultValues } from './useCoinmarketExchangeFormDefaultValues';
 import { useCompose } from './form/useCompose';
 import { useFees } from './form/useFees';
-import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 export const ExchangeFormContext = createContext<ExchangeFormContextValues | null>(null);
 ExchangeFormContext.displayName = 'CoinmarketExchangeContext';
@@ -118,7 +118,7 @@ export const useCoinmarketExchangeForm = ({
     // throttle initial state calculation
     const initState = useExchangeState(selectedAccount, fees, !!state, defaultValues);
 
-    const chunkify = addressDisplay === 'chunked';
+    const chunkify = addressDisplay === AddressDisplayOptions.CHUNKED;
 
     useEffect(() => {
         const setStateAsync = async (initState: ReturnType<typeof useExchangeState>) => {

@@ -35,7 +35,7 @@ import {
 } from 'src/reducers/wallet/coinjoinReducer';
 
 import * as COINJOIN from './constants/coinjoinConstants';
-import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 const clientEnable = (symbol: Account['symbol']) =>
     ({
@@ -633,7 +633,7 @@ const signCoinjoinTx =
                             serialize: false,
                             unlockPath,
                             override: true, // override current call (override SUITE.LOCK)
-                            chunkify: addressDisplay === 'chunked',
+                            chunkify: addressDisplay === AddressDisplayOptions.CHUNKED,
                         });
 
                         if (signTx.success) {
