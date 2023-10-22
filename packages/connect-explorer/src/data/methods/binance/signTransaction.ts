@@ -75,6 +75,12 @@ export default [
                 type: 'json',
                 value: transfer,
             },
+            {
+                name: 'chunkify',
+                label: 'Display recipient address in chunks of 4 characters',
+                type: 'checkbox',
+                value: false,
+            },
         ],
     },
     {
@@ -94,6 +100,12 @@ export default [
                 type: 'json',
                 value: placeOrder,
             },
+            {
+                name: 'chunkify',
+                label: 'Display recipient address in chunks of 4 characters',
+                type: 'checkbox',
+                value: false,
+            },
         ],
     },
     {
@@ -112,6 +124,12 @@ export default [
                 name: 'transaction',
                 type: 'json',
                 value: cancelOrder,
+            },
+            {
+                name: 'chunkify',
+                label: 'Display recipient address in chunks of 4 characters',
+                type: 'checkbox',
+                value: false,
             },
         ],
     },
