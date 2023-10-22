@@ -19,7 +19,7 @@ import {
     transformUserOutputs,
     formatMaxOutputAmount,
 } from 'src/utils/wallet/cardanoUtils';
-import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 export const composeTransaction =
     (formValues: FormState, formState: ComposeActionContext) =>
@@ -154,7 +154,7 @@ export const signTransaction =
             fee: transactionInfo.fee,
             ttl: transactionInfo.ttl?.toString(),
             derivationType: getDerivationType(account.accountType),
-            chunkify: addressDisplay === 'chunked',
+            chunkify: addressDisplay === AddressDisplayOptions.CHUNKED,
         });
 
         if (!res.success) {

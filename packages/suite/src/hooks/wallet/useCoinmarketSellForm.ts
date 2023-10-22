@@ -49,7 +49,7 @@ import { AmountLimits } from 'src/types/wallet/coinmarketCommonTypes';
 import { useCoinmarketSellFormDefaultValues } from './useCoinmarketSellFormDefaultValues';
 import { useCompose } from './form/useCompose';
 import { useFees } from './form/useFees';
-import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 export const SellFormContext = createContext<SellFormContextValues | null>(null);
 SellFormContext.displayName = 'CoinmarketSellContext';
@@ -126,7 +126,7 @@ export const useCoinmarketSellForm = ({
     // throttle initial state calculation
     const initState = useSellState(selectedAccount, fees, !!state, defaultValues);
 
-    const chunkify = addressDisplay === 'chunked';
+    const chunkify = addressDisplay === AddressDisplayOptions.CHUNKED;
 
     useEffect(() => {
         const setStateAsync = async (initState: NonNullable<ReturnType<typeof useSellState>>) => {

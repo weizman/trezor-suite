@@ -20,7 +20,7 @@ import {
 import { selectDevice } from '@suite-common/wallet-core';
 
 import { Dispatch, GetState } from 'src/types/suite';
-import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 export const composeTransaction =
     (formValues: FormState, formState: ComposeActionContext) =>
@@ -302,7 +302,7 @@ export const signTransaction =
                 transactions: refTxs,
             },
             coin: account.symbol,
-            chunkify: addressDisplay === 'chunked',
+            chunkify: addressDisplay === AddressDisplayOptions.CHUNKED,
             ...signEnhancement,
         };
 

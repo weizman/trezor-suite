@@ -21,7 +21,7 @@ import {
 import { selectDevice } from '@suite-common/wallet-core';
 
 import { Dispatch, GetState } from 'src/types/suite';
-import { selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
 
 const calculate = (
     availableBalance: string,
@@ -217,7 +217,7 @@ export const signTransaction =
                 sequence: account.misc.sequence,
                 payment,
             },
-            chunkify: addressDisplay === 'chunked',
+            chunkify: addressDisplay === AddressDisplayOptions.CHUNKED,
         });
         if (!signedTx.success) {
             // catch manual error from TransactionReviewModal
