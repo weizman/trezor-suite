@@ -132,18 +132,17 @@ export type OutputElementLine = {
     value: string;
     plainValue?: boolean;
     confirmLabel?: ReactNode;
-    displayValue?: ReactNode;
 };
 
 export type TransactionReviewOutputElementProps = {
     indicator?: JSX.Element;
     lines: OutputElementLine[];
     cryptoSymbol?: NetworkSymbol;
-    fiatSymbol: Network['symbol'];
+    fiatSymbol?: Network['symbol'];
     hasExpansion?: boolean;
     fiatVisible?: boolean;
     token?: TokenInfo;
-    account: Account;
+    account?: Account;
     state?: TransactionReviewStepIndicatorProps['state'];
 };
 
@@ -165,8 +164,8 @@ export const TransactionReviewOutputElement = forwardRef<
         },
         ref,
     ) => {
-        const { tokens, networkType } = account;
-        const cardanoFingerprint = getFingerprint(tokens, token?.symbol);
+        const network = account?.networkType;
+        const cardanoFingerprint = getFingerprint(account?.tokens, token?.symbol);
 
         return (
             <OutputWrapper ref={ref}>
@@ -184,19 +183,15 @@ export const TransactionReviewOutputElement = forwardRef<
                         <OutputRightLine key={line.id}>
                             <OutputHeadline>
                                 <Truncate>
-                                    {state === 'active' && line.displayValue
+                                    {state === 'active' && line.id === 'address'
                                         ? line.confirmLabel
                                         : line.label}
                                 </Truncate>
                             </OutputHeadline>
                             <OutputValue>
                                 <TruncateWrapper condition={hasExpansion}>
-                                    {state === 'active' && line.displayValue ? (
-                                        <DeviceDisplay
-                                            variant={line.id === 'address' ? 'address' : 'summary'}
-                                        >
-                                            {line.displayValue}
-                                        </DeviceDisplay>
+                                    {state === 'active' && line.id === 'address' ? (
+                                        <DeviceDisplay address={line.value} />
                                     ) : (
                                         <OutputValueWrapper>
                                             {line.plainValue ? (
@@ -229,7 +224,7 @@ export const TransactionReviewOutputElement = forwardRef<
                                                     />
                                                 )}
                                             </OutputValueWrapper>
-                                            {fiatVisible && (
+                                            {fiatVisible && fiatSymbol && (
                                                 <>
                                                     <DotSeparatorWrapper>
                                                         <DotSeparator />
@@ -247,7 +242,7 @@ export const TransactionReviewOutputElement = forwardRef<
                                     )}
                                 </TruncateWrapper>
                             </OutputValue>
-                            {networkType === 'cardano' && cardanoFingerprint && (
+                            {network === 'cardano' && cardanoFingerprint && (
                                 <CardanoTrezorAmountWrapper>
                                     <OutputHeadline>
                                         <Translation id="TR_CARDANO_FINGERPRINT_HEADLINE" />
@@ -255,7 +250,7 @@ export const TransactionReviewOutputElement = forwardRef<
                                     <OutputValue>{cardanoFingerprint}</OutputValue>
                                 </CardanoTrezorAmountWrapper>
                             )}
-                            {networkType === 'cardano' && token && token.decimals !== 0 && (
+                            {network === 'cardano' && token && token.decimals !== 0 && (
                                 <CardanoTrezorAmountWrapper>
                                     <OutputHeadline>
                                         <Translation id="TR_CARDANO_TREZOR_AMOUNT_HEADLINE" />
