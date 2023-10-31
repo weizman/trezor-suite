@@ -142,14 +142,14 @@ export default defineMessages({
         defaultMessage: 'Contract',
         id: 'TR_CONTRACT',
     },
-    TR_ADDRESS: {
-        defaultMessage: 'Address',
-        description: 'Used as label for receive/send address input',
-        id: 'TR_ADDRESS',
+    TR_RECIPIENT_ADDRESS: {
+        defaultMessage: 'Recipient address',
+        description: 'Used as label for send address input',
+        id: 'TR_RECIPIENT_ADDRESS',
     },
-    TR_SEND_ADDRESS_MATCH: {
-        defaultMessage: 'Send address match?',
-        id: 'TR_SEND_ADDRESS_MATCH',
+    TR_RECIPIENT_ADDRESS_MATCH: {
+        defaultMessage: 'Recipient address match?',
+        id: 'TR_RECIPIENT_ADDRESS_MATCH',
     },
     TR_RECEIVE_ADDRESS_MATCH: {
         defaultMessage: 'Receive address match?',

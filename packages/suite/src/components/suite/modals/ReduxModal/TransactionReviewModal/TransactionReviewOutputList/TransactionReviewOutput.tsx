@@ -39,7 +39,7 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
         outputLabel = <Translation id="TR_CONTRACT" />;
     }
     if (type === 'address') {
-        outputLabel = <Translation id="TR_ADDRESS" />;
+        outputLabel = <Translation id="TR_RECIPIENT_ADDRESS" />;
     }
     if (type === 'amount') {
         outputLabel = <Translation id="TR_AMOUNT_SENT" />;
@@ -87,7 +87,7 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
         outputLines = [
             {
                 id: 'decrease-address',
-                label: <Translation id="TR_ADDRESS" />,
+                label: <Translation id="TR_RECIPIENT_ADDRESS" />,
                 value: props.label,
                 plainValue: true,
             },
@@ -137,7 +137,8 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
                 id: 'address',
                 label: outputLabel,
                 value: outputValue,
-                confirmLabel: <Translation id="TR_SEND_ADDRESS_MATCH" />,
+                confirmLabel: <Translation id="TR_RECIPIENT_ADDRESS_MATCH" />,
+                plainValue: true,
             },
         ];
     } else if (type === 'opreturn') {
@@ -168,6 +169,7 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
         ];
     }
 
+    console.log('type: ', type, ' + ', outputLines);
     const hasExpansion = (type === 'opreturn' || type === 'data') && outputValue.length >= 10;
 
     return (
