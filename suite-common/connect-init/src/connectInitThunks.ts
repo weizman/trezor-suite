@@ -95,7 +95,9 @@ export const connectInitThunk = createThunk(
             await TrezorConnect.init({
                 ...connectInitSettings,
                 pendingTransportEvent: selectIsPendingTransportEvent(getState()),
-                transports: selectDebugSettings(getState()).transports,
+                transports: ['WebBluetoothTransport'] || selectDebugSettings(getState()).transports,
+                // transports: ['BridgeTransport'],
+                // debug: true,
             });
         } catch (error) {
             let formattedError: string;
