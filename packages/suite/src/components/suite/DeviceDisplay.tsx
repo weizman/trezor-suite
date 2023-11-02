@@ -62,11 +62,13 @@ export const DeviceDisplay = ({ address }: DeviceDisplayProps) => {
 
             result[rowIndex].push(chunk);
             return result;
-        }, []);
+        }, [] as string[][]);
 
         const chunkedAddressRows = groupedChunks?.map((row, rowIndex) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Row key={rowIndex} isPixelType={isPixelType}>
                 {row.map((chunk, chunkIndex) => (
+                    // eslint-disable-next-line react/no-array-index-key
                     <Text isPixelType={isPixelType} key={chunkIndex}>
                         {chunk}
                     </Text>
