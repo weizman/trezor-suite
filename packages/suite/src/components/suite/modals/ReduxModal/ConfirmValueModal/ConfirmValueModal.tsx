@@ -31,15 +31,6 @@ const Content = styled.div`
     }
 `;
 
-const Content = styled.div`
-    display: flex;
-    gap: 21px;
-
-    @media (max-width: ${SCREEN_SIZE.MD}) {
-        flex-direction: column;
-    }
-`;
-
 const Right = styled.div`
     display: flex;
     flex-direction: column;

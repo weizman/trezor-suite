@@ -1,5 +1,4 @@
 import { Translation } from 'src/components/suite/Translation';
-import { SectionItem, ActionColumn, TextColumn } from 'src/components/suite/Settings';
 import { useAnchor } from 'src/hooks/suite/useAnchor';
 import { SettingsAnchor } from 'src/constants/suite/anchors';
 
@@ -8,6 +7,7 @@ import { AddressDisplayOptions } from 'src/reducers/suite/suiteReducer';
 import { useDispatch, useSelector } from 'src/hooks/suite';
 import { EventType, analytics } from '@trezor/suite-analytics';
 import { setDisplayAddress } from 'src/actions/suite/suiteActions';
+import { ActionColumn, SectionItem, TextColumn } from 'src/components/suite';
 
 const options = [
     {
