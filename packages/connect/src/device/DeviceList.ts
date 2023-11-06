@@ -13,6 +13,7 @@ import {
     TRANSPORT,
     Descriptor,
     TRANSPORT_ERROR,
+    isTransportInstance,
 } from '@trezor/transport';
 import { ERRORS } from '../constants';
 import { DEVICE, TransportInfo } from '../events';
@@ -131,7 +132,7 @@ export class DeviceList extends TypedEmitter<DeviceListEvents> {
                             `DeviceList.init: transports[] of unexpected type: ${transportType}`,
                         );
                 }
-            } else if (transportType instanceof Transport) {
+            } else if (isTransportInstance(transportType)) {
                 // custom Transport might be initialized without messages, update them if so
                 if (!transportType.getMessage()) {
                     transportType.updateMessages(this.messages);
