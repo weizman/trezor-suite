@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import { useSelector } from 'src/hooks/suite/useSelector';
 import { MAX_ADDRESS_DISPLAY_LENGTH } from 'src/constants/suite/device';
 import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
-import { selectDeviceUnavailableCapabilities } from '@suite-common/wallet-core';
+import {
+    selectDeviceInternalModel,
+    selectDeviceUnavailableCapabilities,
+} from '@suite-common/wallet-core';
+import { DeviceModelInternal } from '@trezor/connect';
 
 const Display = styled.div<{ isPixelType?: boolean }>`
     display: flex;
@@ -42,12 +46,13 @@ export interface DeviceDisplayProps {
 }
 
 export const DeviceDisplay = ({ address }: DeviceDisplayProps) => {
+    const selectedDeviceInternalModel = useSelector(selectDeviceInternalModel);
     const unavailableCapabilities = useSelector(selectDeviceUnavailableCapabilities);
     const addressDisplay = useSelector(selectAddressDisplay);
 
     const areChunksUsed =
         addressDisplay === AddressDisplayOptions.CHUNKED && !unavailableCapabilities?.chunkify;
-    const isPixelType = false;
+    const isPixelType = selectedDeviceInternalModel !== DeviceModelInternal.T2T1;
     const isPaginated = address.length >= MAX_ADDRESS_DISPLAY_LENGTH;
 
     const chunkAddress = (address: string) => {

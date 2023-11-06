@@ -581,6 +581,9 @@ export const selectDeviceStatus = (state: DeviceRootState) => {
     return device && getStatus(device);
 };
 
+export const selectDeviceInternalModel = (state: DeviceRootState) =>
+    state.device.selectedDevice?.features?.internal_model;
+
 export const selectDiscoveryForDevice = (state: DiscoveryRootState & { device: State }) =>
     selectDiscoveryByDeviceState(state, state.device.selectedDevice?.state);
 
