@@ -20,7 +20,7 @@ const Text = styled.div<{ isPixelType?: boolean }>`
     display: flex;
     gap: 10px;
     font-family: ${props => (props.isPixelType ? 'PixelOperatorMono8' : 'RobotoMono')};
-    font-size: ${props => (props.isPixelType ? '16' : '18')}px;
+    font-size: ${props => (props.isPixelType ? '12' : '18')}px;
     color: white;
     word-break: break-word;
 `;
