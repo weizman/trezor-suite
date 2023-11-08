@@ -37,10 +37,11 @@ const Text = styled.div<{ isPixelType: boolean; areChunksUsed?: boolean }>`
     max-width: ${props => (props.areChunksUsed ? '100%' : '216px')};
 `;
 
-const Row = styled.div<{ isPixelType: boolean }>`
+const Row = styled.div<{ isPixelType: boolean; isAlignedRight?: boolean }>`
     display: flex;
     align-items: center;
     gap: ${props => (props.isPixelType ? '8' : '9')}px;
+    justify-content: ${props => (props.isAlignedRight ? 'flex-end' : 'flex-start')};
 `;
 
 const Chunks = styled.div<{ isPixelType: boolean }>`
@@ -85,8 +86,20 @@ const StyledNextIcon = styled(Icon)<{ isPixelType: boolean }>`
 
 const StyledContinuesIcon = styled(Icon)<{ isPixelType: boolean }>`
     position: relative;
-    right: ${props => (props.isPixelType ? '82' : '97')}px;
     top: ${props => (props.isPixelType ? '10' : '25')}px;
+    right: ${props => (props.isPixelType ? '82' : '97')}px;
+`;
+
+const StyledChunkedNextIcon = styled(Icon)<{ isPixelType: boolean }>`
+    position: relative;
+    bottom: ${props => (props.isPixelType ? '13' : '20')}px;
+    right: -67px;
+`;
+
+const StyledChunkedContinuesIcon = styled(Icon)<{ isPixelType: boolean }>`
+    position: relative;
+    top: ${props => (props.isPixelType ? '10' : '25')}px;
+    right: 68px;
 `;
 
 export interface DeviceDisplayProps {
@@ -104,10 +117,14 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
     const isPixelType = selectedDeviceInternalModel !== DeviceModelInternal.T2T1;
     const isPaginated = network === 'cardano';
 
-    const showChunksInRows = (chunks: string[][] | undefined) =>
+    const showChunksInRows = (chunks: string[][] | undefined, isNextAddress?: boolean) =>
         chunks?.map((row, rowIndex) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Row key={rowIndex} isPixelType={isPixelType}>
+            <Row
+                // eslint-disable-next-line react/no-array-index-key
+                key={rowIndex}
+                isPixelType={isPixelType}
+                isAlignedRight={rowIndex === 0 && isNextAddress}
+            >
                 {row.map((chunk, chunkIndex) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <Text isPixelType={isPixelType} key={chunkIndex}>
@@ -127,7 +144,14 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
                 result[rowIndex] = [];
             }
 
-            result[rowIndex].push(chunk);
+            if (isPaginated && rowIndex === 3 && result[rowIndex].length === 3) {
+                result[rowIndex].push('');
+            } else if (isPaginated && rowIndex === 4 && result[rowIndex].length === 0) {
+                result[rowIndex].push('');
+            } else {
+                result[rowIndex].push(chunk);
+            }
+
             return result;
         }, [] as string[][]);
 
@@ -137,14 +161,26 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
                     <Chunks isPixelType={isPixelType}>
                         {showChunksInRows(groupedChunks?.slice(0, 4))}
                     </Chunks>
+                    <StyledChunkedNextIcon
+                        isPixelType={isPixelType}
+                        size={isPixelType ? 10 : 20}
+                        icon={isPixelType ? 'ADDRESS_PIXEL_NEXT' : 'ADDRESS_NEXT'}
+                        color={isPixelType ? '#ffffff' : '#959596'}
+                    />
                     <Wrapper>
                         <Divider isPixelType={isPixelType} />
                         <AddressLabel isPixelType={isPixelType}>
                             <Translation id="NEXT_PAGE" />
                         </AddressLabel>
                     </Wrapper>
+                    <StyledChunkedContinuesIcon
+                        isPixelType={isPixelType}
+                        size={isPixelType ? 10 : 20}
+                        icon={isPixelType ? 'ADDRESS_PIXEL_CONTINUES' : 'ADDRESS_CONTINUES'}
+                        color={isPixelType ? '#ffffff' : '#959596'}
+                    />
                     <Chunks isPixelType={isPixelType}>
-                        {showChunksInRows(groupedChunks?.slice(4))}
+                        {showChunksInRows(groupedChunks?.slice(4), true)}
                     </Chunks>
                 </Content>
             );
