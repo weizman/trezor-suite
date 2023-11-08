@@ -1993,8 +1993,7 @@ export default defineMessages({
         id: 'TR_ADDRESS_DISPLAY',
     },
     TR_ADDRESS_DISPLAY_DESCRIPTION: {
-        defaultMessage:
-            'Show address in list: bc1wetes...v54d8d or chunks: bc1w etes ... v54d 8d. Currently compatible with Trezor Safe 3.',
+        defaultMessage: 'Show address in list: bc1wetes...v54d8d or chunks: bc1w etes ... v54d 8d.',
         id: 'TR_ADDRESS_DISPLAY_DESCRIPTION',
     },
     TR_ORIGINAL_ADDRESS: {
