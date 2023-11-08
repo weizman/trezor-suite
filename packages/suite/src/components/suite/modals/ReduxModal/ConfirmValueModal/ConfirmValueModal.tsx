@@ -15,6 +15,7 @@ import { DeviceDisconnected } from './DeviceDisconnected';
 import { TransactionReviewStepIndicator } from '../TransactionReviewModal/TransactionReviewOutputList/TransactionReviewStepIndicator';
 import { TransactionReviewOutputElement } from '../TransactionReviewModal/TransactionReviewOutputList/TransactionReviewOutputElement';
 import { SCREEN_SIZE } from '@trezor/components/src/config/variables';
+import { Account } from '@suite-common/wallet-types';
 
 const Wrapper = styled.div`
     display: flex;
@@ -69,6 +70,7 @@ const StyledModal = styled(Modal)`
 `;
 
 export interface ConfirmValueModalProps extends Pick<ModalProps, 'onCancel' | 'heading'> {
+    account: Account;
     copyButtonText: ReactNode;
     copyButtonDataTest?: string;
     isConfirmed?: boolean;
@@ -78,6 +80,7 @@ export interface ConfirmValueModalProps extends Pick<ModalProps, 'onCancel' | 'h
 }
 
 export const ConfirmValueModal = ({
+    account,
     copyButtonText,
     copyButtonDataTest,
     heading,
@@ -151,6 +154,7 @@ export const ConfirmValueModal = ({
                             indicator={<TransactionReviewStepIndicator state={state} size={16} />}
                             lines={outputLines}
                             state={state}
+                            account={account}
                         />
                         {addressConfirmed && (
                             <StyledButton onClick={copy} data-test={copyButtonDataTest}>

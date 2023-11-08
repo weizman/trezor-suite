@@ -191,7 +191,7 @@ export const TransactionReviewOutputElement = forwardRef<
                             <OutputValue>
                                 <TruncateWrapper condition={hasExpansion}>
                                     {state === 'active' && line.id === 'address' ? (
-                                        <DeviceDisplay address={line.value} />
+                                        <DeviceDisplay address={line.value} network={network} />
                                     ) : (
                                         <OutputValueWrapper>
                                             {line.plainValue ? (

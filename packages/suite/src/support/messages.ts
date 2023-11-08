@@ -7672,6 +7672,10 @@ export default defineMessages({
         description: 'Button text',
         defaultMessage: 'OK',
     },
+    NEXT_PAGE: {
+        id: 'NEXT_PAGE',
+        defaultMessage: 'Next page',
+    },
     TR_COINJOIN_ANONYMITY_LEVEL_SETUP_TITLE: {
         id: 'TR_COINJOIN_ANONYMITY_LEVEL_SETUP_TITLE',
         defaultMessage: 'Desired privacy level',
