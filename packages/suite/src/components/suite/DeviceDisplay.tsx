@@ -131,6 +131,12 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
     const renderChunks = (address: string) => {
         const chunks = address.match(/.{1,4}/g);
 
+        // Add pagination icons
+        // @ts-expect-error
+        chunks?.splice(15, 0, <Icon size={iconSize} icon={iconNextName} color={iconColor} />);
+        // @ts-expect-error
+        chunks?.splice(16, 0, <Icon size={iconSize} icon={iconContinuesName} color={iconColor} />);
+
         const groupedChunks = chunks?.reduce((result, chunk, index) => {
             const rowIndex = Math.floor(index / 4);
 
@@ -138,17 +144,7 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
                 result[rowIndex] = [];
             }
 
-            if (isPaginated && rowIndex === 3 && result[rowIndex].length === 3) {
-                result[rowIndex].push(
-                    <Icon size={iconSize} icon={iconNextName} color={iconColor} />,
-                );
-            } else if (isPaginated && rowIndex === 4 && result[rowIndex].length === 0) {
-                result[rowIndex].push(
-                    <Icon size={iconSize} icon={iconContinuesName} color={iconColor} />,
-                );
-            } else {
-                result[rowIndex].push(chunk);
-            }
+            result[rowIndex].push(chunk);
 
             return result;
         }, [] as ReactNode[][]);
