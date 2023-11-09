@@ -73,7 +73,7 @@ export interface SuiteSettings {
     debug: DebugModeOptions;
     autodetect: AutodetectSettings;
     isDeviceAuthenticityCheckDisabled: boolean;
-    addressDisplay: AddressDisplayOptions;
+    addressDisplayType: AddressDisplayOptions;
 }
 
 export interface SuiteState {
@@ -126,7 +126,7 @@ const initialState: SuiteState = {
             language: true,
             theme: true,
         },
-        addressDisplay: AddressDisplayOptions.CHUNKED,
+        addressDisplayType: AddressDisplayOptions.CHUNKED,
     },
 };
 
@@ -186,8 +186,8 @@ const suiteReducer = (state: SuiteState = initialState, action: Action): SuiteSt
                 draft.settings.theme.variant = action.variant;
                 break;
 
-            case SUITE.SET_ADDRESS_DISPLAY:
-                draft.settings.addressDisplay = action.option;
+            case SUITE.SET_ADDRESS_DISPLAY_TYPE:
+                draft.settings.addressDisplayType = action.option;
                 break;
 
             case SUITE.SET_AUTODETECT:
@@ -277,7 +277,8 @@ export const selectIsDebugModeActive = (state: SuiteRootState) =>
 
 export const selectLanguage = (state: SuiteRootState) => state.suite.settings.language;
 
-export const selectAddressDisplay = (state: SuiteRootState) => state.suite.settings.addressDisplay;
+export const selectAddressDisplayType = (state: SuiteRootState) =>
+    state.suite.settings.addressDisplayType;
 
 export const selectLocks = (state: SuiteRootState) => state.suite.locks;
 

@@ -6,7 +6,7 @@ import { SelectBar } from '@trezor/components';
 import { AddressDisplayOptions } from 'src/reducers/suite/suiteReducer';
 import { useDispatch, useSelector } from 'src/hooks/suite';
 import { EventType, analytics } from '@trezor/suite-analytics';
-import { setDisplayAddress } from 'src/actions/suite/suiteActions';
+import { setAddressDisplayType } from 'src/actions/suite/suiteActions';
 import { ActionColumn, SectionItem, TextColumn } from 'src/components/suite';
 
 const options = [
@@ -21,18 +21,18 @@ const options = [
 ];
 
 export const AddressDisplay = () => {
-    const selectedAddressDisplay = useSelector(state => state.suite.settings.addressDisplay);
+    const selectedAddressDisplay = useSelector(state => state.suite.settings.addressDisplayType);
     const dispatch = useDispatch();
     const { anchorRef, shouldHighlight } = useAnchor(SettingsAnchor.AddressDisplay);
 
     const onChange = (value: AddressDisplayOptions) => {
         analytics.report({
-            type: EventType.SettingsGeneralAddressDisplay,
+            type: EventType.SettingsGeneralAddressDisplayType,
             payload: {
-                addressDisplay: value,
+                addressDisplayType: value,
             },
         });
-        dispatch(setDisplayAddress(value));
+        dispatch(setAddressDisplayType(value));
     };
 
     return (

@@ -2,7 +2,7 @@ import { useEffect, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { notificationsActions } from '@suite-common/toast-notifications';
-import { Button, ConfirmOnDevice, ModalProps, useTheme } from '@trezor/components';
+import { Button, ConfirmOnDevice, ModalProps, useTheme, variables } from '@trezor/components';
 import { copyToClipboard } from '@trezor/dom-utils';
 import { selectDevice } from '@suite-common/wallet-core';
 import { selectIsActionAbortable } from 'src/reducers/suite/suiteReducer';
@@ -14,7 +14,6 @@ import { ThunkAction } from 'src/types/suite';
 import { DeviceDisconnected } from './DeviceDisconnected';
 import { TransactionReviewStepIndicator } from '../TransactionReviewModal/TransactionReviewOutputList/TransactionReviewStepIndicator';
 import { TransactionReviewOutputElement } from '../TransactionReviewModal/TransactionReviewOutputList/TransactionReviewOutputElement';
-import { SCREEN_SIZE } from '@trezor/components/src/config/variables';
 import { Account } from '@suite-common/wallet-types';
 
 const Wrapper = styled.div`
@@ -27,7 +26,7 @@ const Content = styled.div`
     display: flex;
     gap: 21px;
 
-    @media (max-width: ${SCREEN_SIZE.MD}) {
+    @media (max-width: ${variables.SCREEN_QUERY.BELOW_TABLET}) {
         flex-direction: column;
     }
 `;
@@ -39,7 +38,7 @@ const Right = styled.div`
     height: 100%;
     width: 300px;
 
-    @media (max-width: ${SCREEN_SIZE.MD}) {
+    @media (max-width: ${variables.SCREEN_QUERY.BELOW_TABLET}) {
         width: 100%;
     }
 `;
@@ -55,7 +54,7 @@ const StyledQrCode = styled(QrCode)`
 const StyledButton = styled(Button)`
     width: 100%;
 
-    @media (max-width: ${SCREEN_SIZE.MD}) {
+    @media (max-width: ${variables.SCREEN_QUERY.BELOW_TABLET}) {
         margin-top: 24px;
     }
 `;

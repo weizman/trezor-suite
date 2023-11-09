@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { useSelector } from 'src/hooks/suite/useSelector';
-import { AddressDisplayOptions, selectAddressDisplay } from 'src/reducers/suite/suiteReducer';
+import { AddressDisplayOptions, selectAddressDisplayType } from 'src/reducers/suite/suiteReducer';
 import {
     selectDeviceInternalModel,
     selectDeviceUnavailableCapabilities,
@@ -9,6 +9,7 @@ import {
 import { DeviceModelInternal } from '@trezor/connect';
 import { Icon, variables } from '@trezor/components';
 import { Translation } from './Translation';
+import { ReactNode } from 'react';
 
 const Content = styled.div`
     display: flex;
@@ -30,24 +31,25 @@ const Display = styled.div`
 `;
 
 const Text = styled.div<{ isPixelType: boolean; areChunksUsed?: boolean }>`
-    font-family: ${props => (props.isPixelType ? 'PixelOperatorMono8' : 'RobotoMono')};
-    font-size: ${props => (props.isPixelType ? '12' : '18')}px;
+    font-family: ${({ isPixelType }) => (isPixelType ? 'PixelOperatorMono8' : 'RobotoMono')};
+    font-size: ${({ isPixelType }) => (isPixelType ? '12' : '18')}px;
     color: white;
     word-break: break-word;
-    max-width: ${props => (props.areChunksUsed ? '100%' : '216px')};
+    max-width: ${({ areChunksUsed }) => (areChunksUsed ? '100%' : '216px')};
+    display: inline;
 `;
 
 const Row = styled.div<{ isPixelType: boolean; isAlignedRight?: boolean }>`
     display: flex;
     align-items: center;
-    gap: ${props => (props.isPixelType ? '8' : '9')}px;
+    gap: 8px;
     justify-content: ${props => (props.isAlignedRight ? 'flex-end' : 'flex-start')};
 `;
 
 const Chunks = styled.div<{ isPixelType: boolean }>`
     display: flex;
     flex-direction: column;
-    gap: ${props => (props.isPixelType ? '6' : '5')}px;
+    gap: 5px;
 `;
 
 const Wrapper = styled.div`
@@ -61,12 +63,12 @@ const Divider = styled.div<{ isPixelType: boolean }>`
     width: 100%;
     height: 1px;
     background: #2b2b2b;
-    margin: ${props => (props.isPixelType ? '10px' : '0')} 0;
+    margin: 20px 0;
 `;
 
 const AddressLabel = styled.span<{ isPixelType: boolean }>`
     font-weight: 600;
-    color: #868686;
+    color: #808080;
     font-size: ${variables.FONT_SIZE.TINY};
     text-transform: uppercase;
     position: absolute;
@@ -74,7 +76,7 @@ const AddressLabel = styled.span<{ isPixelType: boolean }>`
     padding: 0 10px;
     text-align: center;
     left: 50%;
-    bottom: ${props => (props.isPixelType ? '2' : '-7')}px;
+    bottom: 12px;
     transform: translate(-50%, 0);
 `;
 
@@ -90,18 +92,6 @@ const StyledContinuesIcon = styled(Icon)<{ isPixelType: boolean }>`
     right: ${props => (props.isPixelType ? '82' : '97')}px;
 `;
 
-const StyledChunkedNextIcon = styled(Icon)<{ isPixelType: boolean }>`
-    position: relative;
-    bottom: ${props => (props.isPixelType ? '13' : '20')}px;
-    right: -67px;
-`;
-
-const StyledChunkedContinuesIcon = styled(Icon)<{ isPixelType: boolean }>`
-    position: relative;
-    top: ${props => (props.isPixelType ? '10' : '25')}px;
-    right: 68px;
-`;
-
 export interface DeviceDisplayProps {
     address: string;
     network?: string;
@@ -110,14 +100,18 @@ export interface DeviceDisplayProps {
 export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
     const selectedDeviceInternalModel = useSelector(selectDeviceInternalModel);
     const unavailableCapabilities = useSelector(selectDeviceUnavailableCapabilities);
-    const addressDisplay = useSelector(selectAddressDisplay);
+    const addressDisplayType = useSelector(selectAddressDisplayType);
 
     const areChunksUsed =
-        addressDisplay === AddressDisplayOptions.CHUNKED && !unavailableCapabilities?.chunkify;
+        addressDisplayType === AddressDisplayOptions.CHUNKED && !unavailableCapabilities?.chunkify;
     const isPixelType = selectedDeviceInternalModel !== DeviceModelInternal.T2T1;
     const isPaginated = network === 'cardano';
+    const iconSize = isPixelType ? 10 : 20;
+    const iconColor = isPixelType ? '#ffffff' : '#959596';
+    const iconNextName = isPixelType ? 'ADDRESS_PIXEL_NEXT' : 'ADDRESS_NEXT';
+    const iconContinuesName = isPixelType ? 'ADDRESS_PIXEL_CONTINUES' : 'ADDRESS_CONTINUES';
 
-    const showChunksInRows = (chunks: string[][] | undefined, isNextAddress?: boolean) =>
+    const showChunksInRows = (chunks: ReactNode[][] | undefined, isNextAddress?: boolean) =>
         chunks?.map((row, rowIndex) => (
             <Row
                 // eslint-disable-next-line react/no-array-index-key
@@ -134,7 +128,7 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             </Row>
         ));
 
-    const showChunks = (address: string) => {
+    const renderChunks = (address: string) => {
         const chunks = address.match(/.{1,4}/g);
 
         const groupedChunks = chunks?.reduce((result, chunk, index) => {
@@ -145,42 +139,35 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             }
 
             if (isPaginated && rowIndex === 3 && result[rowIndex].length === 3) {
-                result[rowIndex].push('');
+                result[rowIndex].push(
+                    <Icon size={iconSize} icon={iconNextName} color={iconColor} />,
+                );
             } else if (isPaginated && rowIndex === 4 && result[rowIndex].length === 0) {
-                result[rowIndex].push('');
+                result[rowIndex].push(
+                    <Icon size={iconSize} icon={iconContinuesName} color={iconColor} />,
+                );
             } else {
                 result[rowIndex].push(chunk);
             }
 
             return result;
-        }, [] as string[][]);
+        }, [] as ReactNode[][]);
 
         if (isPaginated) {
+            const PAGE_SIZE = 4;
             return (
                 <Content>
                     <Chunks isPixelType={isPixelType}>
-                        {showChunksInRows(groupedChunks?.slice(0, 4))}
+                        {showChunksInRows(groupedChunks?.slice(0, PAGE_SIZE))}
                     </Chunks>
-                    <StyledChunkedNextIcon
-                        isPixelType={isPixelType}
-                        size={isPixelType ? 10 : 20}
-                        icon={isPixelType ? 'ADDRESS_PIXEL_NEXT' : 'ADDRESS_NEXT'}
-                        color={isPixelType ? '#ffffff' : '#959596'}
-                    />
                     <Wrapper>
                         <Divider isPixelType={isPixelType} />
                         <AddressLabel isPixelType={isPixelType}>
                             <Translation id="NEXT_PAGE" />
                         </AddressLabel>
                     </Wrapper>
-                    <StyledChunkedContinuesIcon
-                        isPixelType={isPixelType}
-                        size={isPixelType ? 10 : 20}
-                        icon={isPixelType ? 'ADDRESS_PIXEL_CONTINUES' : 'ADDRESS_CONTINUES'}
-                        color={isPixelType ? '#ffffff' : '#959596'}
-                    />
                     <Chunks isPixelType={isPixelType}>
-                        {showChunksInRows(groupedChunks?.slice(4), true)}
+                        {showChunksInRows(groupedChunks?.slice(PAGE_SIZE), true)}
                     </Chunks>
                 </Content>
             );
@@ -189,7 +176,7 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
         return <Chunks isPixelType={isPixelType}>{showChunksInRows(groupedChunks)}</Chunks>;
     };
 
-    function showOriginal(address: string) {
+    const renderOriginal = (address: string) => {
         if (isPaginated) {
             const breakpoint = isPixelType ? 70 : 81;
             return (
@@ -197,9 +184,9 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
                     <Text isPixelType={isPixelType}>{address.slice(0, breakpoint)}</Text>
                     <StyledNextIcon
                         isPixelType={isPixelType}
-                        size={isPixelType ? 10 : 20}
-                        icon={isPixelType ? 'ADDRESS_PIXEL_NEXT' : 'ADDRESS_NEXT'}
-                        color={isPixelType ? '#ffffff' : '#959596'}
+                        size={iconSize}
+                        icon={iconNextName}
+                        color={iconColor}
                     />
                     <Wrapper>
                         <Divider isPixelType={isPixelType} />
@@ -209,9 +196,9 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
                     </Wrapper>
                     <StyledContinuesIcon
                         isPixelType={isPixelType}
-                        size={isPixelType ? 10 : 20}
-                        icon={isPixelType ? 'ADDRESS_PIXEL_CONTINUES' : 'ADDRESS_CONTINUES'}
-                        color={isPixelType ? '#ffffff' : '#959596'}
+                        size={iconSize}
+                        icon={iconContinuesName}
+                        color={iconColor}
                     />
                     <Text isPixelType={isPixelType}>
                         &nbsp;&nbsp;&nbsp;{address.slice(breakpoint)}
@@ -220,11 +207,7 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             );
         }
         return <Text isPixelType={isPixelType}>{address}</Text>;
-    }
+    };
 
-    return (
-        <Display>
-            {areChunksUsed ? showChunks(address as string) : showOriginal(address as string)}
-        </Display>
-    );
+    return <Display>{areChunksUsed ? renderChunks(address) : renderOriginal(address)}</Display>;
 };
