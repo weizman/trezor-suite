@@ -110,7 +110,6 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             <Row
                 // eslint-disable-next-line react/no-array-index-key
                 key={rowIndex}
-                isPixelType={isPixelType}
                 isAlignedRight={rowIndex === 0 && isNextAddress}
             >
                 {row.map((chunk, chunkIndex) => (
