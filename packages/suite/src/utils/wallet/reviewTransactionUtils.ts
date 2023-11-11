@@ -114,24 +114,23 @@ const constructOldFlow = ({
         precomposedTx.outputs.forEach(o => {
             // iterate only through "external" outputs (change output has addressParameters field instead of address)
             if ('address' in o) {
-                const tokenBundle = getCardanoTokenBundle(account, o)?.[0]; // send form supports one token per output
+                // const tokenBundle = getCardanoTokenBundle(account, o)?.[0]; // send form supports one token per output
 
                 // each output will include certain amount of ADA (cardano token outputs require ADA)
                 outputs.push({
                     type: 'regular_legacy',
-                    label: o.address,
-                    value: o.amount,
+                    value: o.address,
                 });
 
                 // if the output also includes a token then we need to render another row with the token
-                if (tokenBundle) {
-                    outputs.push({
-                        type: 'regular_legacy',
-                        label: o.address,
-                        value: tokenBundle.balance ?? '0',
-                        token: tokenBundle,
-                    });
-                }
+                // if (tokenBundle) {
+                //     outputs.push({
+                //         type: 'regular_legacy',
+                //         label: o.address,
+                //         value: tokenBundle.balance ?? '0',
+                //         token: tokenBundle,
+                //     });
+                // }
             }
         });
     } else {
@@ -139,9 +138,7 @@ const constructOldFlow = ({
             if (typeof o.address === 'string') {
                 outputs.push({
                     type: 'regular_legacy',
-                    label: o.address,
-                    value: o.amount.toString(),
-                    token: precomposedTx.token,
+                    value: o.address,
                 });
             } else if (o.script_type === 'PAYTOOPRETURN') {
                 outputs.push({
@@ -218,24 +215,23 @@ const constructNewFlow = ({
         precomposedTx.outputs.forEach(o => {
             // iterate only through "external" outputs (change output has addressParameters field instead of address)
             if ('address' in o) {
-                const tokenBundle = getCardanoTokenBundle(account, o)?.[0]; // send form supports one token per output
+                // const tokenBundle = getCardanoTokenBundle(account, o)?.[0]; // send form supports one token per output
 
                 // each output will include certain amount of ADA (cardano token outputs require ADA)
                 outputs.push({
                     type: 'regular_legacy',
-                    label: o.address,
-                    value: o.amount,
+                    value: o.address,
                 });
 
                 // if the output also includes a token then we need to render another row with the token
-                if (tokenBundle) {
-                    outputs.push({
-                        type: 'regular_legacy',
-                        label: o.address,
-                        value: tokenBundle.balance ?? '0',
-                        token: tokenBundle,
-                    });
-                }
+                // if (tokenBundle) {
+                //     outputs.push({
+                //         type: 'regular_legacy',
+                //         label: o.address,
+                //         value: tokenBundle.balance ?? '0',
+                //         token: tokenBundle,
+                //     });
+                // }
             }
         });
     } else {

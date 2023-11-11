@@ -183,14 +183,16 @@ export const TransactionReviewOutputElement = forwardRef<
                         <OutputRightLine key={line.id}>
                             <OutputHeadline>
                                 <Truncate>
-                                    {state === 'active' && line.id === 'address'
+                                    {state === 'active' &&
+                                    (line.id === 'address' || line.id === 'regular_legacy')
                                         ? line.confirmLabel
                                         : line.label}
                                 </Truncate>
                             </OutputHeadline>
                             <OutputValue>
                                 <TruncateWrapper condition={hasExpansion}>
-                                    {state === 'active' && line.id === 'address' ? (
+                                    {state === 'active' &&
+                                    (line.id === 'address' || line.id === 'regular_legacy') ? (
                                         <DeviceDisplay address={line.value} network={network} />
                                     ) : (
                                         <OutputValueWrapper>

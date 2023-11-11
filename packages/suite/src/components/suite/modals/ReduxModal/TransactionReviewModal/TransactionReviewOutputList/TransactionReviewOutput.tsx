@@ -38,7 +38,7 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
     if (type === 'contract') {
         outputLabel = <Translation id="TR_CONTRACT" />;
     }
-    if (type === 'address') {
+    if (type === 'address' || type === 'regular_legacy') {
         outputLabel = <Translation id="TR_RECIPIENT_ADDRESS" />;
     }
     if (type === 'amount') {
@@ -57,7 +57,7 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
     if (token) {
         outputValue = formatAmount(value, token.decimals);
         outputSymbol = token.symbol as NetworkSymbol;
-    } else if (type === 'regular_legacy' || type === 'fee' || type === 'amount') {
+    } else if (type === 'fee' || type === 'amount') {
         outputValue = formatNetworkAmount(value, symbol);
         outputSymbol = symbol;
         fiatVisible = !isTestnet(symbol);
@@ -122,6 +122,16 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
                 plainValue: true,
             },
         ];
+    } else if (type === 'regular_legacy') {
+        outputLines = [
+            {
+                id: 'regular_legacy',
+                label: outputLabel,
+                value: outputValue,
+                confirmLabel: <Translation id="TR_RECIPIENT_ADDRESS_MATCH" />,
+                plainValue: true,
+            },
+        ];
     } else if (type === 'contract') {
         outputLines = [
             {
@@ -170,6 +180,8 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
     }
 
     const hasExpansion = (type === 'opreturn' || type === 'data') && outputValue.length >= 10;
+
+    console.log('type: ', type, ' + ', outputLines);
 
     return (
         <TransactionReviewOutputElement
