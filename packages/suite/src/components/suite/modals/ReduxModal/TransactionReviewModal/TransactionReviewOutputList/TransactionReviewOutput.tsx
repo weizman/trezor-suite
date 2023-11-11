@@ -169,7 +169,6 @@ export const TransactionReviewOutput = (props: TransactionReviewOutputProps) => 
         ];
     }
 
-    console.log('type: ', type, ' + ', outputLines);
     const hasExpansion = (type === 'opreturn' || type === 'data') && outputValue.length >= 10;
 
     return (

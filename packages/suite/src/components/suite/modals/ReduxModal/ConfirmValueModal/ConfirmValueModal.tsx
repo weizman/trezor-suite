@@ -26,7 +26,7 @@ const Content = styled.div`
     display: flex;
     gap: 21px;
 
-    @media (max-width: ${variables.SCREEN_QUERY.BELOW_TABLET}) {
+    ${variables.SCREEN_QUERY.BELOW_TABLET} {
         flex-direction: column;
     }
 `;
@@ -38,7 +38,7 @@ const Right = styled.div`
     height: 100%;
     width: 300px;
 
-    @media (max-width: ${variables.SCREEN_QUERY.BELOW_TABLET}) {
+    ${variables.SCREEN_QUERY.BELOW_TABLET} {
         width: 100%;
     }
 `;
@@ -54,7 +54,7 @@ const StyledQrCode = styled(QrCode)`
 const StyledButton = styled(Button)`
     width: 100%;
 
-    @media (max-width: ${variables.SCREEN_QUERY.BELOW_TABLET}) {
+    ${variables.SCREEN_QUERY.BELOW_TABLET} {
         margin-top: 24px;
     }
 `;
