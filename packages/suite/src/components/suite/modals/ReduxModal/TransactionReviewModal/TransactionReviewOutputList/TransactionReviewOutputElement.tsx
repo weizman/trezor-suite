@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode } from 'react';
+import { forwardRef, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { Truncate, variables } from '@trezor/components';
@@ -166,6 +166,7 @@ export const TransactionReviewOutputElement = forwardRef<
     ) => {
         const network = account?.networkType;
         const cardanoFingerprint = getFingerprint(account?.tokens, token?.symbol);
+        const isActive = state === 'active';
 
         return (
             <OutputWrapper ref={ref}>
@@ -183,7 +184,7 @@ export const TransactionReviewOutputElement = forwardRef<
                         <OutputRightLine key={line.id}>
                             <OutputHeadline>
                                 <Truncate>
-                                    {state === 'active' &&
+                                    {isActive &&
                                     (line.id === 'address' || line.id === 'regular_legacy')
                                         ? line.confirmLabel
                                         : line.label}
@@ -191,7 +192,7 @@ export const TransactionReviewOutputElement = forwardRef<
                             </OutputHeadline>
                             <OutputValue>
                                 <TruncateWrapper condition={hasExpansion}>
-                                    {state === 'active' &&
+                                    {isActive &&
                                     (line.id === 'address' || line.id === 'regular_legacy') ? (
                                         <DeviceDisplay address={line.value} network={network} />
                                     ) : (

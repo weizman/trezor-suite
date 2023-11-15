@@ -296,7 +296,6 @@ export const formatNetworkAmount = (
     symbol: NetworkSymbol,
     withSymbol = false,
     isSatoshis?: boolean,
-    locale?: string,
 ) => {
     const decimals = getAccountDecimals(symbol);
 
@@ -308,7 +307,7 @@ export const formatNetworkAmount = (
         let formattedSymbol = symbol?.toUpperCase();
 
         if (isSatoshis) {
-            formattedAmount = localizeNumber(amount, locale);
+            formattedAmount = amount;
             formattedSymbol = symbol === 'btc' ? 'sat' : `sat ${symbol?.toUpperCase()}`;
         }
 
@@ -760,11 +759,10 @@ export const getUtxoFromSignedTransaction = ({
     const findUtxo = (
         // this little func is needed in order to slightly change type inputs array to stop ts complaining
         // not sure how to do this in more elegant way
-        inputs:
-            | (
-                  | PrecomposedTransactionFinalCardano['inputs'][number]
-                  | PrecomposedTransactionFinal['inputs'][number]
-              )[],
+        inputs: (
+            | PrecomposedTransactionFinalCardano['inputs'][number]
+            | PrecomposedTransactionFinal['inputs'][number]
+        )[],
     ) =>
         account.utxo?.filter(
             u =>

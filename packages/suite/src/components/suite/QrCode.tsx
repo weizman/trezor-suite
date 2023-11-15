@@ -57,7 +57,7 @@ export const QrCode = ({ value, className, bgColor, fgColor, showMessage }: QrCo
         {showMessage && (
             <MessageWrapper>
                 <Message>
-                    <Translation id="TR_CONFIRM_ON_DEVICE" />
+                    <Translation id="TR_QR_RECEIVE_ADDRESS_CONFIRM" />
                 </Message>
                 <Icon icon="INFO" size={12} color={fgColor || colors.TYPE_DARK_GREY} />
             </MessageWrapper>

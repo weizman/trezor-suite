@@ -5231,8 +5231,8 @@ export default defineMessages({
         id: 'TR_CONFIRM_ON_TREZOR',
         defaultMessage: 'Confirm on Trezor',
     },
-    TR_CONFIRM_ON_DEVICE: {
-        id: 'TR_CONFIRM_ON_DEVICE',
+    TR_QR_RECEIVE_ADDRESS_CONFIRM: {
+        id: 'TR_QR_RECEIVE_ADDRESS_CONFIRM',
         defaultMessage: 'Confirm on device before scanning',
     },
     TR_MY_ASSETS: {
