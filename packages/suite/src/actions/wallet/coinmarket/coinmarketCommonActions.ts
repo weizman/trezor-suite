@@ -100,6 +100,7 @@ export const verifyAddress =
                 response = await TrezorConnect.ethereumGetAddress(params);
                 break;
             case 'cardano':
+                // todo: add chunkify once we allow it for Cardano
                 response = await TrezorConnect.cardanoGetAddress({
                     device,
                     useEmptyPassphrase: device.useEmptyPassphrase,
@@ -107,7 +108,6 @@ export const verifyAddress =
                     protocolMagic: getProtocolMagic(account.symbol),
                     networkId: getNetworkId(account.symbol),
                     derivationType: getDerivationType(account.accountType),
-                    chunkify: addressDisplayType === AddressDisplayOptions.CHUNKED,
                 });
                 break;
             case 'ripple':

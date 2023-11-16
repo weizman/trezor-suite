@@ -96,10 +96,12 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
     const unavailableCapabilities = useSelector(selectDeviceUnavailableCapabilities);
     const addressDisplayType = useSelector(selectAddressDisplayType);
 
+    const isCardano = network === 'cardano';
     const areChunksUsed =
-        addressDisplayType === AddressDisplayOptions.CHUNKED && !unavailableCapabilities?.chunkify;
+        addressDisplayType === AddressDisplayOptions.CHUNKED &&
+        !unavailableCapabilities?.chunkify &&
+        !isCardano;
     const isPixelType = selectedDeviceInternalModel !== DeviceModelInternal.T2T1;
-    const isPaginated = network === 'cardano';
     const iconSize = isPixelType ? 10 : 20;
     const iconColor = isPixelType ? '#ffffff' : '#959596';
     const iconNextName = isPixelType ? 'ADDRESS_PIXEL_NEXT' : 'ADDRESS_NEXT';
@@ -124,7 +126,7 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
     const renderChunks = (address: string) => {
         const chunks = address.match(/.{1,4}/g);
 
-        if (isPaginated) {
+        if (isCardano) {
             // Add pagination icons
             // @ts-expect-error
             chunks?.splice(15, 0, <Icon size={iconSize} icon={iconNextName} color={iconColor} />);
@@ -158,7 +160,8 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             }
         };
 
-        if (isPaginated) {
+        // this is now not possible but will be used once Cardano flow is improved
+        if (isCardano) {
             const PAGE_SIZE = 4;
             return (
                 <>
@@ -182,7 +185,7 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
     };
 
     const renderOriginal = (address: string) => {
-        if (isPaginated) {
+        if (isCardano) {
             const breakpoint = isPixelType ? 70 : 81;
             return (
                 <>
