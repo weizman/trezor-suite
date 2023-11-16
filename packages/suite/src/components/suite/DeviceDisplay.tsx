@@ -9,7 +9,7 @@ import {
 import { DeviceModelInternal } from '@trezor/connect';
 import { Icon, variables } from '@trezor/components';
 import { Translation } from './Translation';
-import { ReactNode } from 'react';
+import { ClipboardEvent, ReactNode } from 'react';
 
 const Display = styled.div`
     display: flex;
@@ -148,23 +148,37 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             return result;
         }, [] as ReactNode[][]);
 
+        const handleOnCopy = (event: ClipboardEvent) => {
+            const selectedText = window.getSelection()?.toString();
+
+            if (selectedText) {
+                const processedText = selectedText.replace(/\s/g, '');
+                event?.nativeEvent?.clipboardData?.setData('text/plain', processedText);
+                event.preventDefault();
+            }
+        };
+
         if (isPaginated) {
             const PAGE_SIZE = 4;
             return (
                 <>
-                    <Chunks>{showChunksInRows(groupedChunks?.slice(0, PAGE_SIZE))}</Chunks>
+                    <Chunks onCopy={handleOnCopy}>
+                        {showChunksInRows(groupedChunks?.slice(0, PAGE_SIZE))}
+                    </Chunks>
                     <Wrapper>
                         <Divider areChunksUsed={areChunksUsed} />
                         <AddressLabel areChunksUsed={areChunksUsed}>
                             <Translation id="NEXT_PAGE" />
                         </AddressLabel>
                     </Wrapper>
-                    <Chunks>{showChunksInRows(groupedChunks?.slice(PAGE_SIZE), true)}</Chunks>
+                    <Chunks onCopy={handleOnCopy}>
+                        {showChunksInRows(groupedChunks?.slice(PAGE_SIZE), true)}
+                    </Chunks>
                 </>
             );
         }
 
-        return <Chunks>{showChunksInRows(groupedChunks)}</Chunks>;
+        return <Chunks onCopy={handleOnCopy}>{showChunksInRows(groupedChunks)}</Chunks>;
     };
 
     const renderOriginal = (address: string) => {
