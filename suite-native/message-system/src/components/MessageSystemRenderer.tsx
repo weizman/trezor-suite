@@ -39,7 +39,7 @@ export const MessageSystemRenderer = ({ children }: MessageSystemRendererProps) 
 
     const activeBannerMessages = useSelector(selectActiveBannerMessages);
     const activeFeatureMessages = useSelector(selectActiveFeatureMessages);
-    const firstFeatureMessage = A.head(activeFeatureMessages);
+    const firstFeatureMessage = undefined; //A.head(activeFeatureMessages);
 
     return (
         <Screen>

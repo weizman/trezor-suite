@@ -102,7 +102,7 @@ export const validateVersionCompatibility = (
     version: string,
 ): boolean => {
     const conditionVersion = createVersionRange(condition[type]);
-
+    return true;
     if (conditionVersion === null) {
         return false;
     }
