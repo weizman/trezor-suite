@@ -9,21 +9,24 @@ import {
 import { DeviceModelInternal } from '@trezor/connect';
 import { Icon, variables } from '@trezor/components';
 import { Translation } from './Translation';
-import { ClipboardEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const Display = styled.div`
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 16px;
     min-height: 134px;
-    width: 100%;
     background: #000000;
     padding: 25px 12px;
 `;
 
-const Text = styled.div<{ isPixelType: boolean; isWithIndentation?: boolean }>`
+const Text = styled.span<{ isPixelType: boolean; isWithIndentation?: boolean }>`
+    &:after {
+        content: ' ';
+        display: inline-block;
+        width: 5px;
+    }
     font-family: ${({ isPixelType }) => (isPixelType ? 'PixelOperatorMono8' : 'RobotoMono')};
     font-size: ${({ isPixelType }) => (isPixelType ? '12' : '18')}px;
     color: white;
@@ -33,17 +36,13 @@ const Text = styled.div<{ isPixelType: boolean; isWithIndentation?: boolean }>`
     text-indent: ${({ isWithIndentation }) => (isWithIndentation ? '28px' : '0')};
 `;
 
-const Row = styled.div<{ isAlignedRight?: boolean }>`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: ${({ isAlignedRight }) => (isAlignedRight ? 'flex-end' : 'flex-start')};
+const Row = styled.span<{ isAlignedRight?: boolean }>`
+    display: inline;
+    line-height: 1.4;
 `;
 
 const Chunks = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    display: inline;
 `;
 
 const Wrapper = styled.div`
@@ -150,38 +149,24 @@ export const DeviceDisplay = ({ address, network }: DeviceDisplayProps) => {
             return result;
         }, [] as ReactNode[][]);
 
-        const handleOnCopy = (event: ClipboardEvent) => {
-            const selectedText = window.getSelection()?.toString();
-
-            if (selectedText) {
-                const processedText = selectedText.replace(/\s/g, '');
-                event?.nativeEvent?.clipboardData?.setData('text/plain', processedText);
-                event.preventDefault();
-            }
-        };
-
         // this is now not possible but will be used once Cardano flow is improved
         if (isCardano) {
             const PAGE_SIZE = 4;
             return (
                 <>
-                    <Chunks onCopy={handleOnCopy}>
-                        {showChunksInRows(groupedChunks?.slice(0, PAGE_SIZE))}
-                    </Chunks>
+                    <Chunks>{showChunksInRows(groupedChunks?.slice(0, PAGE_SIZE))}</Chunks>
                     <Wrapper>
                         <Divider areChunksUsed={areChunksUsed} />
                         <AddressLabel areChunksUsed={areChunksUsed}>
                             <Translation id="NEXT_PAGE" />
                         </AddressLabel>
                     </Wrapper>
-                    <Chunks onCopy={handleOnCopy}>
-                        {showChunksInRows(groupedChunks?.slice(PAGE_SIZE), true)}
-                    </Chunks>
+                    <Chunks>{showChunksInRows(groupedChunks?.slice(PAGE_SIZE), true)}</Chunks>
                 </>
             );
         }
 
-        return <Chunks onCopy={handleOnCopy}>{showChunksInRows(groupedChunks)}</Chunks>;
+        return <Chunks>{showChunksInRows(groupedChunks)}</Chunks>;
     };
 
     const renderOriginal = (address: string) => {
