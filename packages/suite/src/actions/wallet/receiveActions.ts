@@ -1,7 +1,7 @@
 import { notificationsActions } from '@suite-common/toast-notifications';
-import TrezorConnect from '@trezor/connect';
+import TrezorConnect, { GetAddress, Params } from '@trezor/connect';
 import { getDerivationType } from '@suite-common/wallet-utils';
-import { UserContextPayload } from '@suite-common/suite-types';
+import { TrezorDevice, UserContextPayload } from '@suite-common/suite-types';
 import { selectDevice } from '@suite-common/wallet-core';
 
 import { RECEIVE } from 'src/actions/wallet/constants';
@@ -13,6 +13,7 @@ import {
     getNetworkId,
     getAddressType,
 } from 'src/utils/wallet/cardanoUtils';
+import { Account } from '@suite-common/wallet-types';
 
 export type ReceiveAction =
     | { type: typeof RECEIVE.DISPOSE }
@@ -44,6 +45,42 @@ export const openAddressModal =
         });
     };
 
+export const getAddressResponse = (
+    account: Account,
+    device: TrezorDevice,
+    path: string,
+    params: Params<GetAddress>,
+) => {
+    switch (account.networkType) {
+        case 'ethereum':
+            return TrezorConnect.ethereumGetAddress(params);
+        case 'cardano':
+            return TrezorConnect.cardanoGetAddress({
+                device,
+                useEmptyPassphrase: device.useEmptyPassphrase,
+                addressParameters: {
+                    stakingPath: getStakingPath(account),
+                    addressType: getAddressType(account.accountType),
+                    path,
+                },
+                protocolMagic: getProtocolMagic(account.symbol),
+                networkId: getNetworkId(account.symbol),
+                derivationType: getDerivationType(account.accountType),
+            });
+        case 'ripple':
+            return TrezorConnect.rippleGetAddress(params);
+        case 'bitcoin':
+            return TrezorConnect.getAddress(params);
+        case 'solana':
+            return TrezorConnect.solanaGetAddress(params);
+        default:
+            return {
+                success: false,
+                payload: { error: 'Method for getAddress not defined', code: undefined },
+            };
+    }
+};
+
 export const showAddress =
     (path: string, address: string) => async (dispatch: Dispatch, getState: GetState) => {
         const device = selectDevice(getState());
@@ -67,7 +104,6 @@ export const showAddress =
             return;
         }
 
-        let response;
         const params = {
             device,
             path,
@@ -78,40 +114,7 @@ export const showAddress =
 
         dispatch(modalActions.preserve());
 
-        switch (account.networkType) {
-            case 'ethereum':
-                response = await TrezorConnect.ethereumGetAddress(params);
-                break;
-            case 'cardano':
-                response = await TrezorConnect.cardanoGetAddress({
-                    device,
-                    useEmptyPassphrase: device.useEmptyPassphrase,
-                    addressParameters: {
-                        stakingPath: getStakingPath(account),
-                        addressType: getAddressType(account.accountType),
-                        path,
-                    },
-                    protocolMagic: getProtocolMagic(account.symbol),
-                    networkId: getNetworkId(account.symbol),
-                    derivationType: getDerivationType(account.accountType),
-                });
-                break;
-            case 'ripple':
-                response = await TrezorConnect.rippleGetAddress(params);
-                break;
-            case 'bitcoin':
-                response = await TrezorConnect.getAddress(params);
-                break;
-            case 'solana':
-                response = await TrezorConnect.solanaGetAddress(params);
-                break;
-            default:
-                response = {
-                    success: false,
-                    payload: { error: 'Method for getAddress not defined', code: undefined },
-                };
-                break;
-        }
+        const response = await getAddressResponse(account, device, path, params);
 
         if (response.success) {
             // show second part of the "confirm address" modal

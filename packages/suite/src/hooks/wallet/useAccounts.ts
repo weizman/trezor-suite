@@ -51,6 +51,7 @@ export const useAccountAddressDictionary = (account: Account | undefined) =>
                     }, {} as { [address: string]: AccountAddress });
             }
             case 'ripple':
+            case 'solana':
             case 'ethereum': {
                 return {
                     [account.descriptor]: {

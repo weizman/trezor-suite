@@ -1,13 +1,12 @@
 import { isDesktop } from '@trezor/env-utils';
 import { notificationsActions } from '@suite-common/toast-notifications';
-import TrezorConnect, { PROTO } from '@trezor/connect';
+import { PROTO } from '@trezor/connect';
 import {
     amountToSatoshi,
     formatAmount,
     getAccountDecimals,
     hasNetworkFeatures,
     parseFormDraftKey,
-    getDerivationType,
 } from '@suite-common/wallet-utils';
 import { Output } from '@suite-common/wallet-types/src';
 import { selectDevice, toggleRememberDevice } from '@suite-common/wallet-core';
@@ -17,12 +16,6 @@ import * as modalActions from 'src/actions/suite/modalActions';
 import { getUnusedAddressFromAccount } from 'src/utils/wallet/coinmarket/coinmarketUtils';
 import { Account } from 'src/types/wallet';
 import { ComposedTransactionInfo } from 'src/reducers/wallet/coinmarketReducer';
-import {
-    getStakingPath,
-    getProtocolMagic,
-    getNetworkId,
-    getAddressType,
-} from 'src/utils/wallet/cardanoUtils';
 import { submitRequestForm as envSubmitRequestForm } from 'src/utils/suite/env';
 import * as formDraftActions from 'src/actions/wallet/formDraftActions';
 
@@ -32,6 +25,7 @@ import {
     COINMARKET_SAVINGS,
     COINMARKET_COMMON,
 } from '../constants';
+import { getAddressResponse } from 'src/actions/wallet/receiveActions';
 
 export type CoinmarketCommonAction =
     | {
@@ -91,38 +85,7 @@ export const verifyAddress =
             coin: account.symbol,
         };
 
-        let response;
-        switch (account.networkType) {
-            case 'ethereum':
-                response = await TrezorConnect.ethereumGetAddress(params);
-                break;
-            case 'cardano':
-                response = await TrezorConnect.cardanoGetAddress({
-                    device,
-                    useEmptyPassphrase: device.useEmptyPassphrase,
-                    addressParameters: {
-                        stakingPath: getStakingPath(account),
-                        addressType: getAddressType(account.accountType),
-                        path,
-                    },
-                    protocolMagic: getProtocolMagic(account.symbol),
-                    networkId: getNetworkId(account.symbol),
-                    derivationType: getDerivationType(account.accountType),
-                });
-                break;
-            case 'ripple':
-                response = await TrezorConnect.rippleGetAddress(params);
-                break;
-            case 'bitcoin':
-                response = await TrezorConnect.getAddress(params);
-                break;
-            default:
-                response = {
-                    success: false,
-                    payload: { error: 'Method for getAddress not defined', code: undefined },
-                };
-                break;
-        }
+        const response = await getAddressResponse(account, device, path, params);
 
         if (response.success) {
             dispatch({
