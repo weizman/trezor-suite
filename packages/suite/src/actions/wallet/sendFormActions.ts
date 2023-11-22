@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 
 import TrezorConnect, { PROTO, SignedTransaction } from '@trezor/connect';
-import { getEthereumDefinitions } from '@trezor/connect/src/api/ethereum/ethereumDefinitions';
 import {
     accountsActions,
     addFakePendingCardanoTxThunk,
@@ -9,6 +8,7 @@ import {
     replaceTransactionThunk,
     syncAccountsWithBlockchainThunk,
     selectDevice,
+    selectTokenDefinition,
 } from '@suite-common/wallet-core';
 import { notificationsActions } from '@suite-common/toast-notifications';
 import {
@@ -362,7 +362,7 @@ export const signTransaction =
     ) =>
     async (dispatch: Dispatch, getState: GetState) => {
         const device = selectDevice(getState());
-        const { account, network } = getState().wallet.selectedAccount;
+        const { account } = getState().wallet.selectedAccount;
 
         if (!device || !account) return;
 
@@ -400,11 +400,15 @@ export const signTransaction =
         }
 
         if (account.networkType === 'ethereum' && !isCardanoTx(account, enhancedTxInfo)) {
-            const definitions = await getEthereumDefinitions({
-                chainId: network?.chainId,
-                contractAddress: enhancedTxInfo.token?.contract.substring(2),
-            });
-            enhancedTxInfo.isTokenKnown = !!definitions?.encoded_token;
+            const contractAddress = enhancedTxInfo.token?.contract;
+            if (contractAddress) {
+                const tokenDefinition = selectTokenDefinition(
+                    account.symbol,
+                    contractAddress,
+                )(getState());
+
+                enhancedTxInfo.isTokenKnown = !!tokenDefinition?.data;
+            }
         }
 
         // store formValues and transactionInfo in send reducer to be used by TransactionReviewModal
