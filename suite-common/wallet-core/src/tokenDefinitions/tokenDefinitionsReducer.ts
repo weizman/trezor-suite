@@ -1,5 +1,6 @@
-import { NetworkSymbol } from '@suite-common/wallet-config';
+import { Network, NetworkSymbol } from '@suite-common/wallet-config';
 import { createReducerWithExtraDeps } from '@suite-common/redux-utils';
+import { WalletAccountTransaction } from '@suite-common/wallet-types';
 
 import { tokenDefinitionsActions } from './tokenDefinitionsActions';
 
@@ -59,3 +60,17 @@ export const prepareTokenDefinitionsReducer = createReducerWithExtraDeps(
 export const selectTokenDefinition =
     (networkSymbol: NetworkSymbol, contractAddress: string) => (state: TokenDefinitionsRootState) =>
         state.wallet.tokenDefinitions?.[networkSymbol]?.[contractAddress];
+
+export const selectIsTokenTransactionValid =
+    (network: Network, transaction: WalletAccountTransaction) =>
+    (state: TokenDefinitionsRootState) => {
+        const erc20Tokens = transaction.tokens.filter(token => token.standard === 'ERC20');
+
+        return (
+            network.networkType !== 'ethereum' ||
+            !erc20Tokens.length ||
+            erc20Tokens.some(
+                token => state.wallet.tokenDefinitions?.[network.symbol]?.[token.contract].data,
+            )
+        );
+    };

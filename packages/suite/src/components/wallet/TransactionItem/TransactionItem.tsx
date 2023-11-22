@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { variables, Button, Card } from '@trezor/components';
 import { getIsZeroValuePhishing } from '@suite-common/suite-utils';
 import { Translation } from 'src/components/suite';
-import { useDispatch } from 'src/hooks/suite';
+import { useDispatch, useSelector } from 'src/hooks/suite';
 import { openModal } from 'src/actions/suite/modalActions';
 import { formatNetworkAmount, isTestnet, isTxFeePaid } from '@suite-common/wallet-utils';
 import { AccountLabels } from 'src/types/suite/metadata';
@@ -31,6 +31,7 @@ import { AccountTransactionBaseAnchor } from 'src/constants/suite/anchors';
 import { SECONDARY_PANEL_HEIGHT } from 'src/components/suite/AppNavigation/AppNavigation';
 import { anchorOutlineStyles } from 'src/utils/suite/anchor';
 import { TransactionTimestamp } from 'src/components/wallet/TransactionTimestamp';
+import { selectIsTokenTransactionValid } from '@suite-common/wallet-core';
 
 const Wrapper = styled(Card)<{
     isPending: boolean;
@@ -154,7 +155,10 @@ export const TransactionItem = memo(
             );
         };
 
-        const isZeroValuePhishing = getIsZeroValuePhishing(transaction);
+        const isTokenTransactionValid = useSelector(state =>
+            selectIsTokenTransactionValid(network, transaction)(state),
+        );
+        const isZeroValuePhishing = getIsZeroValuePhishing(transaction) || !isTokenTransactionValid;
         const dataTestBase = `@transaction-item/${index}${
             transaction.deadline ? '/prepending' : ''
         }`;
