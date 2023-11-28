@@ -53,7 +53,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     jq \
     rsync \
-    curl
+    curl \
+    # required by suite-desktop
+    libudev-dev
 
 RUN apt-get install -y \
     python3-dev \
