@@ -1,7 +1,7 @@
 // origin: https://github.com/trezor/connect/blob/develop/src/js/popup/PopupManager.js
 import EventEmitter from 'events';
 
-import { PopupEventMessage, ConnectSettings } from '@trezor/connect/lib/exports';
+import { POPUP, ConnectSettings } from '@trezor/connect/lib/exports';
 import { getOrigin } from '@trezor/connect/lib/utils/urlUtils';
 import { Log } from '@trezor/connect/lib/utils/debug';
 import { createDeferred, Deferred } from '@trezor/utils/lib';
@@ -31,7 +31,7 @@ export class PopupManager extends EventEmitter {
 
     locked = false;
 
-    channel: ServiceWorkerWindowChannel<PopupEventMessage>;
+    channel;
 
     extensionTabId = 0;
 
@@ -45,7 +45,9 @@ export class PopupManager extends EventEmitter {
         this.origin = getOrigin(settings.popupSrc);
         this.logger = logger;
         this.handshakePromise = createDeferred();
-        this.channel = new ServiceWorkerWindowChannel<PopupEventMessage>({
+        this.channel = new ServiceWorkerWindowChannel<{
+            type: typeof POPUP.CORE_LOADED | typeof POPUP.CLOSED;
+        }>({
             name: 'trezor-connect',
             channel: {
                 here: '@trezor/connect-webextension',
