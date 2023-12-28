@@ -8440,4 +8440,12 @@ export default defineMessages({
         defaultMessage:
             'You can only send {network} tokens to a <b>receive address on the {network} chain</b>, otherwise your tokens <b>will be lost</b>.',
     },
+    TR_FROM: {
+        id: 'TR_FROM',
+        defaultMessage: 'From',
+    },
+    TR_TO: {
+        id: 'TR_TO',
+        defaultMessage: 'To',
+    },
 });
