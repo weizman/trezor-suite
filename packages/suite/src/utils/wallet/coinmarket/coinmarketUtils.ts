@@ -82,30 +82,6 @@ export const getSendCryptoOptions = (
         });
     }
 
-    /* if (account.networkType === 'ethereum' && account.tokens) {
-        account.tokens.forEach(token => {
-            if (!token.symbol) {
-                return;
-            }
-
-            const invityToken = symbolToInvityApiSymbol(token.symbol);
-            if (!supportedSymbols.has(invityToken)) {
-                return;
-            }
-
-            const isZeroValueToken = tokensFiatValue && tokensFiatValue[token.contract] === 0;
-            if (isZeroValueToken) {
-                return;
-            }
-
-            options.push({
-                label: invityToken.toUpperCase(),
-                value: invityToken.toUpperCase(),
-                token,
-            });
-        });
-    } */
-
     return options;
 };
 

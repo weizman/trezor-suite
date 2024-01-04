@@ -6,7 +6,7 @@ import { BuyTrade, BuyTradeQuoteRequest, BuyTradeStatus, CryptoSymbol } from 'in
 import { isDesktop, getLocationOrigin } from '@trezor/env-utils';
 import {
     cryptoToNetworkSymbol,
-    cryptoToTokenSymbol,
+    cryptoToCoinSymbol,
 } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 // loop through quotes and if all quotes are either with error below minimum or over maximum, return the limits
@@ -135,10 +135,7 @@ export const getCryptoOptions = (
             return;
         }
 
-        const tokenSymbol = cryptoToTokenSymbol(symbol);
-        if (!tokenSymbol) {
-            return;
-        }
+        const tokenSymbol = cryptoToCoinSymbol(symbol);
 
         options.push({
             label: tokenSymbol,

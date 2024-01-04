@@ -30,8 +30,8 @@ export function isCryptoSymbolToken(cryptoSymbol: CryptoSymbol): boolean {
     return cryptoSymbol.indexOf('@') >= 0;
 }
 
-export function cryptoToTokenSymbol(cryptoSymbol: CryptoSymbol): string | undefined {
-    return isCryptoSymbolToken(cryptoSymbol) ? cryptoSymbol.split('@')[0] : undefined;
+export function cryptoToCoinSymbol(cryptoSymbol: CryptoSymbol): string {
+    return cryptoSymbol.split('@')[0];
 }
 
 export function networkToCryptoSymbol(networkSymbol: NetworkSymbol): CryptoSymbol | undefined {

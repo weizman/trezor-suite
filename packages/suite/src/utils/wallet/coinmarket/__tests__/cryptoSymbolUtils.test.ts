@@ -1,6 +1,6 @@
 import {
     cryptoToNetworkSymbol,
-    cryptoToTokenSymbol,
+    cryptoToCoinSymbol,
     isCryptoSymbolToken,
     networkToCryptoSymbol,
     tokenToCryptoSymbol,
@@ -18,15 +18,15 @@ describe('cryptoSymbolUtils', () => {
         expect(isCryptoSymbolToken(symbol)).toEqual(expected);
     });
 
-    it.each<[Parameters<typeof cryptoToTokenSymbol>[0], ReturnType<typeof cryptoToTokenSymbol>]>([
-        ['BTC', undefined],
-        ['ETH', undefined],
-        ['XRP', undefined],
+    it.each<[Parameters<typeof cryptoToCoinSymbol>[0], ReturnType<typeof cryptoToCoinSymbol>]>([
+        ['BTC', 'BTC'],
+        ['ETH', 'ETH'],
+        ['XRP', 'XRP'],
         ['USDT@ETH', 'USDT'],
         ['USDC@ETH', 'USDC'],
-        ['_unknown' as Parameters<typeof cryptoToTokenSymbol>[0], undefined],
-    ])(`${cryptoToTokenSymbol.name} %s`, (symbol, expected) => {
-        expect(cryptoToTokenSymbol(symbol)).toEqual(expected);
+        ['_unknown' as Parameters<typeof cryptoToCoinSymbol>[0], '_unknown'],
+    ])(`${cryptoToCoinSymbol.name} %s`, (symbol, expected) => {
+        expect(cryptoToCoinSymbol(symbol)).toEqual(expected);
     });
 
     it.each<

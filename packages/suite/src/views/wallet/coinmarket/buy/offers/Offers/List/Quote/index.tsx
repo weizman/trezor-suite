@@ -12,6 +12,7 @@ import { QuestionTooltip, Translation } from 'src/components/suite';
 import { BuyTrade } from 'invity-api';
 import { useCoinmarketBuyOffersContext } from 'src/hooks/wallet/useCoinmarketBuyOffers';
 import { getTagAndInfoNote } from 'src/utils/wallet/coinmarket/coinmarketUtils';
+import { cryptoToCoinSymbol } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 const Wrapper = styled.div`
     display: flex;
@@ -248,7 +249,7 @@ const Quote = ({ className, quote, wantCrypto }: QuoteProps) => {
                         ) : (
                             <CoinmarketCryptoAmount
                                 amount={quote.receiveStringAmount}
-                                symbol={quote.receiveCurrency}
+                                symbol={cryptoToCoinSymbol(quote.receiveCurrency!)}
                             />
                         )}
                         <CoinmarketTag tag={tag} />
