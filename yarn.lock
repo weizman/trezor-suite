@@ -5329,7 +5329,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.81.1, @sentry/browser@npm:^7.77.0":
+"@sentry/browser@npm:7.81.1":
   version: 7.81.1
   resolution: "@sentry/browser@npm:7.81.1"
   dependencies:
@@ -5465,7 +5465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.81.1, @sentry/core@npm:^7.77.0":
+"@sentry/core@npm:7.81.1":
   version: 7.81.1
   resolution: "@sentry/core@npm:7.81.1"
   dependencies:
@@ -5502,7 +5502,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:7.81.1, @sentry/integrations@npm:^7.77.0":
+"@sentry/integrations@npm:7.81.1":
   version: 7.81.1
   resolution: "@sentry/integrations@npm:7.81.1"
   dependencies:
@@ -5625,12 +5625,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.81.1, @sentry/utils@npm:^7.60.0":
+"@sentry/utils@npm:7.81.1":
   version: 7.81.1
   resolution: "@sentry/utils@npm:7.81.1"
   dependencies:
     "@sentry/types": "npm:7.81.1"
   checksum: 12a13adced1c2ca87bc93d0adb66c8fe9f5f2b9247c7cd2773c2e26edf8dd6437ab1f316af4afdd8e9ee912bdfabbaed89757a427a0c84e42a483b65ea790cdc
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:^7.60.0":
+  version: 7.92.0
+  resolution: "@sentry/utils@npm:7.92.0"
+  dependencies:
+    "@sentry/types": "npm:7.92.0"
+  checksum: 701b7195e9b7374c0fcdb5eaef597c5644e6ad38b79c4db47b5e3a7f4ddf92ae16746fc2605adcc228d38405fd1ef020cc19921c842ab5aa9fb49ec0cb13f419
   languageName: node
   linkType: hard
 
@@ -6790,8 +6799,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@suite-common/sentry@workspace:suite-common/sentry"
   dependencies:
-    "@sentry/integrations": "npm:^7.77.0"
-    "@sentry/types": "npm:7.77.0"
+    "@sentry/integrations": "npm:7.81.1"
+    "@sentry/types": "npm:7.81.1"
     "@suite-common/suite-utils": "workspace:*"
     "@trezor/utils": "workspace:*"
     jest: "npm:29.5.0"
@@ -9243,7 +9252,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@trezor/suite-web@workspace:packages/suite-web"
   dependencies:
-    "@sentry/browser": "npm:^7.77.0"
+    "@sentry/browser": "npm:7.81.1"
     "@suite-common/formatters": "workspace:*"
     "@suite-common/sentry": "workspace:*"
     "@suite-common/suite-types": "workspace:*"
@@ -9301,7 +9310,7 @@ __metadata:
     "@hookform/resolvers": "npm:3.3.2"
     "@mobily/ts-belt": "npm:^3.13.1"
     "@reduxjs/toolkit": "npm:1.9.5"
-    "@sentry/core": "npm:^7.77.0"
+    "@sentry/core": "npm:7.81.1"
     "@solana/buffer-layout": "npm:^4.0.1"
     "@solana/web3.js": "npm:^1.87.6"
     "@suite-common/analytics": "workspace:*"
