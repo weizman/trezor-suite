@@ -7,6 +7,7 @@ import { onCancel } from 'src/actions/suite/modalActions';
 import { Account } from '@suite-common/wallet-types';
 import { networks } from '@suite-common/wallet-config';
 import { TranslationKey } from 'src/components/suite/Translation';
+import { SUITE } from 'src/actions/suite/constants';
 
 const StyledImage = styled(Image)`
     width: 100%;
@@ -80,7 +81,14 @@ export const ConfirmEvmExplanationModal = ({
     route,
 }: ConfirmNetworkExplanationModalProps) => {
     const dispatch = useDispatch();
-    const close = () => dispatch(onCancel());
+    const close = () => {
+        dispatch(onCancel());
+        dispatch({
+            type: SUITE.EVM_CONFIRM_EXPLANATION_MODAL,
+            symbol: coin,
+            route,
+        });
+    };
 
     const network = networks[coin];
 

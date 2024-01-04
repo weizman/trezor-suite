@@ -16,6 +16,7 @@ import { SUITE, STORAGE } from 'src/actions/suite/constants';
 import { Action, Lock, TorBootstrap, TorStatus } from 'src/types/suite';
 import { getExcludedPrerequisites, getPrerequisiteName } from 'src/utils/suite/prerequisites';
 import { RouterRootState, selectRouter } from './routerReducer';
+import { Network } from '@suite-common/wallet-config';
 
 export interface SuiteRootState {
     suite: SuiteState;
@@ -66,6 +67,10 @@ export interface Flags {
     showSettingsDesktopAppPromoBanner: boolean;
 }
 
+export interface EvmSettings {
+    confirmExplanationModalClosed: Partial<Record<Network['symbol'], Record<string, boolean>>>;
+}
+
 export interface SuiteSettings {
     theme: {
         variant: Exclude<SuiteThemeVariant, 'system'>;
@@ -88,6 +93,7 @@ export interface SuiteState {
     transport?: Partial<TransportInfo>;
     locks: Lock[];
     flags: Flags;
+    evmSettings: EvmSettings;
     settings: SuiteSettings;
 }
 
@@ -111,6 +117,9 @@ const initialState: SuiteState = {
             getWindowWidth() < getNumberFromPixelString(variables.SCREEN_SIZE.SM),
         showDashboardT2B1PromoBanner: true,
         showSettingsDesktopAppPromoBanner: true,
+    },
+    evmSettings: {
+        confirmExplanationModalClosed: {},
     },
     settings: {
         theme: {
@@ -157,6 +166,10 @@ const suiteReducer = (state: SuiteState = initialState, action: Action): SuiteSt
                     ...draft.flags,
                     ...action.payload.suiteSettings?.flags,
                 };
+                draft.evmSettings = {
+                    ...draft.evmSettings,
+                    ...action.payload.suiteSettings?.evmSettings,
+                };
                 draft.settings = {
                     ...draft.settings,
                     ...action.payload.suiteSettings?.settings,
@@ -186,6 +199,19 @@ const suiteReducer = (state: SuiteState = initialState, action: Action): SuiteSt
 
             case SUITE.SET_FLAG:
                 setFlag(draft, action.key, action.value);
+                break;
+
+            case SUITE.EVM_CONFIRM_EXPLANATION_MODAL:
+                draft.evmSettings = {
+                    ...draft.evmSettings,
+                    confirmExplanationModalClosed: {
+                        ...draft.evmSettings.confirmExplanationModalClosed,
+                        [action.symbol]: {
+                            ...draft.evmSettings.confirmExplanationModalClosed[action.symbol],
+                            [action.route]: true,
+                        },
+                    },
+                };
                 break;
 
             case SUITE.SET_THEME:

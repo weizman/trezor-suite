@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { variables, Card } from '@trezor/components';
 import { Account } from 'src/types/wallet';
 import { networks } from '@suite-common/wallet-config';
-import { useDispatch } from 'src/hooks/suite';
-import { openModal } from 'src/actions/suite/modalActions';
 import { Translation } from 'src/components/suite';
 
 const Wrapper = styled.div`
@@ -37,8 +35,6 @@ interface EvmExplanationBannerProps {
 }
 
 export const EvmExplanationBanner = ({ account }: EvmExplanationBannerProps) => {
-    const dispatch = useDispatch();
-
     const network = networks[account.symbol];
 
     if (network.networkType !== 'ethereum') {
@@ -47,19 +43,7 @@ export const EvmExplanationBanner = ({ account }: EvmExplanationBannerProps) => 
 
     return (
         <Wrapper>
-            <StyledCard
-                largePadding
-                onClick={() => {
-                    // TODO: remove
-                    dispatch(
-                        openModal({
-                            type: 'confirm-evm-explanation',
-                            coin: account.symbol,
-                            route: 'wallet-receive',
-                        }),
-                    );
-                }}
-            >
+            <StyledCard largePadding>
                 <Title>
                     <Translation
                         id="TR_EVM_EXPLANATION_TITLE"

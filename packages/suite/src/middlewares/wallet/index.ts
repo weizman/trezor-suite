@@ -9,6 +9,7 @@ import coinmarketSavingsMiddleware from './coinmarketSavingsMiddleware';
 import pollingMiddleware from './pollingMiddleware';
 import { coinjoinMiddleware } from './coinjoinMiddleware';
 import { extraDependencies } from 'src/support/extraDependencies';
+import evmMiddleware from 'src/middlewares/wallet/evmMiddleware';
 
 export default [
     prepareBlockchainMiddleware(extraDependencies),
@@ -21,4 +22,5 @@ export default [
     coinmarketSavingsMiddleware,
     pollingMiddleware,
     coinjoinMiddleware,
+    evmMiddleware,
 ];
