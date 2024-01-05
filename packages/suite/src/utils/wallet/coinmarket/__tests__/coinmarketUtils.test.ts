@@ -55,17 +55,20 @@ describe('coinmarket utils', () => {
             {
                 value: 'BTC',
                 label: 'BTC',
+                cryptoSymbol: 'BTC',
             },
         ]);
+
         expect(
             getSendCryptoOptions(
                 accountEth as Account,
-                new Set(['eth', 'usdt20', 'usdt', 'usdc', 'dai']),
+                new Set(['ETH', 'USDT@ETH', 'USDC@ETH', 'DAI@ETH']),
             ),
         ).toStrictEqual([
             {
                 value: 'ETH',
                 label: 'ETH',
+                cryptoSymbol: 'ETH',
             },
             {
                 value: 'USDT',
@@ -76,6 +79,7 @@ describe('coinmarket utils', () => {
                     symbol: 'usdt',
                     decimals: 18,
                 },
+                cryptoSymbol: 'USDT@ETH',
             },
             {
                 label: 'USDC',
@@ -86,19 +90,21 @@ describe('coinmarket utils', () => {
                     symbol: 'usdc',
                     decimals: 18,
                 },
+                cryptoSymbol: 'USDC@ETH',
             },
         ]);
 
         expect(
             getSendCryptoOptions(
                 accountEth as Account,
-                new Set(['eth', 'usdt20', 'usdc', 'dai']),
+                new Set(['ETH', 'USDT@ETH', 'USDC@ETH', 'DAI@ETH']),
                 tokensFiatValue,
             ),
         ).toStrictEqual([
             {
                 value: 'ETH',
                 label: 'ETH',
+                cryptoSymbol: 'ETH',
             },
             {
                 label: 'USDC',
@@ -109,6 +115,7 @@ describe('coinmarket utils', () => {
                     symbol: 'usdc',
                     decimals: 18,
                 },
+                cryptoSymbol: 'USDC@ETH',
             },
         ]);
     });

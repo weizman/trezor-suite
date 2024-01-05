@@ -7,6 +7,7 @@ import { isDesktop, getLocationOrigin } from '@trezor/env-utils';
 import {
     cryptoToNetworkSymbol,
     cryptoToCoinSymbol,
+    networkToCryptoSymbol,
 } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 // loop through quotes and if all quotes are either with error below minimum or over maximum, return the limits
@@ -127,11 +128,18 @@ export const getCryptoOptions = (
     networkSymbol: Account['symbol'],
     supportedSymbols: Set<CryptoSymbol>,
 ) => {
-    const options: { value: string; label: string; cryptoSymbol: CryptoSymbol }[] = [];
+    const cryptoSymbol = networkToCryptoSymbol(networkSymbol);
+    if (!cryptoSymbol) {
+        return [];
+    }
+
+    const options: { value: string; label: string; cryptoSymbol: CryptoSymbol }[] = [
+        { value: cryptoSymbol, label: cryptoSymbol, cryptoSymbol },
+    ];
 
     // add network coin and tokens
     supportedSymbols.forEach(symbol => {
-        if (cryptoToNetworkSymbol(symbol) !== networkSymbol) {
+        if (symbol === cryptoSymbol || cryptoToNetworkSymbol(symbol) !== networkSymbol) {
             return;
         }
 
