@@ -512,6 +512,7 @@ export const networks = {
             account: 'https://matic2.trezor.io/address/',
             nft: 'https://matic2.trezor.io/nft/',
             address: 'https://matic2.trezor.io/address/',
+            queryString: '',
         },
         features: ['rbf', 'sign-verify', 'tokens'],
         customBackends: ['blockbook'],
