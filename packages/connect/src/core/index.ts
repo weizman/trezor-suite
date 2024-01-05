@@ -538,7 +538,7 @@ export const onCall = async (message: CoreMessage) => {
             const isDeviceUnlocked = device.features.unlocked;
             try {
                 const invalidDeviceState = method.useDeviceState
-                    ? await device.validateState(method.network, method.preauthorized)
+                    ? await device.validateState(method.preauthorized)
                     : undefined;
                 if (invalidDeviceState) {
                     if (isUsingPopup) {
