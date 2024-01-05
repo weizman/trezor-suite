@@ -98,7 +98,7 @@
     {
         "blockchain_link": {
             "type": "blockbook",
-            "url": ["https://staging-polygon.trezor.io"]
+            "url": ["https://matic2.trezor.io"]
         },
         "chain": "matic",
         "chain_id": 6193,
