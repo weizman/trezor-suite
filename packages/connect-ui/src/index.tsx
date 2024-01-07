@@ -2,7 +2,14 @@ import { useCallback, useEffect, useState, useMemo, ReactNode } from 'react';
 
 import styled from 'styled-components';
 
-import { PostMessage, UI, UI_REQUEST, POPUP, createPopupMessage } from '@trezor/connect';
+import {
+    PostMessage,
+    UI,
+    UI_REQUEST,
+    POPUP,
+    createPopupMessage,
+    createUiResponse,
+} from '@trezor/connect';
 import { storage, OriginBoundState } from '@trezor/connect-common';
 
 // views
@@ -156,6 +163,12 @@ export const ConnectUI = ({ postMessage, clearLegacyView }: ConnectUIProps) => {
                             origin={state?.settings?.origin}
                             hostLabel={state?.settings?.hostLabel}
                             topSlot={Object.values(Notifications)}
+                            preferredDevice={state?.preferredDevice}
+                            onEjectDevice={() => {
+                                postMessage(createUiResponse(UI.EJECT_DEVICE));
+                                postMessage({ type: POPUP.CLOSE_WINDOW });
+                                window.close();
+                            }}
                         />
                         {Component && (
                             <div
