@@ -61,13 +61,17 @@ class BridgeAbstractApiTransport extends AbstractApiTransport {
             session,
         });
 
-        console.log('sessionsResult', sessionsResult);
+        console.log('call: sessionsResult', sessionsResult);
         if (!sessionsResult.success) {
+        console.log('call: sessionsResult error', sessionsResult);
             return sessionsResult;
         }
         const { path } = sessionsResult.payload;
+        console.log('call: openDevice');
         await this.api.openDevice(path, false);
+        console.log('call: writeUtil');
         await writeUtil({ api: this.api, path, data });
+        console.log('call: readUtil');
         const message = await readUtil({ api: this.api, path });
         return { success: true as const, payload: message };
     }

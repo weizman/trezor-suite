@@ -378,7 +378,7 @@ export class DeviceCommands {
         msg: DefaultMessageResponse['message'] = {},
     ): Promise<DefaultMessageResponse> {
         logger.debug('Sending', type, filterForLog(type, msg));
-
+        console.log('transport.call from device commands', this.device.originalDescriptor);
         this.callPromise = this.transport.call({
             session: this.sessionId,
             medium: `${this.device.originalDescriptor.path.split('-')[0]}`,
