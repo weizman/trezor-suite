@@ -4,7 +4,7 @@ import cors from 'cors';
 import { arrayPartition } from '@trezor/utils/lib/arrayPartition';
 
 import { Descriptor } from '../types';
-import { sessionsClient, enumerate, acquire, release, call, send, receive } from './core';
+import { multiTransport } from './core';
 
 const defaults = {
     port: 21325,
@@ -13,6 +13,7 @@ const defaults = {
 export class TrezordNode {
     /** versioning, baked in by webpack */
     version = '3.0.0';
+    commitHash = process.env.COMMIT_HASH || 'unknown';
     serviceName = 'trezord-node';
     /** last known descriptors state */
     descriptors: string;
@@ -32,9 +33,17 @@ export class TrezordNode {
 
         this.listenSubscriptions = [];
 
-        // whenever sessions module reports changes to descriptors (including sessions), resolve affected /listen subscriptions
-        sessionsClient.on('descriptors', descriptors => {
-            this.resolveListenSubscriptions(descriptors);
+        multiTransport.transports.forEach(transport => {
+            // whenever sessions module reports changes to descriptors (including sessions), resolve affected /listen subscriptions
+            transport.sessionsClient.on('descriptors', descriptors => {
+                console.log('multitransport, nextdescriptors', descriptors);
+
+                console.log(
+                    'multitransport pending subscriptiosns',
+                    this.listenSubscriptions.map(d => d.descriptors),
+                );
+                this.resolveListenSubscriptions(descriptors);
+            });
         });
     }
 
@@ -61,7 +70,9 @@ export class TrezordNode {
             app.use(cors());
 
             app.get('/', (_req, res) => {
-                res.send(`hello, I am bridge in node, version: ${this.version}`);
+                res.send(
+                    `hello, I am bridge in node, version: ${this.version}, commit: ${this.commitHash}`,
+                );
             });
 
             app.post('/', (_req, res) => {
@@ -69,20 +80,20 @@ export class TrezordNode {
 
                 res.send({
                     version: this.version,
+                    // commitHash: this.commitHash,
                 });
             });
 
             app.post('/enumerate', (_req, res) => {
                 res.set('Content-Type', 'text/plain');
-                enumerate()
+                return multiTransport
+                    .enumerate()
                     .then(result => {
-                        if (!result.success) {
-                            throw new Error(result.error);
-                        }
-                        res.send(result.payload.descriptors);
+                        res.send(result);
                     })
-                    .catch(err => {
-                        res.send({ error: err.message });
+                    .catch(error => {
+                        // todo: error
+                        res.send({ error: error.message });
                     });
             });
 
@@ -99,49 +110,66 @@ export class TrezordNode {
             app.post('/acquire/:path/:previous', express.json(), (req, res) => {
                 res.set('Content-Type', 'text/plain');
 
-                acquire({ path: req.params.path, previous: req.params.previous }).then(result => {
-                    if (!result.success) {
-                        return res.send({ error: result.error });
-                    }
-                    res.send({ session: result.payload.session });
-                });
+                multiTransport
+                    .acquire(
+                        { input: { path: req.params.path, previous: req.params.previous } },
+                        'usb',
+                    )
+                    .promise.then(result => {
+                        if (!result.success) {
+                            return res.send({ error: result.error });
+                        }
+                        res.send({ session: result.payload });
+                    });
             });
 
             app.post('/release/:session', express.json(), (req, res) => {
-                release({ session: req.params.session, path: req.body }).then(result => {
-                    if (!result.success) {
-                        return res.send({ error: result.error });
-                    }
-                    res.send({ session: req.params.session });
-                });
+                multiTransport
+                    .release({ session: req.params.session, path: req.body }, 'usb')
+                    .promise.then(result => {
+                        if (!result.success) {
+                            return res.send({ error: result.error });
+                        }
+                        res.send({ session: req.params.session });
+                    });
             });
 
-            app.post('/call/:session', express.text(), (req, res) => {
+            app.post('/call/:session/:medium', express.text(), (req, res) => {
                 res.set('Content-Type', 'text/plain');
-                call({ session: req.params.session, data: req.body }).then(result => {
-                    if (!result.success) {
-                        return res.send({ error: result.error });
-                    }
-                    res.send(result.payload);
-                });
+                multiTransport
+                    .call(
+                        { session: req.params.session, data: req.body },
+                        req.params.medium as 'usb',
+                    )
+                    .promise.then(result => {
+                        if (!result.success) {
+                            return res.send({ error: result.error });
+                        }
+                        res.send(result.payload);
+                    });
             });
 
             app.post('/read/:session', (req, res) => {
-                receive({ session: req.params.session }).then(result => {
-                    if (!result.success) {
-                        return res.send({ error: result.error });
-                    }
-                    res.send(result.payload);
-                });
+                multiTransport
+                    .receive({ session: req.params.session }, 'usb')
+                    .promise.then(result => {
+                        if (!result.success) {
+                            return res.send({ error: result.error });
+                        }
+                        res.send(result.payload);
+                    });
             });
 
             app.post('/post/:session', express.text(), (req, res) => {
-                send({ session: req.params.session, data: req.body }).then(result => {
-                    if (!result.success) {
-                        return res.send({ error: result.error });
-                    }
-                    res.send();
-                });
+                multiTransport
+                    .send({ session: req.params.session, data: req.body }, 'usb')
+                    .promise.then(result => {
+                        if (!result.success) {
+                            return res.send({ error: result.error });
+                        }
+                        // todo: check repsone
+                        res.send('ok');
+                    });
             });
 
             app.listen(this.port, () => {

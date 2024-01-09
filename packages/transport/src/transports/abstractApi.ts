@@ -23,8 +23,8 @@ interface ConstructorParams extends AbstractTransportParams {
 export abstract class AbstractApiTransport extends AbstractTransport {
     // sessions client is a standardized interface for communicating with sessions backend
     // which can live in couple of context (shared worker, local module, websocket server etc)
-    private sessionsClient: ConstructorParams['sessionsClient'];
-    private api: AbstractApi;
+    public sessionsClient: ConstructorParams['sessionsClient'];
+    public api: AbstractApi;
     protected acquirePromise?: Deferred<void>;
 
     constructor({ messages, api, sessionsClient, signal }: ConstructorParams) {
@@ -93,6 +93,7 @@ export abstract class AbstractApiTransport extends AbstractTransport {
         return this.scheduleAction(
             async () => {
                 const { path } = input;
+                console.log('nodeusb acquire: input', input);
 
                 if (this.listening) {
                     this.listenPromise[path] = createDeferred();
@@ -101,6 +102,7 @@ export abstract class AbstractApiTransport extends AbstractTransport {
                 this.acquirePromise = createDeferred();
 
                 const acquireIntentResponse = await this.sessionsClient.acquireIntent(input);
+                console.log('acquireIntentResponse', acquireIntentResponse);
 
                 if (this.acquirePromise) {
                     this.acquirePromise.resolve(undefined);
@@ -114,7 +116,7 @@ export abstract class AbstractApiTransport extends AbstractTransport {
 
                 const reset = !!input.previous;
                 const openDeviceResult = await this.api.openDevice(path, reset);
-
+                console.log('openDeviceResult', openDeviceResult);
                 if (!openDeviceResult.success) {
                     if (this.listenPromise) {
                         this.listenPromise[path].resolve(openDeviceResult);
