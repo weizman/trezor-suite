@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import { Descriptor } from '@trezor/transport/src/types';
+import { Descriptor } from '@trezor/transport/lib/types';
 import { arrayPartition } from '@trezor/utils/lib/arrayPartition';
 
 import { sessionsClient, enumerate, acquire, release, call, send, receive } from './core';

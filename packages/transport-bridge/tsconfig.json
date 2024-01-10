@@ -1,6 +1,7 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": { "outDir": "libDev" },
+    "extends": "../../tsconfig.lib.json",
+    "compilerOptions": { "outDir": "./lib" },
+    "include": ["./src"],
     "references": [
         { "path": "../protocol" },
         { "path": "../transport" },

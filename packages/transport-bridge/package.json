@@ -1,18 +1,23 @@
 {
     "name": "@trezor/transport-bridge",
-    "version": "1.0.0",
+    "version": "3.0.0",
     "main": "src/index",
     "license": "See LICENSE.md in repo root",
     "private": true,
     "sideEffects": false,
     "scripts": {
         "type-check": "tsc --build",
-        "lint:js": "yarn g:eslint '**/*.{ts,tsx,js}'"
+        "lint:js": "yarn g:eslint '**/*.{ts,tsx,js}'",
+        "build:js": "rimraf -rf lib && yarn tsc --build ./tsconfig.json",
+        "build:bin": "yarn pkg ./lib/bin.js --config package.json",
+        "build": "yarn build:js && yarn build:bin && rimraf -rf lib"
     },
     "devDependencies": {
         "@types/cors": "^2.8.15",
         "@types/express": "^4",
-        "typescript": "4.9.5"
+        "pkg": "^5.8.1",
+        "rimraf": "^5.0.5",
+        "typescript": "5.3.2"
     },
     "dependencies": {
         "@trezor/protocol": "workspace:*",
@@ -21,5 +26,18 @@
         "cors": "^2.8.5",
         "express": "^4.18.2",
         "usb": "^2.11.0"
+    },
+    "pkg": {
+        "outputPath": "build",
+        "targets": [
+            "node18-macos-x64",
+            "node18-macos-arm64",
+            "node18-linux-x64",
+            "node18-linux-arm64",
+            "node18-win-x64"
+        ],
+        "assets": [
+            "../../node_modules/usb/**/*"
+        ]
     }
 }
