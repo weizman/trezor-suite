@@ -84,7 +84,7 @@ const Offers = () => {
                         />
                     ) : (
                         <>
-                            <List quotes={quotes} />
+                            {quotes.length > 0 && <List quotes={quotes} />}
                             {alternativeQuotes.length > 0 && (
                                 <>
                                     <Divider>

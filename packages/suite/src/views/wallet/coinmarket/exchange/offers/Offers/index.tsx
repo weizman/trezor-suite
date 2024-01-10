@@ -14,6 +14,7 @@ import { useCoinmarketNavigation } from 'src/hooks/wallet/useCoinmarketNavigatio
 import { InvityAPIReloadQuotesAfterSeconds } from 'src/constants/wallet/coinmarket/metadata';
 import List from './List';
 import SelectedOffer from './SelectedOffer';
+import { cryptoToCoinSymbol } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 const Wrapper = styled.div`
     padding: 0 32px 32px;
@@ -123,16 +124,16 @@ const Offers = () => {
                                         <Text>
                                             <FormattedCryptoAmount
                                                 value={quotesRequest.sendStringAmount}
-                                                symbol={quotesRequest.send}
+                                                symbol={cryptoToCoinSymbol(quotesRequest.send)}
                                             />
                                         </Text>
                                         <StyledIcon icon="ARROW_RIGHT_LONG" />
                                         <InvityCoinLogo
-                                            src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${
-                                                quotesRequest.receive
-                                            }.svg`}
+                                            src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
+                                                quotesRequest.receive,
+                                            )}.svg`}
                                         />
-                                        <Text>{quotesRequest.receive}</Text>
+                                        <Text>{cryptoToCoinSymbol(quotesRequest.receive)}</Text>
                                     </Left>
                                     {!timer.isStopped && (
                                         <Right>
