@@ -9101,6 +9101,7 @@ __metadata:
     "@trezor/node-utils": "workspace:*"
     "@trezor/request-manager": "workspace:*"
     "@trezor/suite-desktop-api": "workspace:*"
+    "@trezor/transport-bridge": "workspace:*"
     "@trezor/trezor-user-env-link": "workspace:*"
     "@trezor/urls": "workspace:*"
     "@trezor/utils": "workspace:*"
@@ -9482,7 +9483,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@trezor/transport-bridge@workspace:packages/transport-bridge":
+"@trezor/transport-bridge@workspace:*, @trezor/transport-bridge@workspace:packages/transport-bridge":
   version: 0.0.0-use.local
   resolution: "@trezor/transport-bridge@workspace:packages/transport-bridge"
   dependencies:
