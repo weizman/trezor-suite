@@ -49,7 +49,7 @@ export const PasswordEntry = ({
     const [decodedPassword, setDecodedPassword] = useState('');
     const [inProgress, setInProgress] = useState(false);
 
-    const decode = () => {
+    const decrypt = () => {
         if (inProgress) return;
         setInProgress(true);
         TrezorConnect.cipherKeyValue({
@@ -85,7 +85,7 @@ export const PasswordEntry = ({
                     <PasswordEntryUsername>{username}</PasswordEntryUsername>
                     <PasswordEntryPassword>
                         {!decodedPassword ? (
-                            <Button onClick={decode} type="button" variant="tertiary">
+                            <Button onClick={decrypt} type="button" variant="tertiary">
                                 {inProgress ? '....' : 'decode'}
                             </Button>
                         ) : (

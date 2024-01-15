@@ -23,6 +23,8 @@ import {
     MetadataEncryptionVersion,
     WalletLabels,
     AccountLabels,
+    PasswordEntry,
+    PasswordManagerState,
 } from 'src/types/suite/metadata';
 import { Account } from 'src/types/wallet';
 import * as metadataUtils from 'src/utils/suite/metadata';
@@ -34,6 +36,7 @@ import {
     selectLabelableEntities,
     selectMetadata,
     selectSelectedProviderForLabels,
+    selectSelectedProviderForPasswords,
 } from 'src/reducers/suite/metadataReducer';
 import { InMemoryTestProvider } from '../../services/suite/metadata/InMemoryTestProvider';
 
@@ -773,6 +776,54 @@ export const addDeviceMetadata =
                 provider,
             }),
         );
+    };
+
+export const addPasswordMetadata =
+    (payload: PasswordEntry, fileName: string, aesKey: string) =>
+    (dispatch: Dispatch, getState: GetState) => {
+        // const device = selectDevice(getState());
+        const provider = selectSelectedProviderForPasswords(getState());
+
+        if (!provider)
+            return Promise.resolve({
+                success: false,
+                error: 'provider missing',
+            });
+
+        // todo: duplicated,
+        const DEFAULT_PASSWORD_MANAGER_STATE: PasswordManagerState = {
+            config: {
+                orderType: 'date',
+            },
+            entries: {},
+            extVersion: '',
+            tags: {},
+        };
+
+        const metadata = cloneObject(provider.data[fileName]) || DEFAULT_PASSWORD_MANAGER_STATE;
+
+        console.log('metadata meow', metadata);
+
+        metadata.entries[Object.keys(metadata.entries).length + 1] = payload;
+
+        dispatch(
+            setMetadata({
+                provider,
+                fileName,
+                data: metadata,
+            }),
+        );
+
+        // return dispatch(
+        //     encryptAndSaveMetadata({
+        //         // @ts-ignore
+        //         data: payload,
+        //         aesKey,
+        //         fileName,
+
+        //         provider,
+        //     }),
+        // );
     };
 
 /**

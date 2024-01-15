@@ -8,6 +8,7 @@ import { useSelector, usePasswords } from 'src/hooks/suite';
 
 import { PasswordEntry as PasswordEntryComponent } from './PasswordEntry';
 import { Tag } from './Tag';
+import { AddEntryForm } from './AddEntryForm';
 
 const PasswordManagerBody = styled.div`
     display: flex;
@@ -45,6 +46,7 @@ export const PasswordManager = () => {
         disconnect,
         selectedProvider,
         providerConnecting,
+        savePasswords,
     } = usePasswords();
     const device = useSelector(selectDevice);
 
@@ -116,6 +118,12 @@ export const PasswordManager = () => {
                                             description={`No passwords found in file ${fileName}`}
                                         />
                                     )}
+                                    <AddEntryForm
+                                        onEncrypted={entry => {
+                                            console.log('encrypted entry!', entry);
+                                            savePasswords(entry);
+                                        }}
+                                    />
                                 </PasswordsList>
                             </PasswordManagerBody>
                         ) : (

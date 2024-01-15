@@ -6,7 +6,7 @@ import { selectDevice } from '@suite-common/wallet-core';
 
 import { useSelector, useDispatch } from 'src/hooks/suite';
 import * as metadataActions from 'src/actions/suite/metadataActions';
-import type { PasswordManagerState } from 'src/types/suite/metadata';
+import type { PasswordManagerState, PasswordEntry } from 'src/types/suite/metadata';
 import { METADATA } from 'src/actions/suite/constants';
 import {
     selectPasswordManagerState,
@@ -35,9 +35,10 @@ export const usePasswords = () => {
     const [providerConnecting, setProviderConnecting] = useState(false);
     const [fetchingPasswords, setFetchingPasswords] = useState(false);
     const [selectedTags, setSelectedTags] = useState<Record<string, boolean>>({});
+    const [encryptionKey, setEncryptionKey] = useState<string>('');
+
     const device = useSelector(selectDevice);
     const selectedProvider = useSelector(selectSelectedProviderForPasswords);
-
     const dispatch = useDispatch();
 
     const { entries, tags, extVersion } =
@@ -69,6 +70,7 @@ export const usePasswords = () => {
                     ),
                     'hex',
                 );
+                setEncryptionKey(encryptionKey);
 
                 const fileKey = res.payload.value.substring(0, res.payload.value.length / 2);
                 const fname = `${crypto
@@ -107,6 +109,10 @@ export const usePasswords = () => {
             }),
         );
     };
+    const savePasswords = (passwordEntry: PasswordEntry) => {
+        console.log('save passwords 2', passwordEntry, fileName, encryptionKey);
+        dispatch(metadataActions.addPasswordMetadata(passwordEntry, fileName, encryptionKey));
+    };
 
     const entriesByTag = Object.values(entries).filter(value =>
         value.tags.some(tag => selectedTags[tag]),
@@ -131,5 +137,6 @@ export const usePasswords = () => {
         device,
         selectedProvider,
         providerConnecting,
+        savePasswords,
     };
 };
