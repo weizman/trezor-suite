@@ -25,7 +25,12 @@ const DEFAULT_PASSWORD_MANAGER_STATE: PasswordManagerState = {
     },
     entries: {},
     extVersion: '',
-    tags: {},
+    tags: {
+        0: {
+            title: 'All',
+            icon: 'todo',
+        },
+    },
 };
 
 export const usePasswords = () => {
@@ -121,6 +126,10 @@ export const usePasswords = () => {
     const isSomeTagSelected = Object.values(selectedTags).some(v => v);
     const isAllTagSelected = selectedTags['0'];
 
+    console.log('entries', entries);
+    console.log('isSomeTagSelected', isSomeTagSelected);
+    console.log('isAllTagSelected', isAllTagSelected);
+    console.log('tags', tags);
     return {
         entries,
         entriesByTag,

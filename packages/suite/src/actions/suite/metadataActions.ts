@@ -792,12 +792,17 @@ export const addPasswordMetadata =
 
         // todo: duplicated,
         const DEFAULT_PASSWORD_MANAGER_STATE: PasswordManagerState = {
+            extVersion: '1',
             config: {
                 orderType: 'date',
             },
             entries: {},
-            extVersion: '',
-            tags: {},
+            tags: {
+                0: {
+                    title: 'All',
+                    icon: 'todo',
+                },
+            },
         };
 
         const metadata = cloneObject(provider.data[fileName]) || DEFAULT_PASSWORD_MANAGER_STATE;
@@ -814,16 +819,14 @@ export const addPasswordMetadata =
             }),
         );
 
-        // return dispatch(
-        //     encryptAndSaveMetadata({
-        //         // @ts-ignore
-        //         data: payload,
-        //         aesKey,
-        //         fileName,
-
-        //         provider,
-        //     }),
-        // );
+        return dispatch(
+            encryptAndSaveMetadata({
+                provider,
+                fileName,
+                data: metadata,
+                aesKey,
+            }),
+        );
     };
 
 /**

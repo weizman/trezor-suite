@@ -120,14 +120,20 @@ export const PasswordManager = () => {
                                     )}
                                     <AddEntryForm
                                         onEncrypted={entry => {
-                                            console.log('encrypted entry!', entry);
                                             savePasswords(entry);
                                         }}
                                     />
                                 </PasswordsList>
                             </PasswordManagerBody>
                         ) : (
-                            <div> no data</div>
+                            <div>
+                                <div> no data</div>
+                                <AddEntryForm
+                                    onEncrypted={entry => {
+                                        savePasswords(entry);
+                                    }}
+                                />
+                            </div>
                         )}
                     </>
                 )}

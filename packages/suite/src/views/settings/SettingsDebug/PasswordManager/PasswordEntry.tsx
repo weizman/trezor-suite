@@ -69,6 +69,7 @@ export const PasswordEntry = ({
                         Buffer.from(password.data),
                         Buffer.from(result.payload.value, 'hex'),
                     );
+                    console.log('decrypted', decrypted);
                     setDecodedPassword(decrypted);
                 }
             })

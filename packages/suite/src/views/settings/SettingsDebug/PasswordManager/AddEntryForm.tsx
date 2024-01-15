@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { randomBytes } from 'crypto';
 
 import TrezorConnect from '@trezor/connect';
 
 import { Button, Input } from '@trezor/components';
-import type { PasswordEntry, PasswordManagerState } from '@suite-common/metadata-types';
+import type { PasswordEntry } from '@suite-common/metadata-types';
 
 import { useSelector } from 'src/hooks/suite';
 import { selectDevice } from '@suite-common/wallet-core';
@@ -37,8 +37,8 @@ export const AddEntryForm = ({ onEncrypted }: Props) => {
 
     const device = useSelector(selectDevice);
 
-    const encrypt = useCallback(() => {
-        if (inProgress) return;
+    const encrypt = () => {
+        if (inProgress || !device) return;
 
         setInProgress(true);
         const nonce = randomBytes(32).toString('hex');
@@ -57,12 +57,13 @@ export const AddEntryForm = ({ onEncrypted }: Props) => {
                 if (!result.success) {
                     throw new Error(result.payload.error);
                 }
-                return metadataUtils.encrypt(
-                    Buffer.from(password),
-                    Buffer.from(result.payload.value, 'hex'),
-                );
+                return Promise.all([
+                    metadataUtils.encrypt(password, Buffer.from(nonce, 'hex')),
+                    metadataUtils.encrypt(secretNote, Buffer.from(nonce, 'hex')),
+                    Promise.resolve(result.payload.value),
+                ]);
             })
-            .then(encryptedPassword => {
+            .then(([encryptedPassword, encryptedSecretNote, nonce2]) => {
                 onEncrypted({
                     title,
                     username,
@@ -71,8 +72,11 @@ export const AddEntryForm = ({ onEncrypted }: Props) => {
                         data: encryptedPassword,
                     },
                     note,
-                    // secretNote,
-                    nonce,
+                    safe_note: {
+                        type: 'Buffer',
+                        data: encryptedSecretNote,
+                    },
+                    nonce: nonce2,
                     tags: [],
                     // likely not needed
                     key_value: 'waht is this?',
@@ -89,7 +93,7 @@ export const AddEntryForm = ({ onEncrypted }: Props) => {
             .finally(() => {
                 setInProgress(false);
             });
-    }, [onEncrypted, title, username]);
+    };
 
     if (!formActive) {
         return <AddEntryButton onClick={() => setFormActive(true)} />;
