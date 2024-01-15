@@ -31,9 +31,7 @@ const handleBridgeStatus = async (
 };
 
 const start = async (bridge: BridgeProcess | TrezordNode) => {
-    if (bridgeNode) {
-        bridge.start();
-    } else if (bridgeDev) {
+    if (bridgeDev) {
         await bridge.startDev();
     } else if (bridgeTest) {
         await bridge.startTest();
