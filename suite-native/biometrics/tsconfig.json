@@ -6,8 +6,8 @@
         { "path": "../alerts" },
         { "path": "../analytics" },
         { "path": "../atoms" },
-        { "path": "../storage" },
         { "path": "../intl" },
+        { "path": "../storage" },
         { "path": "../../packages/styles" }
     ]
 }
