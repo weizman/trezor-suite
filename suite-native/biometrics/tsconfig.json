@@ -7,6 +7,7 @@
         { "path": "../analytics" },
         { "path": "../atoms" },
         { "path": "../storage" },
+        { "path": "../intl" },
         { "path": "../../packages/styles" }
     ]
 }
