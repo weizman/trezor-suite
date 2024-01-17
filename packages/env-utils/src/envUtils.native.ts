@@ -60,7 +60,7 @@ const isAndroid = () => getPlatform() === 'android';
 
 const isLinux = () => false;
 
-const isCodesignBuild = () => Config.CODESIGN_BUILD === 'true';
+const isCodesignBuild = () => Config.IS_CODESIGN_BUILD === 'true';
 
 const getPlatformLanguages = () => getLocales().map(language => language.languageTag);
 
