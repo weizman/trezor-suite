@@ -3,7 +3,7 @@
 import { AbstractMethod } from '../core/AbstractMethod';
 import { validateParams } from './common/paramsValidator';
 import { DataManager } from '../data/DataManager';
-import { reconnectAllBackends } from '../backend/BlockchainLink';
+import { reconnectBackends } from '../backend/BlockchainLink';
 
 export default class SetProxy extends AbstractMethod<'setProxy'> {
     init() {
@@ -19,7 +19,7 @@ export default class SetProxy extends AbstractMethod<'setProxy'> {
         const isChanged = proxy !== this.payload.proxy;
         if (isChanged) {
             DataManager.getSettings().proxy = this.payload.proxy;
-            await reconnectAllBackends();
+            await reconnectBackends();
         }
 
         return { message: 'Success' };

@@ -5,25 +5,30 @@ import { Blockchain, BlockchainOptions } from './Blockchain';
 import type { CoinInfo, BlockchainLink } from '../types';
 
 type CoinShortcut = CoinInfo['shortcut'];
+type Identity = string;
+type CoinShortcutIdentity = `${CoinShortcut}/${Identity}`;
+
+const DEFAULT_IDENTITY = 'default';
 
 export class BackendManager {
-    private readonly instances: { [shortcut: CoinShortcut]: Blockchain } = {};
+    private readonly instances: { [shortcut: CoinShortcutIdentity]: Blockchain } = {};
     private readonly custom: { [shortcut: CoinShortcut]: BlockchainLink } = {};
     private readonly preferred: { [shortcut: CoinShortcut]: string } = {};
 
-    get(shortcut: CoinShortcut): Blockchain | null {
-        return this.instances[shortcut] ?? null;
+    get(shortcut: CoinShortcut, identity = DEFAULT_IDENTITY): Blockchain | null {
+        return this.instances[`${shortcut}/${identity}`] ?? null;
     }
 
-    remove(shortcut: CoinShortcut) {
-        delete this.instances[shortcut];
+    remove(shortcut: CoinShortcut, identity = DEFAULT_IDENTITY) {
+        delete this.instances[`${shortcut}/${identity}`];
     }
 
     async getOrConnect(
         coinInfo: CoinInfo,
         postMessage: BlockchainOptions['postMessage'],
+        identity = DEFAULT_IDENTITY,
     ): Promise<Blockchain> {
-        let backend = this.get(coinInfo.shortcut);
+        let backend = this.get(coinInfo.shortcut, identity);
         if (!backend) {
             backend = new Blockchain({
                 coinInfo: this.patchCoinInfo(coinInfo),
@@ -31,14 +36,15 @@ export class BackendManager {
                 debug: DataManager.getSettings('debug'),
                 proxy: DataManager.getSettings('proxy'),
                 onConnected: url => this.setPreferred(coinInfo.shortcut, url),
-                onDisconnected: () => this.remove(coinInfo.shortcut),
+                onDisconnected: () => this.remove(coinInfo.shortcut, identity),
+                identity,
             });
-            this.instances[coinInfo.shortcut] = backend;
+            this.instances[`${coinInfo.shortcut}/${identity}`] = backend;
 
             try {
                 await backend.init();
             } catch (error) {
-                this.remove(coinInfo.shortcut);
+                this.remove(coinInfo.shortcut, identity);
                 this.removePreferred(coinInfo.shortcut);
                 throw error;
             }
@@ -50,13 +56,20 @@ export class BackendManager {
         Object.values(this.instances).forEach(i => i.disconnect());
     }
 
-    reconnectAll() {
-        // collect all running backends as parameters tuple
-        const params = Object.values(this.instances).map(i => [i.coinInfo, i.postMessage] as const);
-        // remove all backends
-        Object.values(this.instances).forEach(i => i.disconnect());
-        // initialize again using params tuple
-        return Promise.all(params.map(p => this.getOrConnect(...p)));
+    reconnect(info?: CoinInfo) {
+        // collect all running backends (for given coin if coinInfo is present)
+        const backends = Object.values(this.instances).filter(
+            i => !info || i.coinInfo.shortcut === info.shortcut,
+        );
+        return Promise.all(
+            backends.map(b => {
+                const { coinInfo, postMessage, identity } = b;
+                // remove backend
+                b.disconnect();
+                // initialize again
+                return this.getOrConnect(info ?? coinInfo, postMessage, identity);
+            }),
+        );
     }
 
     isSupported(coinInfo: CoinInfo) {

@@ -40,12 +40,14 @@ export type BlockchainOptions = {
     debug?: boolean;
     onConnected?: (url: string) => void;
     onDisconnected?: () => void;
+    identity?: string;
 };
 
 export class Blockchain {
     link: BlockchainLink;
     serverInfo?: ServerInfo;
     coinInfo: BlockchainOptions['coinInfo'];
+    readonly identity?: string;
 
     postMessage: BlockchainOptions['postMessage'];
 
@@ -57,6 +59,7 @@ export class Blockchain {
     private onDisconnected: BlockchainOptions['onDisconnected'];
 
     constructor(options: BlockchainOptions) {
+        this.identity = options.identity;
         this.coinInfo = options.coinInfo;
         this.postMessage = options.postMessage;
         this.onConnected = options.onConnected;
