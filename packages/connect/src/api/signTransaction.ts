@@ -38,6 +38,7 @@ type Params = {
     addresses?: AccountAddresses;
     options: TransactionOptions;
     coinInfo: BitcoinNetworkInfo;
+    identity?: string;
     push: boolean;
     unlockPath?: PROTO.UnlockPath;
 };
@@ -51,6 +52,7 @@ export default class SignTransaction extends AbstractMethod<'signTransaction', P
         // validate incoming parameters
         validateParams(payload, [
             { name: 'coin', type: 'string', required: true },
+            { name: 'identity', type: 'string' },
             { name: 'inputs', type: 'array', required: true },
             { name: 'outputs', type: 'array', required: true },
             { name: 'paymentRequests', type: 'array', allowEmpty: true },
@@ -143,6 +145,7 @@ export default class SignTransaction extends AbstractMethod<'signTransaction', P
                 chunkify: typeof payload.chunkify === 'boolean' ? payload.chunkify : false,
             },
             coinInfo,
+            identity: payload.identity,
             push: typeof payload.push === 'boolean' ? payload.push : false,
             unlockPath: payload.unlockPath,
         };
@@ -177,7 +180,7 @@ export default class SignTransaction extends AbstractMethod<'signTransaction', P
 
     private async fetchRefTxs(useLegacySignProcess: boolean) {
         const {
-            params: { inputs, outputs, options, coinInfo, addresses },
+            params: { inputs, outputs, options, coinInfo, identity, addresses },
         } = this;
 
         const requiredRefTxs = requireReferencedTransactions(inputs, options, coinInfo);
@@ -190,7 +193,7 @@ export default class SignTransaction extends AbstractMethod<'signTransaction', P
 
         // validate and initialize backend
         isBackendSupported(coinInfo);
-        const blockchain = await initBlockchain(coinInfo, this.postMessage);
+        const blockchain = await initBlockchain(coinInfo, this.postMessage, identity);
 
         const refTxs = !refTxsIds.length
             ? []
@@ -282,7 +285,11 @@ export default class SignTransaction extends AbstractMethod<'signTransaction', P
         if (params.push) {
             // validate backend
             isBackendSupported(params.coinInfo);
-            const blockchain = await initBlockchain(params.coinInfo, this.postMessage);
+            const blockchain = await initBlockchain(
+                params.coinInfo,
+                this.postMessage,
+                params.identity,
+            );
             const txid = await blockchain.pushTransaction(response.serializedTx);
 
             return {

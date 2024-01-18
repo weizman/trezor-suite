@@ -41,6 +41,7 @@ export default class GetAccountInfo extends AbstractMethod<'getAccountInfo', Req
             // validate incoming parameters
             validateParams(batch, [
                 { name: 'coin', type: 'string', required: true },
+                { name: 'identity', type: 'string' },
                 { name: 'descriptor', type: 'string' },
                 { name: 'path', type: 'string' },
 
@@ -280,7 +281,11 @@ export default class GetAccountInfo extends AbstractMethod<'getAccountInfo', Req
                 }
 
                 // initialize backend
-                const blockchain = await initBlockchain(request.coinInfo, this.postMessage);
+                const blockchain = await initBlockchain(
+                    request.coinInfo,
+                    this.postMessage,
+                    request.identity,
+                );
 
                 if (this.disposed) break;
 
@@ -338,8 +343,8 @@ export default class GetAccountInfo extends AbstractMethod<'getAccountInfo', Req
     }
 
     async discover(request: Request) {
-        const { coinInfo, defaultAccountType } = request;
-        const blockchain = await initBlockchain(coinInfo, this.postMessage);
+        const { coinInfo, identity, defaultAccountType } = request;
+        const blockchain = await initBlockchain(coinInfo, this.postMessage, identity);
         const dfd = this.createUiPromise(UI.RECEIVE_ACCOUNT);
 
         const discovery = new Discovery({
