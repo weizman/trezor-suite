@@ -2,13 +2,18 @@ import { variables, Select } from '@trezor/components';
 import { ExchangeInfo } from 'src/actions/wallet/coinmarketExchangeActions';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
-import { ExchangeCoinInfo } from 'invity-api';
+import { CryptoSymbol } from 'invity-api';
 import { useCoinmarketExchangeFormContext } from 'src/hooks/wallet/useCoinmarketExchangeForm';
 import { Translation } from 'src/components/suite';
 import { Account } from 'src/types/wallet';
-import invityAPI from 'src/services/suite/invityAPI';
-import { symbolToInvityApiSymbol } from 'src/utils/wallet/coinmarket/coinmarketUtils';
+import invityAPI, { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
 import { getInputState } from '@suite-common/wallet-utils';
+import {
+    cryptoToCoinSymbol,
+    cryptoToNetworkSymbol,
+    isCryptoSymbolToken,
+} from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
+import { networks } from '@suite-common/wallet-config';
 
 const Wrapper = styled.div`
     display: flex;
@@ -27,9 +32,21 @@ const CoinLogo = styled.img`
     height: 16px;
 `;
 
+const OptionNetwork = styled.div`
+    padding: 4px 6px;
+    margin-left: 10px;
+    font-size: ${variables.FONT_SIZE.TINY};
+    background: ${({ theme }) => theme.BG_WHITE_ALT_HOVER};
+    border-radius: 4px;
+`;
+
 const Option = styled.div`
     display: flex;
     align-items: center;
+
+    &:hover ${OptionNetwork} {
+        background: ${({ theme }) => theme.BG_WHITE_ALT};
+    }
 `;
 
 const OptionName = styled.div`
@@ -45,28 +62,28 @@ const OptionLabel = styled.div`
 
 const buildOptions = (
     account: Account,
-    exchangeCoinInfo?: ExchangeCoinInfo[],
+    exchangeCoinInfo?: CryptoSymbolInfo[],
     exchangeInfo?: ExchangeInfo,
     token?: string,
 ) => {
-    if (!exchangeInfo || !exchangeCoinInfo) return undefined;
+    if (!exchangeInfo || !exchangeCoinInfo) return [];
 
     interface OptionsGroup {
         label: string;
-        options: { label: string; value: string; name: string }[];
+        options: { label: string; value: string; name: string; cryptoSymbol: CryptoSymbol }[];
     }
 
-    const symbolToFilter = symbolToInvityApiSymbol(token || account.symbol);
+    const symbolToFilter = token || account.symbol;
 
     return exchangeCoinInfo
         .filter(
             coin =>
-                coin.ticker &&
+                coin.symbol &&
                 coin.name &&
                 coin.category &&
-                coin.ticker.toLowerCase() !== symbolToFilter &&
-                coin.ticker.toLowerCase() !== 'usdt20' && // temporary solution; invity-api renamed USDT20 => USDT and sends both codes (USDT and USDT20) to maintain backward compatibility with old versions of suite
-                exchangeInfo.buySymbols.has(coin.ticker.toLowerCase()),
+                coin.symbol.toLowerCase() !== symbolToFilter &&
+                coin.symbol.toLowerCase() !== 'usdt20' && // temporary solution; invity-api renamed USDT20 => USDT and sends both codes (USDT and USDT20) to maintain backward compatibility with old versions of suite
+                exchangeInfo.buySymbols.has(coin.symbol),
         )
         .reduce((options, coin) => {
             let category = options.find(option => option.label === coin.category);
@@ -74,10 +91,12 @@ const buildOptions = (
                 category = { label: coin.category, options: [] };
                 options.push(category);
             }
+            const coinSymbol = cryptoToCoinSymbol(coin.symbol);
             category.options.push({
-                label: coin.ticker.toUpperCase(),
-                value: coin.ticker.toUpperCase(),
+                label: coinSymbol,
+                value: coinSymbol,
                 name: coin.name,
+                cryptoSymbol: coin.symbol,
             });
             return options;
         }, [] as OptionsGroup[]);
@@ -88,7 +107,7 @@ const ReceiveCryptoSelect = () => {
         control,
         setAmountLimits,
         exchangeInfo,
-        exchangeCoinInfo,
+        symbolsInfo,
         account,
         getValues,
         formState: { errors },
@@ -132,19 +151,28 @@ const ReceiveCryptoSelect = () => {
                         filterOption={customSearch}
                         options={buildOptions(
                             account,
-                            exchangeCoinInfo,
+                            symbolsInfo,
                             exchangeInfo,
                             tokenData?.symbol,
                         )}
                         data-test="@coinmarket/exchange/receive-crypto-select"
                         minWidth="70px"
-                        formatOptionLabel={(option: any) => (
+                        formatOptionLabel={(
+                            option: ReturnType<typeof buildOptions>[number]['options'][number],
+                        ) => (
                             <Option>
                                 <CoinLogo
-                                    src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${option.value.toUpperCase()}.svg`}
+                                    src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${
+                                        option.value
+                                    }.svg`}
                                 />
                                 <OptionLabel>{option.label}</OptionLabel>
                                 <OptionName>{option.name}</OptionName>
+                                {isCryptoSymbolToken(option.cryptoSymbol) && (
+                                    <OptionNetwork>
+                                        {networks[cryptoToNetworkSymbol(option.cryptoSymbol)!].name}
+                                    </OptionNetwork>
+                                )}
                             </Option>
                         )}
                         placeholder={<Translation id="TR_TRADE_SELECT_COIN" />}

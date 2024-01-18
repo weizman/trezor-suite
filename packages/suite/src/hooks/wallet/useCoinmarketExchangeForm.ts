@@ -50,6 +50,7 @@ import { useCoinmarketExchangeFormDefaultValues } from './useCoinmarketExchangeF
 import { useCompose } from './form/useCompose';
 import { useFees } from './form/useFees';
 import { AddressDisplayOptions, selectAddressDisplayType } from 'src/reducers/suite/suiteReducer';
+import { networkToCryptoSymbol } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 export const ExchangeFormContext = createContext<ExchangeFormContextValues | null>(null);
 ExchangeFormContext.displayName = 'CoinmarketExchangeContext';
@@ -84,9 +85,8 @@ export const useCoinmarketExchangeForm = ({
     const [state, setState] = useState<ReturnType<typeof useExchangeState>>(undefined);
 
     const accounts = useSelector(state => state.wallet.accounts);
-    const { exchangeInfo, quotesRequest, exchangeCoinInfo } = useSelector(
-        state => state.wallet.coinmarket.exchange,
-    );
+    const { exchangeInfo, quotesRequest } = useSelector(state => state.wallet.coinmarket.exchange);
+    const { symbolsInfo } = useSelector(state => state.wallet.coinmarket.info);
     const device = useSelector(selectDevice);
     const coins = useSelector(selectCoinsLegacy);
     const localCurrency = useSelector(state => state.wallet.settings.localCurrency);
@@ -264,7 +264,8 @@ export const useCoinmarketExchangeForm = ({
         !state?.formValues?.outputs[0].address;
 
     const noProviders =
-        exchangeInfo?.exchangeList?.length === 0 || !exchangeInfo?.sellSymbols.has(account.symbol);
+        exchangeInfo?.exchangeList?.length === 0 ||
+        !exchangeInfo?.sellSymbols.has(networkToCryptoSymbol(account.symbol)!);
 
     // sub-hook, FeeLevels handler
     const { changeFeeLevel, selectedFee } = useFees({
@@ -375,11 +376,11 @@ export const useCoinmarketExchangeForm = ({
         updateFiatValue,
         register,
         exchangeInfo,
+        symbolsInfo,
         changeFeeLevel,
         quotesRequest,
         composedLevels,
         defaultCurrency,
-        exchangeCoinInfo,
         updateFiatCurrency,
         updateSendCryptoValue,
         feeInfo,

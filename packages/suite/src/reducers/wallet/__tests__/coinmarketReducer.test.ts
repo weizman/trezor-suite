@@ -5,17 +5,18 @@ import {
     COINMARKET_BUY,
     COINMARKET_COMMON,
     COINMARKET_EXCHANGE,
+    COINMARKET_INFO,
     COINMARKET_SELL,
 } from 'src/actions/wallet/constants';
 import {
     BuyTrade,
     BuyTradeQuoteRequest,
-    ExchangeCoinInfo,
     ExchangeTradeQuoteRequest,
     SellFiatTradeQuoteRequest,
 } from 'invity-api';
 import { BuyInfo } from 'src/actions/wallet/coinmarketBuyActions';
 import { ExchangeInfo } from 'src/actions/wallet/coinmarketExchangeActions';
+import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
 
 describe('settings reducer', () => {
     it('test initial state', () => {
@@ -38,10 +39,31 @@ describe('settings reducer', () => {
         ).toEqual(initialState);
     });
 
+    it('COINMARKET_INFO.SAVE_SYMBOLS_INFO', () => {
+        const exchangeCoinInfo: CryptoSymbolInfo[] = [
+            {
+                name: 'Bitcoin',
+                symbol: 'BTC',
+                category: 'Popular',
+            },
+            {
+                name: 'Ethereum',
+                symbol: 'ETH',
+                category: 'Popular',
+            },
+        ];
+        expect(
+            reducer(undefined, {
+                type: COINMARKET_INFO.SAVE_SYMBOLS_INFO,
+                exchangeCoinInfo,
+            } as any),
+        ).toEqual({ ...initialState, exchange: { ...initialState.exchange, exchangeCoinInfo } });
+    });
+
     it('COINMARKET_BUY.SAVE_BUY_INFO', () => {
         const buyInfo: BuyInfo = {
             providerInfos: {},
-            supportedCryptoCurrencies: new Set(['btc', 'eth']),
+            supportedCryptoCurrencies: new Set(['BTC', 'ETH']),
             supportedFiatCurrencies: new Set(['usd']),
         };
         expect(
@@ -178,18 +200,6 @@ describe('settings reducer', () => {
                 exchangeInfo,
             } as any),
         ).toEqual({ ...initialState, exchange: { ...initialState.exchange, exchangeInfo } });
-    });
-
-    it('COINMARKET_EXCHANGE.SAVE_EXCHANGE_COIN_INFO', () => {
-        const exchangeCoinInfo: ExchangeCoinInfo[] = [
-            { ticker: 'btc', name: 'bitcoin', category: 'popular' },
-        ];
-        expect(
-            reducer(undefined, {
-                type: COINMARKET_EXCHANGE.SAVE_EXCHANGE_COIN_INFO,
-                exchangeCoinInfo,
-            } as any),
-        ).toEqual({ ...initialState, exchange: { ...initialState.exchange, exchangeCoinInfo } });
     });
 
     it('COINMARKET_EXCHANGE.SAVE_QUOTE_REQUEST', () => {

@@ -2,7 +2,6 @@ import type { AppState } from 'src/types/suite';
 import type { FormState as ReactHookFormState, UseFormReturn } from 'react-hook-form';
 import type { Account, Network, CoinFiatRates } from 'src/types/wallet';
 import type { FeeLevel } from '@trezor/connect';
-import type { ExchangeCoinInfo } from 'invity-api';
 import type { ExchangeInfo } from 'src/actions/wallet/coinmarketExchangeActions';
 import type {
     FeeInfo,
@@ -13,6 +12,7 @@ import type {
 import type { AmountLimits, CryptoAmountLimits, Option } from './coinmarketCommonTypes';
 import type { WithSelectedAccountLoadedProps } from 'src/components/wallet';
 import { SendContextValues } from '@suite-common/wallet-types';
+import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
 
 export const CRYPTO_INPUT = 'outputs.0.amount';
 export const CRYPTO_TOKEN = 'outputs.0.token';
@@ -33,7 +33,7 @@ export interface ExchangeFormContextValues extends UseFormReturn<ExchangeFormSta
     isComposing: boolean;
     changeFeeLevel: (level: FeeLevel['label']) => void;
     exchangeInfo?: ExchangeInfo;
-    exchangeCoinInfo?: ExchangeCoinInfo[];
+    symbolsInfo?: CryptoSymbolInfo[];
     defaultCurrency: Option;
     composeRequest: SendContextValues['composeTransaction'];
     updateFiatCurrency: (selectedCurrency: { value: string; label: string }) => void;

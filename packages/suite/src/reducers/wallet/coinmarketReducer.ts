@@ -26,6 +26,7 @@ import {
     COINMARKET_SELL,
     COINMARKET_P2P,
     COINMARKET_SAVINGS,
+    COINMARKET_INFO,
 } from 'src/actions/wallet/constants';
 import { STORAGE } from 'src/actions/suite/constants';
 import type { Action as SuiteAction } from 'src/types/suite';
@@ -34,6 +35,7 @@ import type { SavingsInfo } from 'src/actions/wallet/coinmarketSavingsActions';
 import type { FeeLevel } from '@trezor/connect';
 import type { Trade } from 'src/types/wallet/coinmarketCommonTypes';
 import { P2pInfo } from 'src/actions/wallet/coinmarketP2pActions';
+import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
 
 export interface ComposedTransactionInfo {
     composed?: Pick<
@@ -41,6 +43,10 @@ export interface ComposedTransactionInfo {
         'feePerByte' | 'estimatedFeeLimit' | 'feeLimit' | 'token' | 'fee'
     >;
     selectedFee?: FeeLevel['label'];
+}
+
+interface Info {
+    symbolsInfo?: CryptoSymbolInfo[];
 }
 
 interface Buy {
@@ -61,7 +67,6 @@ interface Buy {
 
 interface Exchange {
     exchangeInfo?: ExchangeInfo;
-    exchangeCoinInfo?: ExchangeCoinInfo[];
     quotesRequest?: ExchangeTradeQuoteRequest;
     fixedQuotes: ExchangeTrade[] | undefined;
     floatQuotes: ExchangeTrade[] | undefined;
@@ -97,6 +102,7 @@ interface Savings {
 }
 
 export interface State {
+    info: Info;
     buy: Buy;
     exchange: Exchange;
     sell: Sell;
@@ -108,7 +114,10 @@ export interface State {
     lastLoadedTimestamp: number;
 }
 
-export const initialState = {
+export const initialState: State = {
+    info: {
+        symbolsInfo: [],
+    },
     buy: {
         transactionId: undefined,
         isFromRedirect: false,
@@ -126,7 +135,6 @@ export const initialState = {
     },
     exchange: {
         exchangeInfo: undefined,
-        exchangeCoinInfo: undefined,
         transactionId: undefined,
         quotesRequest: undefined,
         fixedQuotes: [],
@@ -172,6 +180,9 @@ const coinmarketReducer = (
             case STORAGE.LOAD:
                 draft.trades = action.payload.coinmarketTrades || draft.trades;
                 break;
+            case COINMARKET_INFO.SAVE_SYMBOLS_INFO:
+                draft.info.symbolsInfo = action.symbolsInfo;
+                break;
             case COINMARKET_BUY.SAVE_BUY_INFO:
                 draft.buy.buyInfo = action.buyInfo;
                 break;
@@ -216,9 +227,6 @@ const coinmarketReducer = (
                 break;
             case COINMARKET_EXCHANGE.SAVE_EXCHANGE_INFO:
                 draft.exchange.exchangeInfo = action.exchangeInfo;
-                break;
-            case COINMARKET_EXCHANGE.SAVE_EXCHANGE_COIN_INFO:
-                draft.exchange.exchangeCoinInfo = action.exchangeCoinInfo;
                 break;
             case COINMARKET_EXCHANGE.SAVE_QUOTE_REQUEST:
                 draft.exchange.quotesRequest = action.request;

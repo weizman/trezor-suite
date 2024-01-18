@@ -40,6 +40,7 @@ import {
     SavingsTradeKYCStatusResponse,
     WatchSavingTradeItemResponse,
     FormResponse,
+    CryptoSymbol,
 } from 'invity-api';
 import { isDesktop } from '@trezor/env-utils';
 import type { InvityServerEnvironment, InvityServers } from '@suite-common/invity';
@@ -59,6 +60,16 @@ type BodyType =
     | P2pTradeRequest
     | SavingsTradeRequest;
 
+/** @deprecated TODO: replace with @types/invity-api */
+export type CryptoSymbolsResponse = CryptoSymbolInfo[];
+
+/** @deprecated TODO: replace with @types/invity-api */
+export interface CryptoSymbolInfo {
+    symbol: CryptoSymbol;
+    name: string;
+    category: string;
+}
+
 class InvityAPI {
     unknownCountry = 'unknown';
 
@@ -74,13 +85,13 @@ class InvityAPI {
     // info service
     private DETECT_COUNTRY_INFO = '/api/info/country';
     private GET_COUNTRY_INFO = '/api/info/country/{{country}}';
+    private SYMBOLS_INFO = '/api/info/symbols';
 
     // exchange service
-    private EXCHANGE_LIST = '/api/exchange/list';
-    private EXCHANGE_COINS = '/api/exchange/coins';
-    private EXCHANGE_QUOTES = '/api/exchange/quotes';
-    private EXCHANGE_DO_TRADE = '/api/exchange/trade';
-    private EXCHANGE_WATCH_TRADE = '/api/exchange/watch/{{counter}}';
+    private EXCHANGE_LIST = '/api/v2/exchange/list';
+    private EXCHANGE_QUOTES = '/api/v2/exchange/quotes';
+    private EXCHANGE_DO_TRADE = '/api/v2/exchange/trade';
+    private EXCHANGE_WATCH_TRADE = '/api/v2/exchange/watch/{{counter}}';
 
     // buy service
     private BUY_LIST = '/api/v2/buy/list';
@@ -205,6 +216,19 @@ class InvityAPI {
         return { country: this.unknownCountry };
     };
 
+    getSymbolsInfo = async (): Promise<CryptoSymbolsResponse> => {
+        try {
+            const response = await this.request(this.SYMBOLS_INFO, {}, 'GET');
+            if (!response || response.length === 0) {
+                return [];
+            }
+            return response;
+        } catch (error) {
+            console.log('[getSymbolsInfo]', error);
+        }
+        return [];
+    };
+
     getExchangeList = async (): Promise<ExchangeListResponse | []> => {
         try {
             const response = await this.request(this.EXCHANGE_LIST, {}, 'GET');
@@ -214,19 +238,6 @@ class InvityAPI {
             return response;
         } catch (error) {
             console.log('[getExchangeList]', error);
-        }
-        return [];
-    };
-
-    getExchangeCoins = async (): Promise<ExchangeCoinInfo[]> => {
-        try {
-            const response = await this.request(this.EXCHANGE_COINS, {}, 'GET');
-            if (!response || response.length === 0) {
-                return [];
-            }
-            return response;
-        } catch (error) {
-            console.log('[getExchangeCoins]', error);
         }
         return [];
     };
