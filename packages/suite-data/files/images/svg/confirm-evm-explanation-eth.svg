@@ -2,15 +2,15 @@
     <g filter="url(#filter1_d_240_5446)">
         <path d="M142.557 164.114C158.881 164.114 172.114 150.881 172.114 134.557C172.114 118.233 158.881 105 142.557 105C126.233 105 113 118.233 113 134.557C113 150.881 126.233 164.114 142.557 164.114Z" fill="white" fill-opacity="0.01"/>
     </g>
-    <circle cx="192.338" cy="134.557" r="11.3719" stroke="#f7f7f7" stroke-width="2.14634"/>
-    <circle cx="142.557" cy="184.338" r="11.3719" transform="rotate(90 142.557 184.338)" stroke="#f7f7f7" stroke-width="2.14634"/>
-    <circle cx="177.758" cy="169.758" r="11.3719" transform="rotate(45 177.758 169.758)" stroke="#e5e5e5" stroke-width="2.14634"/>
+    <circle cx="192.338" cy="134.557" r="11.3719" stroke-opacity="0.1" stroke="#aaaaaa" stroke-width="2.14634"/>
+    <circle cx="142.557" cy="184.338" r="11.3719" stroke-opacity="0.1" stroke="#aaaaaa" stroke-width="2.14634"/>
+    <circle cx="177.758" cy="169.758" r="11.3719" stroke-opacity="0.4" stroke="#cccccc" stroke-width="2.14634"/>
     <g filter="url(#filter2_d_240_5446)">
         <path d="M393.226 121.668C376.902 121.668 363.669 134.901 363.669 151.225C363.669 167.549 376.902 180.782 393.226 180.782C409.55 180.782 422.783 167.549 422.783 151.225C422.783 134.901 409.55 121.668 393.226 121.668Z" fill="white" fill-opacity="0.01"/>
     </g>
-    <circle cx="343.445" cy="151.225" r="11.3719" transform="rotate(180 343.445 151.225)" stroke="#f7f7f7" stroke-width="2.14634"/>
-    <circle cx="393.226" cy="101.445" r="11.3719" transform="rotate(-90 393.226 101.445)" stroke="#f7f7f7" stroke-width="2.14634"/>
-    <circle cx="358.025" cy="116.024" r="11.3719" transform="rotate(-135 358.025 116.024)" stroke="#e5e5e5" stroke-width="2.14634"/>
+    <circle cx="343.445" cy="151.225" r="11.3719" stroke-opacity="0.1" stroke="#aaaaaa" stroke-width="2.14634"/>
+    <circle cx="393.226" cy="101.445" r="11.3719" stroke-opacity="0.1" stroke="#aaaaaa" stroke-width="2.14634"/>
+    <circle cx="358.025" cy="116.024" r="11.3719" stroke-opacity="0.4" stroke="#cccccc" stroke-width="2.14634"/>
     <path d="M188 176C214.5 183 263.6 170.2 264 143C264.4 115.8 313 100 347 112.5" stroke="url(#paint0_linear_240_5446)" stroke-width="2"/>
     <g filter="url(#filter3_d_240_5446)">
         <circle cx="264" cy="144" r="10" fill="white"/>
@@ -43,12 +43,12 @@
             <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_240_5446" result="shape"/>
         </filter>
         <linearGradient id="paint0_linear_240_5446" x1="347" y1="118" x2="188" y2="118.5" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#E5E5E5"/>
-            <stop offset="0.411458" stop-color="#EFEFEF"/>
+            <stop stop-color="#cccccc55"/>
+            <stop offset="0.411458" stop-color="#ccccccaa"/>
             <stop offset="0.447917" stop-color="#FFC2C2"/>
             <stop offset="0.53125" stop-color="#FFADAD"/>
-            <stop offset="0.598958" stop-color="#F1F1F1"/>
-            <stop offset="1" stop-color="#E5E5E5"/>
+            <stop offset="0.598958" stop-color="#ccccccaa"/>
+            <stop offset="1" stop-color="#cccccc55"/>
         </linearGradient>
         <filter id="filter3_d_240_5446" x="230" y="100" width="80" height="80" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix"/>

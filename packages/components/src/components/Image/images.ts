@@ -31,7 +31,8 @@ export const SVG_IMAGES = {
     PLAY_STORE_TITLE: 'play-store-title.svg',
     STROKE_BORDER: 'stroke-border.svg',
     TREZOR_SAFE_PROMO_UNDERLINE: 'trezor-safe-promo-underline.svg',
-    CONFIRM_EVM_EXPLANATION: 'confirm-evm-explanation.svg',
+    CONFIRM_EVM_EXPLANATION_ETH: 'confirm-evm-explanation-eth.svg',
+    CONFIRM_EVM_EXPLANATION_OTHER: 'confirm-evm-explanation-other.svg',
 } as const;
 
 export type PngImage = keyof typeof PNG_IMAGES;

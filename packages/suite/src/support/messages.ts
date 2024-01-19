@@ -8401,19 +8401,14 @@ export default defineMessages({
         id: 'TR_EVM_EXPLANATION_TITLE',
         defaultMessage: '{network} is its own blockchain',
     },
-    TR_EVM_EXPLANATION_DESCRIPTION_ETH: {
-        id: 'TR_EVM_EXPLANATION_DESCRIPTION_ETH',
+    TR_EVM_EXPLANATION_DESCRIPTION: {
+        id: 'TR_EVM_EXPLANATION_DESCRIPTION',
         defaultMessage:
             "It shares the same address style as Ethereum but has its own unique coins and tokens that can't be used on other networks.",
     },
-    TR_EVM_EXPLANATION_DESCRIPTION_OTHER: {
-        id: 'TR_EVM_EXPLANATION_DESCRIPTION_OTHER',
-        defaultMessage:
-            "It shares the same address style as Ethereum but has its own unique coins and tokens that can't be used on other networks.",
-    },
-    TR_CONFIRM_EVM_EXPLANATION_TITLE: {
-        id: 'TR_CONFIRM_EVM_EXPLANATION_TITLE',
-        defaultMessage: 'Stay on the {network} chain',
+    TR_CONFIRM_EVM_EXPLANATION_RECEIVE_TITLE: {
+        id: 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_TITLE',
+        defaultMessage: 'Receive through {network}',
     },
     TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_ETH: {
         id: 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_ETH',
@@ -8425,20 +8420,28 @@ export default defineMessages({
         defaultMessage:
             "Make sure you receive your crypto only through {network}. If coins or tokens are sent outside the {network} chain, you won't be able to access them.",
     },
+    TR_CONFIRM_EVM_EXPLANATION_SEND_TITLE: {
+        id: 'TR_CONFIRM_EVM_EXPLANATION_SEND_TITLE',
+        defaultMessage: 'Send through {network}',
+    },
     TR_CONFIRM_EVM_EXPLANATION_SEND_DESCRIPTION: {
         id: 'TR_CONFIRM_EVM_EXPLANATION_SEND_DESCRIPTION',
         defaultMessage:
-            "Make sure that this transaction starts and finishes on the {network} chain. If you send your coins or tokens outside the {network} chain, the receiver won't be able to access them.",
+            "Make sure you send your crypto only through {network}. If coins or tokens are sent outside the {network} chain, the receiver won't be able to access them.",
     },
     TR_EVM_EXPLANATION_RECEIVE_DESCRIPTION: {
         id: 'TR_EVM_EXPLANATION_RECEIVE_DESCRIPTION',
         defaultMessage:
             "This receive address is only for {network} coins and tokens. If someone sends you crypto from outside the {network} chain, you won't receive them. They'll be lost.",
     },
+    TR_EVM_EXPLANATION_SEND_TITLE: {
+        id: 'TR_EVM_EXPLANATION_SEND_TITLE',
+        defaultMessage: 'Send through {network}',
+    },
     TR_EVM_EXPLANATION_SEND_DESCRIPTION: {
         id: 'TR_EVM_EXPLANATION_SEND_DESCRIPTION',
         defaultMessage:
-            'Make sure you send only on {network}. The receiver will lose their crypto if you send them outside the {network} chain.',
+            "Send only through {network}. The address must be on the {network} chain or the receiver won't receive their crypto.",
     },
     TR_EVM_EXPLANATION_SEND_MODAL_DESCRIPTION: {
         id: 'TR_EVM_EXPLANATION_SEND_MODAL_DESCRIPTION',

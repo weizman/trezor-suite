@@ -83,11 +83,12 @@ export const ConfirmEvmExplanationModal = ({
     const dispatch = useDispatch();
     const close = () => {
         dispatch(onCancel());
-        dispatch({
+        // TODO: uncomment
+        /* dispatch({
             type: SUITE.EVM_CONFIRM_EXPLANATION_MODAL,
             symbol: coin,
             route,
-        });
+        }); */
     };
 
     const network = networks[coin];
@@ -95,6 +96,11 @@ export const ConfirmEvmExplanationModal = ({
     if (network.networkType !== 'ethereum') {
         return null;
     }
+
+    const titleTranslationsIds: Record<typeof route, TranslationKey> = {
+        'wallet-receive': 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_TITLE',
+        'wallet-send': 'TR_CONFIRM_EVM_EXPLANATION_SEND_TITLE',
+    };
 
     const descriptionTranslationsIds: Record<typeof route, TranslationKey> = {
         'wallet-receive':
@@ -115,13 +121,19 @@ export const ConfirmEvmExplanationModal = ({
         >
             <Content>
                 <ImageWrapper>
-                    <StyledImage image="CONFIRM_EVM_EXPLANATION" />
+                    <StyledImage
+                        image={
+                            coin === 'eth'
+                                ? 'CONFIRM_EVM_EXPLANATION_ETH'
+                                : 'CONFIRM_EVM_EXPLANATION_OTHER'
+                        }
+                    />
                     <ImageCoinLogoLeft symbol={coin} />
                     <ImageCoinLogoRight symbol="eth" />
                 </ImageWrapper>
                 <Title>
                     <Translation
-                        id="TR_CONFIRM_EVM_EXPLANATION_TITLE"
+                        id={titleTranslationsIds[route]}
                         values={{
                             network: network.name,
                         }}

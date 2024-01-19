@@ -6,10 +6,10 @@ import { AppState } from 'src/types/suite';
 import { showAddress } from 'src/actions/wallet/receiveActions';
 import { useDispatch, useSelector } from 'src/hooks/suite/';
 
-import { Button, Card, variables, H2, Tooltip, CoinLogo } from '@trezor/components';
+import { Button, Card, variables, H2, Tooltip } from '@trezor/components';
 import { getFirstFreshAddress } from '@suite-common/wallet-utils';
 import { AccountsRootState, selectIsAccountUtxoBased } from '@suite-common/wallet-core';
-import { getMainnets } from '@suite-common/wallet-config';
+import { networks } from '@suite-common/wallet-config';
 import { EvmExplanationBox } from 'src/components/wallet/EvmExplanationBox';
 
 const StyledCard = styled(Card)`
@@ -193,11 +193,21 @@ export const FreshAddress = ({
                 </StyledButton>
             </Tooltip>
             {account.networkType === 'ethereum' && (
-                <StyledEvmExplanationBox symbol={account.symbol}>
+                <StyledEvmExplanationBox
+                    symbol={account.symbol}
+                    title={
+                        <Translation
+                            id="TR_EVM_EXPLANATION_TITLE"
+                            values={{
+                                network: networks[account.symbol].name,
+                            }}
+                        />
+                    }
+                >
                     <Translation
                         id="TR_EVM_EXPLANATION_RECEIVE_DESCRIPTION"
                         values={{
-                            network: getMainnets().find(n => n.symbol === account.symbol)?.name,
+                            network: networks[account.symbol].name,
                         }}
                     />
                 </StyledEvmExplanationBox>

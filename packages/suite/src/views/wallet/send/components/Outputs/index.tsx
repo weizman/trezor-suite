@@ -8,7 +8,7 @@ import { Amount } from './components/Amount';
 import OpReturn from './components/OpReturn';
 import { EvmExplanationBox } from 'src/components/wallet/EvmExplanationBox';
 import { Translation } from 'src/components/suite';
-import { getMainnets } from '@suite-common/wallet-config';
+import { getMainnets, networks } from '@suite-common/wallet-config';
 
 const Wrapper = styled.div``;
 
@@ -100,13 +100,21 @@ const Outputs = ({ disableAnim }: OutputsProps) => {
                                             outputsCount={outputs.length}
                                         />
                                         {account.networkType === 'ethereum' && (
-                                            <StyledEvmExplanationBox symbol={account.symbol}>
+                                            <StyledEvmExplanationBox
+                                                symbol={account.symbol}
+                                                title={
+                                                    <Translation
+                                                        id="TR_EVM_EXPLANATION_SEND_TITLE"
+                                                        values={{
+                                                            network: networks[account.symbol].name,
+                                                        }}
+                                                    />
+                                                }
+                                            >
                                                 <Translation
                                                     id="TR_EVM_EXPLANATION_SEND_DESCRIPTION"
                                                     values={{
-                                                        network: getMainnets().find(
-                                                            n => n.symbol === account.symbol,
-                                                        )?.name,
+                                                        network: networks[account.symbol].name,
                                                     }}
                                                 />
                                             </StyledEvmExplanationBox>

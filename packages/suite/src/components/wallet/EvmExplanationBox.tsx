@@ -26,23 +26,34 @@ const EvmExplanationBoxWrapper = styled.div`
     }
 `;
 
-const EvmExplanationBoxDescription = styled.div`
+const EvmExplanationTitle = styled.div`
+    color: ${({ theme }) => theme.TYPE_DARK_GREY};
+    font-size: ${variables.FONT_SIZE.SMALL};
+    font-weight: 600;
+    margin-bottom: 4px;
+`;
+
+const EvmExplanationDescription = styled.span`
     color: ${({ theme }) => theme.TYPE_LIGHT_GREY};
     font-size: ${variables.FONT_SIZE.SMALL};
     font-weight: 500;
     line-height: 18px;
 `;
 
-export interface EvmExplanationBoxProps extends HTMLAttributes<HTMLDivElement> {
-    children?: ReactNode;
+export interface EvmExplanationBoxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+    title?: ReactNode;
     symbol: NetworkSymbol;
+    children?: ReactNode;
 }
 
 export const EvmExplanationBox = forwardRef<HTMLDivElement, EvmExplanationBoxProps>(
-    ({ children, symbol, ...rest }, ref) => (
+    ({ symbol, title, children, ...rest }, ref) => (
         <EvmExplanationBoxWrapper ref={ref} {...rest}>
             <CoinLogo symbol={symbol} />
-            <EvmExplanationBoxDescription>{children}</EvmExplanationBoxDescription>
+            <div>
+                <EvmExplanationTitle>{title}</EvmExplanationTitle>
+                <EvmExplanationDescription>{children}</EvmExplanationDescription>
+            </div>
         </EvmExplanationBoxWrapper>
     ),
 );

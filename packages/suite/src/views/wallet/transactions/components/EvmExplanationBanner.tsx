@@ -37,7 +37,7 @@ interface EvmExplanationBannerProps {
 export const EvmExplanationBanner = ({ account }: EvmExplanationBannerProps) => {
     const network = networks[account.symbol];
 
-    if (network.networkType !== 'ethereum') {
+    if (account.symbol === 'eth' || network.networkType !== 'ethereum') {
         return null;
     }
 
@@ -53,16 +53,7 @@ export const EvmExplanationBanner = ({ account }: EvmExplanationBannerProps) => 
                     />
                 </Title>
                 <Description>
-                    <Translation
-                        id={
-                            account.symbol === 'eth'
-                                ? 'TR_EVM_EXPLANATION_DESCRIPTION_ETH'
-                                : 'TR_EVM_EXPLANATION_DESCRIPTION_OTHER'
-                        }
-                        values={{
-                            network: network.name,
-                        }}
-                    />
+                    <Translation id="TR_EVM_EXPLANATION_DESCRIPTION" />
                 </Description>
             </StyledCard>
         </Wrapper>
