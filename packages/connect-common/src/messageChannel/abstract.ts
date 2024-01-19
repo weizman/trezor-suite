@@ -46,7 +46,8 @@ export abstract class AbstractMessageChannel<
 
     abstract disconnect(): void;
 
-    private readonly handshakeMaxRetries = 5;
+    // TODO(karliatto): just for dev.
+    private readonly handshakeMaxRetries = 50;
     private readonly handshakeRetryInterval = 2000;
     private handshakeFinished: Deferred<void> | undefined;
 
@@ -72,6 +73,8 @@ export abstract class AbstractMessageChannel<
      * initiates handshake sequence with peer. resolves after communication with peer is established
      */
     public init() {
+        console.log('init in connect-common abstract');
+        console.log('this.handshakeFinished', this.handshakeFinished);
         if (!this.handshakeFinished) {
             this.handshakeFinished = createDeferred();
             this.handshakeWithPeer();
@@ -85,8 +88,10 @@ export abstract class AbstractMessageChannel<
      */
     protected handshakeWithPeer(): Promise<void> {
         this.logger?.log(this.channel.here, 'handshake');
+        console.log('handshakeWithPeer in abstract');
         return scheduleAction(
             async () => {
+                console.log('sending postMessage to peer');
                 this.postMessage(
                     {
                         type: 'channel-handshake-request',
@@ -120,15 +125,28 @@ export abstract class AbstractMessageChannel<
      * should be handled by this common onMessage method
      */
     protected onMessage(message: Message<IncomingMessages>) {
+        console.log('onMessage in connect-common abstract');
         const { channel, id, type, payload, success } = message;
+        console.log('###############');
+        console.log('channel.peer', channel.peer);
+        console.log('this.channel.here', this.channel.here);
+        console.log('type', type);
+        console.log('payload', payload);
+        console.log('success', success);
         if (!channel?.peer || channel.peer !== this.channel.here) {
+            console.log('This is not the peer !!!!!!!!!!!!!!');
             return;
         }
+        console.log('this.channel.peer', this.channel.peer);
+        console.log('channel.here', channel.here);
         if (!channel?.here || this.channel.peer !== channel.here) {
+            console.log('This is not the peer !!!!!!!!!!!!!!');
             return;
         }
 
         if (type === 'channel-handshake-request') {
+            console.log('it is channel handshake request');
+            console.log('sending channel-handshake-confirm');
             this.postMessage(
                 {
                     type: 'channel-handshake-confirm',
@@ -139,11 +157,19 @@ export abstract class AbstractMessageChannel<
             return;
         }
         if (type === 'channel-handshake-confirm') {
+            console.log('it is channel-handshake-confirm');
             this.handshakeFinished?.resolve(undefined);
             return;
         }
 
         if (this.messagePromises[id]) {
+            console.log(
+                'in connect-common abstract onMessage this.messagePromises ',
+                this.messagePromises,
+            );
+            console.log('this.messagePromises', this.messagePromises);
+            console.log('id', id);
+            console.log('this.messagePromises[id]', this.messagePromises[id]);
             this.messagePromises[id].resolve({ id, payload, success });
             delete this.messagePromises[id];
         }
@@ -159,7 +185,13 @@ export abstract class AbstractMessageChannel<
 
     // todo: outgoing messages should be typed
     postMessage(message: any, { usePromise = true, useQueue = true } = {}) {
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log('postMessage in connect-common abstract');
+        console.log('this.channel', this.channel);
         message.channel = this.channel;
+        console.log('message', message);
+
+        console.log('usePromise', usePromise);
         if (!usePromise) {
             try {
                 this.sendFn(message);
@@ -173,6 +205,7 @@ export abstract class AbstractMessageChannel<
 
         this.messageID++;
         message.id = this.messageID;
+        console.log('creatign deferred');
         this.messagePromises[message.id] = createDeferred();
 
         try {
@@ -187,6 +220,7 @@ export abstract class AbstractMessageChannel<
     }
 
     resolveMessagePromises(resolvePayload: Record<string, any>) {
+        console.log('resolveMessagePromises !!!!!!!');
         // This is used when we know that the connection has been interrupted but there might be something waiting for it.
         Object.keys(this.messagePromises).forEach(id =>
             this.messagePromises[id as any].resolve({

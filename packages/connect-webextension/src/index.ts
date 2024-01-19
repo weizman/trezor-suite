@@ -18,6 +18,7 @@ import { initLog, setLogWriter, LogMessage, LogWriter } from '@trezor/connect/li
 
 import * as popup from './popup';
 import { parseConnectSettings } from './connectSettings';
+// import { ServiceWorkerWindowChannel } from './channels/serviceworker-window';
 
 const eventEmitter = new EventEmitter();
 let _settings = parseConnectSettings();
@@ -68,7 +69,7 @@ const cancel = (error?: string) => {
 };
 
 const init = (settings: Partial<ConnectSettings> = {}): Promise<void> => {
-    logger.debug('initiating');
+    console.log('init in connect-webextension service-worker');
     _settings = parseConnectSettings({ ..._settings, ...settings });
     if (!_popupManager) {
         _popupManager = new popup.PopupManager(_settings, { logger: popupManagerLogger });
@@ -87,6 +88,7 @@ const init = (settings: Partial<ConnectSettings> = {}): Promise<void> => {
     }
 
     _popupManager.channel.on('message', message => {
+        console.log('message in init connect-webextension TrezorConnect', message);
         if (message.type === POPUP.CORE_LOADED) {
             _popupManager.channel.postMessage({
                 type: POPUP.HANDSHAKE,
@@ -117,10 +119,13 @@ const init = (settings: Partial<ConnectSettings> = {}): Promise<void> => {
  * 3. returns response
  */
 const call: CallMethod = async params => {
+    console.log('call in connect-webextension in service-worker');
     logger.debug('call', params);
 
+    console.log('_settings.popup', _settings.popup);
     // request popup window it might be used in the future
     if (_settings.popup) {
+        console.log('calling _popupManager.request();');
         await _popupManager.request();
     }
 
@@ -141,6 +146,8 @@ const call: CallMethod = async params => {
             type: IFRAME.CALL,
             payload: params,
         });
+
+        console.log('response after post message in call in webextension', response);
 
         logger.debug('call: response: ', response);
 

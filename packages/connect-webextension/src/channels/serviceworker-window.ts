@@ -33,18 +33,21 @@ export class ServiceWorkerWindowChannel<
             this.port = port;
 
             this.port.onMessage.addListener((message: Message<IncomingMessages>, { sender }) => {
+                console.log('onMessage in ServiceWorkerWindowChannel');
                 if (!sender) {
                     this.logger?.error('service-worker-window', 'no sender');
                     return;
                 }
 
+                console.log('sender', sender);
                 const { origin } = sender;
-
+                console.log('origin', origin);
                 const whitelist = [
                     'https://connect.trezor.io',
                     'https://staging-connect.trezor.io',
                     'https://suite.corp.sldev.cz',
                     'http://localhost:8088',
+                    'chrome-extension://pdmepkkjjcajjlolidakeojhgdkgbidb',
                 ];
 
                 if (!origin) {
@@ -56,6 +59,7 @@ export class ServiceWorkerWindowChannel<
                     return;
                 }
                 if (!whitelist.includes(origin)) {
+                    console.log('origin not whitelisted');
                     this.logger?.error(
                         'connect-webextension/messageChannel/extensionPort/onMessage',
                         'origin not whitelisted',
@@ -65,9 +69,9 @@ export class ServiceWorkerWindowChannel<
                 }
 
                 // eslint-disable-next-line no-restricted-globals
-                if (origin === self.origin) {
-                    return;
-                }
+                // if (origin === self.origin) {
+                //     return;
+                // }
 
                 this.onMessage(message);
             });
