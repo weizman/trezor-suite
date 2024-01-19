@@ -97,7 +97,10 @@ export const ConfirmEvmExplanationModal = ({
     }
 
     const descriptionTranslationsIds: Record<typeof route, TranslationKey> = {
-        'wallet-receive': 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION',
+        'wallet-receive':
+            coin === 'eth'
+                ? 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_ETH'
+                : 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_OTHER',
         'wallet-send': 'TR_CONFIRM_EVM_EXPLANATION_SEND_DESCRIPTION',
     };
 

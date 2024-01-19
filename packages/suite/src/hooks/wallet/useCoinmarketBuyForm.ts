@@ -39,9 +39,6 @@ export const useCoinmarketBuyForm = ({
     selectedAccount,
 }: UseCoinmarketBuyFormProps): BuyFormContextValues => {
     const buyInfo = useSelector(state => state.wallet.coinmarket.buy.buyInfo);
-    const exchangeCoinInfo = useSelector(
-        state => state.wallet.coinmarket.exchange.exchangeCoinInfo,
-    );
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -170,7 +167,6 @@ export const useCoinmarketBuyForm = ({
         defaultCurrency,
         register,
         buyInfo,
-        exchangeCoinInfo,
         amountLimits,
         setAmountLimits,
         isLoading,

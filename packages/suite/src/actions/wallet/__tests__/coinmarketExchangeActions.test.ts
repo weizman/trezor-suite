@@ -112,7 +112,7 @@ describe('Coinmarket Exchange Actions', () => {
 
         const store = initStore(getInitialState());
 
-        coinmarketExchangeActions.loadExchangeInfo().then(([exchangeInfo, exchangeCoinInfo]) => {
+        coinmarketExchangeActions.loadExchangeInfo().then(exchangeInfo => {
             store.dispatch(coinmarketExchangeActions.saveExchangeInfo(exchangeInfo));
             expect(store.getState().wallet.coinmarket.exchange.exchangeInfo).toEqual({
                 exchangeList,
@@ -120,11 +120,6 @@ describe('Coinmarket Exchange Actions', () => {
                 buySymbols: new Set<string>(['xmr', 'btc', 'eth']),
                 sellSymbols: new Set<string>(['btc', 'eth']),
             });
-
-            store.dispatch(coinmarketExchangeActions.saveExchangeCoinInfo(exchangeCoinInfo));
-            expect(store.getState().wallet.coinmarket.exchange.exchangeCoinInfo).toEqual(
-                exchangeCoinList,
-            );
         });
     });
 

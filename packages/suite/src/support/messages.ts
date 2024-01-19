@@ -8398,27 +8398,32 @@ export default defineMessages({
         defaultMessage: 'Restart tutorial',
     },
     TR_EVM_EXPLANATION_TITLE: {
-        id: 'TR_EVM_EXPLANATION_DESCRIPTION_ETH',
+        id: 'TR_EVM_EXPLANATION_TITLE',
         defaultMessage: '{network} is its own blockchain',
     },
     TR_EVM_EXPLANATION_DESCRIPTION_ETH: {
         id: 'TR_EVM_EXPLANATION_DESCRIPTION_ETH',
         defaultMessage:
-            'Description for {network}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a ante quis lectus eleifend rutrum. Aenean tincidunt odio vel fermentum ultricies. Sed suscipit interdum eros, eget placerat lorem pulvinar in.',
+            "It shares the same address style as Ethereum but has its own unique coins and tokens that can't be used on other networks.",
     },
     TR_EVM_EXPLANATION_DESCRIPTION_OTHER: {
         id: 'TR_EVM_EXPLANATION_DESCRIPTION_OTHER',
         defaultMessage:
-            '{network} is a standalone blockchain that operates in conjunction with the Ethereum network. While {network} uses the same address format as Ethereum, the coins and tokens within this network are unique to {network} and not interchangeable with other blockchains.',
+            "It shares the same address style as Ethereum but has its own unique coins and tokens that can't be used on other networks.",
     },
     TR_CONFIRM_EVM_EXPLANATION_TITLE: {
         id: 'TR_CONFIRM_EVM_EXPLANATION_TITLE',
         defaultMessage: 'Stay on the {network} chain',
     },
-    TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION: {
-        id: 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION',
+    TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_ETH: {
+        id: 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_ETH',
         defaultMessage:
-            "Make sure the sender stays on the {network} chain. If coins or tokens are sent outside the {network} chain, you won't be able to access them.",
+            "Make sure you receive your crypto only through Ethereum network. If coins or tokens are sent outside the Ethereum (e.g. Polygon or Avalanche..), you won't be able to access them.",
+    },
+    TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_OTHER: {
+        id: 'TR_CONFIRM_EVM_EXPLANATION_RECEIVE_DESCRIPTION_OTHER',
+        defaultMessage:
+            "Make sure you receive your crypto only through {network}. If coins or tokens are sent outside the {network} chain, you won't be able to access them.",
     },
     TR_CONFIRM_EVM_EXPLANATION_SEND_DESCRIPTION: {
         id: 'TR_CONFIRM_EVM_EXPLANATION_SEND_DESCRIPTION',

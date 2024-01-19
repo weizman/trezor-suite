@@ -70,7 +70,7 @@ const buildOptions = (
 
     interface OptionsGroup {
         label: string;
-        options: { label: string; value: string; name: string; cryptoSymbol: CryptoSymbol }[];
+        options: { label: string; value: string; name: string; cryptoSymbol?: CryptoSymbol }[];
     }
 
     const symbolToFilter = token || account.symbol;
@@ -168,11 +168,17 @@ const ReceiveCryptoSelect = () => {
                                 />
                                 <OptionLabel>{option.label}</OptionLabel>
                                 <OptionName>{option.name}</OptionName>
-                                {isCryptoSymbolToken(option.cryptoSymbol) && (
-                                    <OptionNetwork>
-                                        {networks[cryptoToNetworkSymbol(option.cryptoSymbol)!].name}
-                                    </OptionNetwork>
-                                )}
+                                {option.cryptoSymbol &&
+                                    isCryptoSymbolToken(option.cryptoSymbol) &&
+                                    cryptoToNetworkSymbol(option.cryptoSymbol) && (
+                                        <OptionNetwork>
+                                            {
+                                                networks[
+                                                    cryptoToNetworkSymbol(option.cryptoSymbol)!
+                                                ].name
+                                            }
+                                        </OptionNetwork>
+                                    )}
                             </Option>
                         )}
                         placeholder={<Translation id="TR_TRADE_SELECT_COIN" />}

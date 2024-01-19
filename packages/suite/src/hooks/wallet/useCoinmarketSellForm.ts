@@ -95,9 +95,6 @@ export const useCoinmarketSellForm = ({
     const fees = useSelector(state => state.wallet.fees);
     const sellInfo = useSelector(state => state.wallet.coinmarket.sell.sellInfo);
     const quotesRequest = useSelector(state => state.wallet.coinmarket.sell.quotesRequest);
-    const exchangeCoinInfo = useSelector(
-        state => state.wallet.coinmarket.exchange.exchangeCoinInfo,
-    );
     const addressDisplayType = useSelector(selectAddressDisplayType);
 
     const { account, network } = selectedAccount;
@@ -387,7 +384,6 @@ export const useCoinmarketSellForm = ({
         quotesRequest,
         composedLevels,
         localCurrencyOption,
-        exchangeCoinInfo,
         feeInfo,
         composeRequest,
         fiatRates,
