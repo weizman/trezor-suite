@@ -1,72 +1,84 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { Box, Button, HStack, IconButton } from '@suite-native/atoms';
 import { useFormContext } from '@suite-native/forms';
 import { useTranslate } from '@suite-native/intl';
-import TrezorConnect, { UI } from '@trezor/connect';
+import TrezorConnect, { UI, DEVICE } from '@trezor/connect';
 import {
-    ConnectDeviceStackParamList,
-    ConnectDeviceStackRoutes,
-    RootStackParamList,
-    RootStackRoutes,
-    StackToStackCompositeNavigationProps,
-} from '@suite-native/navigation';
-import { selectIsDeviceUnlocked } from '@suite-common/wallet-core';
+    selectDevice,
+    selectDeviceAuthFailed,
+    removeButtonRequests,
+    authorizeDevice,
+} from '@suite-common/wallet-core';
 import { useAlert } from '@suite-native/alerts';
 import { useOpenLink } from '@suite-native/link';
+import { useToast } from '@suite-native/toasts';
 
 import { PIN_FORM_MIN_LENGTH, PIN_HELP_URL } from '../constants/pinFormConstants';
-
-type NavigationProp = StackToStackCompositeNavigationProps<
-    ConnectDeviceStackParamList,
-    ConnectDeviceStackRoutes.PinMatrix,
-    RootStackParamList
->;
 
 export const PinFormControlButtons = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
     const openLink = useOpenLink();
     const { translate } = useTranslate();
-    const navigation = useNavigation<NavigationProp>();
-    const isDeviceUnlocked = useSelector(selectIsDeviceUnlocked);
-    const { showAlert } = useAlert();
+    const { showAlert, hideAlert } = useAlert();
+    const { showToast } = useToast();
     const { handleSubmit, getValues, watch, setValue, reset } = useFormContext();
+    const device = useSelector(selectDevice) ?? null;
+    const hasDeviceAuthFailed = useSelector(selectDeviceAuthFailed);
 
-    useEffect(() => {
-        // Connect doesn't have an event for correct pin entry,
-        // but we can subscribe to this property change instead
-        // which gets changed after succesfull auth
-        if (isDeviceUnlocked) {
-            navigation.navigate(RootStackRoutes.ConnectDevice, {
-                screen: ConnectDeviceStackRoutes.ConnectingDevice,
-            });
+    const handleSuccess = useCallback(() => {
+        if (isSubmitting && !hasDeviceAuthFailed) {
+            setIsSubmitting(false);
+            navigation.goBack();
         }
-    }, [isDeviceUnlocked, navigation]);
+    }, [hasDeviceAuthFailed, navigation, isSubmitting]);
 
     const handleInvalidPin = useCallback(() => {
         setIsSubmitting(false);
-        showAlert({
-            title: translate('moduleConnectDevice.pinScreen.wrongPinAlert.title'),
-            description: translate('moduleConnectDevice.pinScreen.wrongPinAlert.description'),
-            icon: 'warningCircle',
-            pictogramVariant: 'red',
-            primaryButtonTitle: translate(
-                'moduleConnectDevice.pinScreen.wrongPinAlert.button.tryAgain',
-            ),
-            onPressPrimaryButton: reset,
-            secondaryButtonTitle: translate(
-                'moduleConnectDevice.pinScreen.wrongPinAlert.button.help',
-            ),
-            onPressSecondaryButton: () => {
-                openLink(PIN_HELP_URL);
-                reset();
-            },
+        reset();
+        showToast({
+            variant: 'warning',
+            icon: 'lock',
+            message: translate('moduleConnectDevice.pinScreen.form.error.invalidPin'),
         });
-    }, [reset, showAlert, translate, openLink]);
+    }, [reset, translate, showToast]);
+
+    useEffect(() => {
+        TrezorConnect.on(DEVICE.CHANGED, handleSuccess);
+
+        return () => TrezorConnect.off(DEVICE.CHANGED, handleSuccess);
+    }, [handleSuccess]);
+
+    useEffect(() => {
+        if (hasDeviceAuthFailed) {
+            setIsSubmitting(false);
+            reset();
+            showAlert({
+                title: translate('moduleConnectDevice.pinScreen.wrongPinAlert.title'),
+                description: translate('moduleConnectDevice.pinScreen.wrongPinAlert.description'),
+                icon: 'warningCircle',
+                pictogramVariant: 'red',
+                primaryButtonTitle: translate(
+                    'moduleConnectDevice.pinScreen.wrongPinAlert.button.tryAgain',
+                ),
+                onPressPrimaryButton: () => {
+                    dispatch(authorizeDevice());
+                },
+                secondaryButtonTitle: translate(
+                    'moduleConnectDevice.pinScreen.wrongPinAlert.button.help',
+                ),
+                onPressSecondaryButton: () => {
+                    openLink(PIN_HELP_URL);
+                },
+            });
+        }
+    }, [dispatch, hasDeviceAuthFailed, hideAlert, openLink, reset, showAlert, translate]);
 
     useEffect(() => {
         TrezorConnect.on(UI.INVALID_PIN, handleInvalidPin);
@@ -76,6 +88,7 @@ export const PinFormControlButtons = () => {
 
     const onSubmit = handleSubmit(values => {
         setIsSubmitting(true);
+        dispatch(removeButtonRequests({ device }));
         TrezorConnect.uiResponse({ type: UI.RECEIVE_PIN, payload: values.pin });
     });
 
