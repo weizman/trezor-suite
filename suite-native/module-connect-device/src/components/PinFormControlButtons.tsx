@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +27,8 @@ type NavigationProp = StackToStackCompositeNavigationProps<
 >;
 
 export const PinFormControlButtons = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const openLink = useOpenLink();
     const { translate } = useTranslate();
     const navigation = useNavigation<NavigationProp>();
@@ -46,6 +48,7 @@ export const PinFormControlButtons = () => {
     }, [isDeviceUnlocked, navigation]);
 
     const handleInvalidPin = useCallback(() => {
+        setIsSubmitting(false);
         showAlert({
             title: translate('moduleConnectDevice.pinScreen.wrongPinAlert.title'),
             description: translate('moduleConnectDevice.pinScreen.wrongPinAlert.description'),
@@ -72,6 +75,7 @@ export const PinFormControlButtons = () => {
     }, [handleInvalidPin]);
 
     const onSubmit = handleSubmit(values => {
+        setIsSubmitting(true);
         TrezorConnect.uiResponse({ type: UI.RECEIVE_PIN, payload: values.pin });
     });
 
@@ -92,8 +96,13 @@ export const PinFormControlButtons = () => {
                 />
             )}
             <Box flex={1}>
-                <Button isDisabled={pinLength < PIN_FORM_MIN_LENGTH} onPress={onSubmit}>
-                    {translate('moduleConnectDevice.pinScreen.form.enterPin')}
+                <Button
+                    isDisabled={isSubmitting || pinLength < PIN_FORM_MIN_LENGTH}
+                    onPress={onSubmit}
+                >
+                    {isSubmitting
+                        ? translate('moduleConnectDevice.pinScreen.form.submitting')
+                        : translate('moduleConnectDevice.pinScreen.form.enterPin')}
                 </Button>
             </Box>
         </HStack>
