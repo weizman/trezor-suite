@@ -8,7 +8,7 @@ import { Amount } from './components/Amount';
 import OpReturn from './components/OpReturn';
 import { EvmExplanationBox } from 'src/components/wallet/EvmExplanationBox';
 import { Translation } from 'src/components/suite';
-import { getMainnets, networks } from '@suite-common/wallet-config';
+import { networks } from '@suite-common/wallet-config';
 
 const Wrapper = styled.div``;
 
@@ -44,7 +44,6 @@ const Row = styled.div`
 `;
 
 const StyledEvmExplanationBox = styled(EvmExplanationBox)`
-    margin-top: 10px;
     margin-bottom: 14px;
 `;
 
@@ -94,11 +93,6 @@ const Outputs = ({ disableAnim }: OutputsProps) => {
                             ) : (
                                 <>
                                     <Row>
-                                        <Address
-                                            output={outputs[index]}
-                                            outputId={index}
-                                            outputsCount={outputs.length}
-                                        />
                                         {account.networkType === 'ethereum' && (
                                             <StyledEvmExplanationBox
                                                 symbol={account.symbol}
@@ -119,6 +113,11 @@ const Outputs = ({ disableAnim }: OutputsProps) => {
                                                 />
                                             </StyledEvmExplanationBox>
                                         )}
+                                        <Address
+                                            output={outputs[index]}
+                                            outputId={index}
+                                            outputsCount={outputs.length}
+                                        />
                                     </Row>
                                     <Row>
                                         <Amount output={outputs[index]} outputId={index} />

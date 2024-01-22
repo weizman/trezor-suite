@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Translation, Modal } from 'src/components/suite';
 import { useDispatch } from 'src/hooks/suite';
@@ -63,6 +63,14 @@ const ImageCoinLogoLeft = styled(ImageCoinLogoCommon)`
     top: 17%;
     left: 3.5%;
     height: 52%;
+
+    ${({ symbol }) =>
+        symbol === 'eth' &&
+        css`
+            top: 15.6%;
+            left: 4.8%;
+            height: 51%;
+        `}
 `;
 
 const ImageCoinLogoRight = styled(ImageCoinLogoCommon)`
@@ -83,12 +91,11 @@ export const ConfirmEvmExplanationModal = ({
     const dispatch = useDispatch();
     const close = () => {
         dispatch(onCancel());
-        // TODO: uncomment
-        /* dispatch({
+        dispatch({
             type: SUITE.EVM_CONFIRM_EXPLANATION_MODAL,
             symbol: coin,
             route,
-        }); */
+        });
     };
 
     const network = networks[coin];
@@ -129,7 +136,7 @@ export const ConfirmEvmExplanationModal = ({
                         }
                     />
                     <ImageCoinLogoLeft symbol={coin} />
-                    <ImageCoinLogoRight symbol="eth" />
+                    {coin !== 'eth' && <ImageCoinLogoRight symbol="eth" />}
                 </ImageWrapper>
                 <Title>
                     <Translation

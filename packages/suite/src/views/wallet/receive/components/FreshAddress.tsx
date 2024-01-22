@@ -194,6 +194,7 @@ export const FreshAddress = ({
             </Tooltip>
             {account.networkType === 'ethereum' && (
                 <StyledEvmExplanationBox
+                    caret
                     symbol={account.symbol}
                     title={
                         <Translation

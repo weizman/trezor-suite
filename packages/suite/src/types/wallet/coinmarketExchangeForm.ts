@@ -13,6 +13,7 @@ import type { AmountLimits, CryptoAmountLimits, Option } from './coinmarketCommo
 import type { WithSelectedAccountLoadedProps } from 'src/components/wallet';
 import { SendContextValues } from '@suite-common/wallet-types';
 import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
+import { CryptoSymbol } from 'invity-api';
 
 export const CRYPTO_INPUT = 'outputs.0.amount';
 export const CRYPTO_TOKEN = 'outputs.0.token';
@@ -23,8 +24,8 @@ export type UseCoinmarketExchangeFormProps = WithSelectedAccountLoadedProps;
 
 export type ExchangeFormState = FormState & {
     // NOTE: react-select value type cannot be undefined, but at least null works
-    receiveCryptoSelect: Option | null;
-    sendCryptoSelect: Option;
+    receiveCryptoSelect: (Option & { cryptoSymbol?: CryptoSymbol }) | null;
+    sendCryptoSelect: Option & { cryptoSymbol?: CryptoSymbol };
 };
 
 export interface ExchangeFormContextValues extends UseFormReturn<ExchangeFormState> {

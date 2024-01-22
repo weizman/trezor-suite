@@ -8443,6 +8443,15 @@ export default defineMessages({
         defaultMessage:
             "Send only through {network}. The address must be on the {network} chain or the receiver won't receive their crypto.",
     },
+    TR_EVM_EXPLANATION_EXCHANGE_TITLE: {
+        id: 'TR_EVM_EXPLANATION_EXCHANGE_TITLE',
+        defaultMessage: 'Did you choose the right chain?',
+    },
+    TR_EVM_EXPLANATION_EXCHANGE_DESCRIPTION: {
+        id: 'TR_EVM_EXPLANATION_EXCHANGE_DESCRIPTION',
+        defaultMessage:
+            "You selected {coin} on {network}, but it seems you don't have any {networkSymbol} coins. Did you mean to choose {coin} on another chain?",
+    },
     TR_EVM_EXPLANATION_SEND_MODAL_DESCRIPTION: {
         id: 'TR_EVM_EXPLANATION_SEND_MODAL_DESCRIPTION',
         defaultMessage:

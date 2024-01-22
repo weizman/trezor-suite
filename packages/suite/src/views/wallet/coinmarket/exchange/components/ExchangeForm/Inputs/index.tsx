@@ -9,11 +9,18 @@ import FiatInput from './FiatInput';
 import ReceiveCryptoSelect from './ReceiveCryptoSelect';
 import { CoinmarketFractionButtons } from 'src/views/wallet/coinmarket/common';
 import { CRYPTO_INPUT, FIAT_INPUT } from 'src/types/wallet/coinmarketExchangeForm';
-import { useLayoutSize } from 'src/hooks/suite';
-import { Wrapper, Left, Middle, Right, StyledIcon } from 'src/views/wallet/coinmarket';
+import { Wrapper, Left, Right } from 'src/views/wallet/coinmarket';
 import { useBitcoinAmountUnit } from 'src/hooks/wallet/useBitcoinAmountUnit';
 import { FiatValue, FormattedCryptoAmount, Translation } from 'src/components/suite';
 import { variables } from '@trezor/components';
+import { EvmExplanationBox } from 'src/components/wallet/EvmExplanationBox';
+import { networks } from '@suite-common/wallet-config';
+import {
+    cryptoToNetworkSymbol,
+    isCryptoSymbolToken,
+} from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
+import { useSelector } from 'src/hooks/suite';
+import { selectDeviceAccounts } from '@suite-common/wallet-core';
 
 const Row = styled.div<{ spaceBefore?: boolean }>`
     display: flex;
@@ -37,6 +44,10 @@ const StyledFiatValue = styled(FiatValue)`
     margin-left: 1ch;
 `;
 
+const StyledEvmExplanationBox = styled(EvmExplanationBox)`
+    margin-bottom: 14px;
+`;
+
 const Inputs = () => {
     const {
         trigger,
@@ -50,8 +61,9 @@ const Inputs = () => {
         clearErrors,
     } = useCoinmarketExchangeFormContext();
     const { shouldSendInSats } = useBitcoinAmountUnit(account.symbol);
+    const deviceAccounts = useSelector(selectDeviceAccounts);
 
-    const { outputs } = getValues();
+    const { outputs, receiveCryptoSelect } = getValues();
     const tokenAddress = outputs?.[0]?.token;
     const tokenData = account.tokens?.find(t => t.contract === tokenAddress);
 
@@ -59,8 +71,6 @@ const Inputs = () => {
     useEffect(() => {
         trigger([CRYPTO_INPUT]);
     }, [amountLimits, trigger]);
-
-    const { layoutSize } = useLayoutSize();
 
     const setRatioAmount = useCallback(
         (divisor: number) => {
@@ -105,6 +115,18 @@ const Inputs = () => {
     const symbol = tokenData?.symbol ?? account.symbol;
     const isBalanceZero = isZero(balance);
 
+    const receiveCryptoNetworkSymbol =
+        receiveCryptoSelect?.cryptoSymbol &&
+        cryptoToNetworkSymbol(receiveCryptoSelect.cryptoSymbol);
+
+    const isReceiveTokenBalanceZero =
+        receiveCryptoSelect?.cryptoSymbol &&
+        isCryptoSymbolToken(receiveCryptoSelect?.cryptoSymbol) &&
+        receiveCryptoNetworkSymbol &&
+        deviceAccounts
+            .filter(ac => ac.networkType === 'ethereum' && ac.symbol === receiveCryptoNetworkSymbol)
+            .every(ac => new BigNumber(ac.balance).isZero());
+
     return (
         <Wrapper responsiveSize="XL">
             <Row>
@@ -135,6 +157,24 @@ const Inputs = () => {
             <Row spaceBefore>
                 <ReceiveCryptoSelect />
             </Row>
+            {isReceiveTokenBalanceZero && (
+                <Row spaceBefore>
+                    <StyledEvmExplanationBox
+                        caret
+                        symbol={receiveCryptoNetworkSymbol}
+                        title={<Translation id="TR_EVM_EXPLANATION_EXCHANGE_TITLE" />}
+                    >
+                        <Translation
+                            id="TR_EVM_EXPLANATION_EXCHANGE_DESCRIPTION"
+                            values={{
+                                coin: receiveCryptoSelect.label,
+                                network: networks[receiveCryptoNetworkSymbol].name,
+                                networkSymbol: receiveCryptoNetworkSymbol.toUpperCase(),
+                            }}
+                        />
+                    </StyledEvmExplanationBox>
+                </Row>
+            )}
         </Wrapper>
     );
 };
