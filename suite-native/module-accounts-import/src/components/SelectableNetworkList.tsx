@@ -1,8 +1,6 @@
-import { HeaderedCard, VStack } from '@suite-native/atoms';
+import { HeaderedCard, VStack, SelectableNetworkItem } from '@suite-native/atoms';
 import { Network, NetworkSymbol } from '@suite-common/wallet-config';
 import { portfolioTrackerMainnets, portfolioTrackerTestnets } from '@suite-native/config';
-
-import { SelectableNetworkItem } from './SelectableNetworkItem';
 
 type SelectableAssetListProps = {
     onSelectItem: (networkSymbol: NetworkSymbol) => void;

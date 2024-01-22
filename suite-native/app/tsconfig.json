@@ -39,6 +39,9 @@
         {
             "path": "../module-accounts-management"
         },
+        {
+            "path": "../module-add-coin"
+        },
         { "path": "../module-connect-device" },
         { "path": "../module-dev-utils" },
         { "path": "../module-home" },

@@ -1,4 +1,4 @@
-import { A } from '@mobily/ts-belt';
+import { A, G } from '@mobily/ts-belt';
 
 import { createThunk } from '@suite-common/redux-utils';
 import {
@@ -6,17 +6,20 @@ import {
     DISCOVERY_MODULE_PREFIX,
     selectDeviceAccountsLengthPerNetwork,
     selectDeviceDiscovery,
+    selectDeviceAccounts,
     updateDiscovery,
     createDiscovery,
     removeDiscovery,
     getAvailableCardanoDerivationsThunk,
     selectDeviceByState,
+    selectDeviceAccountByDescriptorAndNetworkSymbol,
 } from '@suite-common/wallet-core';
 import { selectIsAccountAlreadyDiscovered } from '@suite-native/accounts';
 import TrezorConnect from '@trezor/connect';
-import { DiscoveryItem } from '@suite-common/wallet-types';
+import { TrezorDevice } from '@suite-common/suite-types/';
+import { Account, DiscoveryItem } from '@suite-common/wallet-types';
 import { getDerivationType } from '@suite-common/wallet-utils';
-import { Network, NetworkSymbol, getNetworkType } from '@suite-common/wallet-config';
+import { AccountType, Network, NetworkSymbol, getNetworkType } from '@suite-common/wallet-config';
 import { DiscoveryStatus } from '@suite-common/wallet-constants';
 import { requestDeviceAccess } from '@suite-native/device-mutex';
 import { analytics, EventType } from '@suite-native/analytics';
@@ -41,6 +44,11 @@ const DISCOVERY_BATCH_SIZE_PER_COIN: Partial<Record<NetworkSymbol, number>> = {
     vtc: 1,
     zec: 1,
     etc: 1,
+};
+
+type AddAccountResult = {
+    isSuccess: boolean;
+    account?: Account;
 };
 
 const getBatchSizeByCoin = (coin: NetworkSymbol): number => {
@@ -98,6 +106,63 @@ const getAccountInfoDetailsLevel = (coin: NetworkSymbol) => {
     return { details: 'tokenBalances' } as const;
 };
 
+const getAccountInfo = (bundleItem: DiscoveryDescriptorItem) =>
+    TrezorConnect.getAccountInfo({
+        coin: bundleItem.coin,
+        descriptor: bundleItem.descriptor,
+        useEmptyPassphrase: true,
+        skipFinalReload: true,
+        ...getAccountInfoDetailsLevel(bundleItem.coin),
+    });
+
+export const getCardanoSupportedAccountTypesThunk = createThunk(
+    `${DISCOVERY_MODULE_PREFIX}/addAccountsByDescriptorThunk`,
+    async (
+        {
+            deviceState,
+            device,
+        }: {
+            deviceState: string;
+            device: TrezorDevice;
+        },
+        { dispatch },
+    ) => {
+        const availableCardanoDerivationsResponse = await requestDeviceAccess(() =>
+            dispatch(getAvailableCardanoDerivationsThunk({ deviceState, device })).unwrap(),
+        );
+
+        return availableCardanoDerivationsResponse ?? [];
+    },
+);
+
+const addAccountsByDescriptorThunk = createThunk(
+    `${DISCOVERY_MODULE_PREFIX}/addAccountsByDescriptorThunk`,
+    async (
+        {
+            deviceState,
+            bundleItem,
+        }: {
+            deviceState: string;
+            bundleItem: DiscoveryDescriptorItem;
+        },
+        { dispatch },
+    ) => {
+        const { success, payload: accountInfo } = await getAccountInfo(bundleItem);
+
+        if (success) {
+            dispatch(
+                accountsActions.createIndexLabeledAccount({
+                    discoveryItem: bundleItem,
+                    deviceState,
+                    accountInfo,
+                }),
+            );
+        }
+
+        return success;
+    },
+);
+
 const discoverAccountsByDescriptorThunk = createThunk(
     `${DISCOVERY_MODULE_PREFIX}/discoverAccountsByDescriptorThunk`,
     async (
@@ -119,13 +184,7 @@ const discoverAccountsByDescriptorThunk = createThunk(
         // eslint-disable-next-line no-restricted-syntax
         for (const bundleItem of descriptorsBundle) {
             // eslint-disable-next-line no-await-in-loop
-            const { success, payload: accountInfo } = await TrezorConnect.getAccountInfo({
-                coin: bundleItem.coin,
-                descriptor: bundleItem.descriptor,
-                useEmptyPassphrase: true,
-                skipFinalReload: true,
-                ...getAccountInfoDetailsLevel(bundleItem.coin),
-            });
+            const { success, payload: accountInfo } = await getAccountInfo(bundleItem);
 
             if (success) {
                 if (accountInfo.empty) {
@@ -144,6 +203,70 @@ const discoverAccountsByDescriptorThunk = createThunk(
         }
 
         return isFinalRound;
+    },
+);
+
+export const addNetworkAccountThunk = createThunk(
+    `${DISCOVERY_MODULE_PREFIX}/addNetworkAccountThunk`,
+    async (
+        {
+            network,
+            accountType,
+            deviceState,
+        }: {
+            network: Network;
+            accountType: AccountType;
+            deviceState: string;
+        },
+        { dispatch, getState },
+    ): Promise<AddAccountResult> => {
+        const accounts = selectDeviceAccounts(getState()).filter(
+            account => account.symbol === network.symbol && account.accountType === accountType,
+        );
+
+        const index = accounts.length + 1;
+
+        // only 10 accounts per network/accountType are supported
+        if (index > 10) {
+            return { isSuccess: false };
+        }
+
+        const accountPath = network.bip43Path.replace('i', index.toString());
+
+        // Take exclusive access to the device and hold it until is the fetching of the descriptors done.
+        const deviceAccessResponse = await requestDeviceAccess(fetchBundleDescriptors, [
+            {
+                path: accountPath,
+                coin: network.symbol,
+                index,
+                accountType,
+                networkType: network.networkType,
+                derivationType: getDerivationType(accountType),
+                suppressBackupWarning: true,
+                skipFinalReload: true,
+            },
+        ]);
+
+        if (!deviceAccessResponse.success) {
+            return { isSuccess: false };
+        }
+
+        const descriptor = deviceAccessResponse.payload[0];
+
+        await dispatch(
+            addAccountsByDescriptorThunk({
+                bundleItem: descriptor,
+                deviceState,
+            }),
+        ).unwrap();
+
+        const account = selectDeviceAccountByDescriptorAndNetworkSymbol(
+            getState(),
+            descriptor.descriptor,
+            network.symbol,
+        );
+
+        return { isSuccess: G.isNotNullable(account), account: account ?? undefined };
     },
 );
 
@@ -270,13 +393,18 @@ export const createDescriptorPreloadedDiscoveryThunk = createThunk(
         const supportedNetworksSymbols = supportedNetworks.map(network => network.symbol);
         const discoveryNetworksTotalCount = supportedNetworksSymbols.length;
 
-        let availableCardanoDerivationsResponse;
+        let availableCardanoDerivations: ('normal' | 'legacy' | 'ledger')[] | undefined;
         if (supportedNetworks.some(network => network.networkType === 'cardano')) {
-            availableCardanoDerivationsResponse = await requestDeviceAccess(() =>
-                dispatch(getAvailableCardanoDerivationsThunk({ deviceState, device })).unwrap(),
-            );
+            const availableCardanoDerivationsResult = await dispatch(
+                getCardanoSupportedAccountTypesThunk({
+                    deviceState,
+                    device,
+                }),
+            ).unwrap();
 
-            if (!availableCardanoDerivationsResponse.success) return false;
+            if (availableCardanoDerivationsResult.success) {
+                availableCardanoDerivations = availableCardanoDerivationsResult.payload;
+            }
         }
 
         dispatch(
@@ -289,7 +417,7 @@ export const createDescriptorPreloadedDiscoveryThunk = createThunk(
                 bundleSize: 0,
                 loaded: 0,
                 failed: [],
-                availableCardanoDerivations: availableCardanoDerivationsResponse?.payload,
+                availableCardanoDerivations,
                 networks: supportedNetworksSymbols,
             }),
         );

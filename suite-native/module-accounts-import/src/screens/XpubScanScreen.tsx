@@ -4,7 +4,14 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { useFocusEffect } from '@react-navigation/native';
 
-import { Box, Button, HeaderedCard, TextDivider, VStack } from '@suite-native/atoms';
+import {
+    Box,
+    Button,
+    HeaderedCard,
+    TextDivider,
+    VStack,
+    SelectableNetworkItem,
+} from '@suite-native/atoms';
 import { isDevelopOrDebugEnv } from '@suite-native/config';
 import { Form, TextInputField, useForm } from '@suite-native/forms';
 import {
@@ -22,7 +29,6 @@ import { useAlert } from '@suite-native/alerts';
 import { XpubImportSection } from '../components/XpubImportSection';
 import { AccountImportSubHeader } from '../components/AccountImportSubHeader';
 import { DevXpub } from '../components/DevXpub';
-import { SelectableNetworkItem } from '../components/SelectableNetworkItem';
 import { XpubHint } from '../components/XpubHint';
 import { XpubHintBottomSheet } from '../components/XpubHintBottomSheet';
 

@@ -39,5 +39,6 @@ export * from './TrezorSuiteLiteHeader';
 export * from './Skeleton/BoxSkeleton';
 export * from './Skeleton/ListItemSkeleton';
 export * from './BulletListItem';
+export * from './SelectableNetworkItem';
 
 export { useDebugView } from './DebugView';

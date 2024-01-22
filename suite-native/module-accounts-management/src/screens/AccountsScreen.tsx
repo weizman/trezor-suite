@@ -49,8 +49,9 @@ export const AccountsScreen = () => {
                     title="My assets"
                     onSearchInputChange={handleFilterChange}
                     rightIcon={
-                        isPortfolioTrackerDevice &&
-                        !areAllDevicesDisconnectedOrAccountless && <AddAccountButton />
+                        (isPortfolioTrackerDevice || !areAllDevicesDisconnectedOrAccountless) && (
+                            <AddAccountButton />
+                        )
                     }
                 />
             }
