@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import WebSocket from 'ws';
 import * as net from 'net';
 

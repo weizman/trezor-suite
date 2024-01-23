@@ -1,6 +1,15 @@
 {
     "extends": "../../tsconfig.json",
-    "compilerOptions": { "outDir": "libDev" },
-    "include": ["src"],
-    "references": [{ "path": "../schema-utils" }]
+    "compilerOptions": {
+        "outDir": "libDev"
+    },
+    "include": [
+        "src",
+        "tests",
+    ],
+    "references": [
+        {
+            "path": "../schema-utils"
+        }
+    ]
 }

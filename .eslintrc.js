@@ -11,6 +11,8 @@ module.exports = {
         ecmaFeatures: {
             jsx: true,
         },
+        project: ["./tsconfig.json"],
+        tsconfigRootDir: __dirname,
     },
     plugins: ['import', '@typescript-eslint', 'react-hooks', 'prettier', 'jest', 'chai-friendly'],
     extends: [
@@ -38,8 +40,18 @@ module.exports = {
         '**/node_modules/*',
         'packages/suite-data/files/*',
         'packages/protobuf/scripts/protobuf-patches/*',
+        '*.config.js',
+        '.eslintrc.js',
     ],
     rules: {
+        '@typescript-eslint/strict-boolean-expressions': [
+            'warn',
+            {
+                allowString: false,
+                allowNumber: false,
+                allowNullableObject: false,
+            },
+        ],
         '@typescript-eslint/prefer-ts-expect-error': 'error',
         // I believe type is enforced by callers.
         '@typescript-eslint/explicit-function-return-type': 'off',

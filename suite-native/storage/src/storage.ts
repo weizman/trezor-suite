@@ -5,6 +5,7 @@ import RNRestart from 'react-native-restart';
 import * as Random from 'expo-random';
 import * as SecureStore from 'expo-secure-store';
 import * as SplashScreen from 'expo-splash-screen';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Storage } from 'redux-persist';
 
 import { unecryptedJotaiStorage } from './atomWithUnecryptedStorage';

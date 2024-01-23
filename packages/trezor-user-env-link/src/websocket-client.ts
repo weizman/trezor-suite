@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import WebSocket from 'ws';
 import { EventEmitter } from 'events';
 import fetch from 'cross-fetch';

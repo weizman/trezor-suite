@@ -1,6 +1,7 @@
 import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, RoundedIcon, Text } from '@suite-native/atoms';
 import {
     EthereumTokenAmountFormatter,

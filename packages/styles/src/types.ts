@@ -1,5 +1,6 @@
 import type * as RN from 'react-native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import type * as CSS from 'csstype';
 
 // TODO: In the future, we might want to move the `theme` to a standalone module and instead

@@ -4,5 +4,7 @@
         "outDir": "lib",
         "importHelpers": true
     },
-    "include": ["./src"]
+    "include": [
+        "./src"
+    ]
 }

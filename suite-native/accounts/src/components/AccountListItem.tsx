@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { AccountsRootState, selectFormattedAccountType } from '@suite-common/wallet-core';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Badge, Box, RoundedIcon, Text } from '@suite-native/atoms';
 import { Account } from '@suite-common/wallet-types';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
