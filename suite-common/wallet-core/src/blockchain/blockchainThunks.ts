@@ -342,7 +342,7 @@ export const onBlockchainNotificationThunk = createThunk(
             );
 
             const formattedAmount = token
-                ? `${formatAmount(token.amount, token.decimals)} ${token.symbol.toUpperCase()}`
+                ? `${formatAmount(token.amount, token.decimals)} ${token.symbol?.toUpperCase()}`
                 : formatNetworkAmount(tx.amount, account.symbol, true, areSatoshisUsed);
 
             dispatch(
