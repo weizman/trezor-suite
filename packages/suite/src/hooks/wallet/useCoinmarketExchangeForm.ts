@@ -333,12 +333,10 @@ export const useCoinmarketExchangeForm = ({
             unformattedOutputAmount && shouldSendInSats
                 ? formatAmount(unformattedOutputAmount, network.decimals)
                 : unformattedOutputAmount;
-        const send = formValues.sendCryptoSelect.value.toUpperCase();
         if (formValues.receiveCryptoSelect) {
-            const receive = formValues.receiveCryptoSelect.value;
             const request: ExchangeTradeQuoteRequest = {
-                receive,
-                send,
+                receive: formValues.receiveCryptoSelect.cryptoSymbol!,
+                send: formValues.sendCryptoSelect.cryptoSymbol!,
                 sendStringAmount,
                 dex: 'enable',
             };

@@ -7,7 +7,6 @@ import type {
     BuyTradeQuoteRequest,
     ExchangeTradeQuoteRequest,
     ExchangeTrade,
-    ExchangeCoinInfo,
     SellFiatTrade,
     SellFiatTradeQuoteRequest,
     P2pQuotesRequest,
@@ -16,6 +15,7 @@ import type {
     SavingsProviderInfo,
     SavingsTrade,
     SavingsTradePlannedPayment,
+    CryptoSymbolInfo,
 } from 'invity-api';
 import type { BuyInfo } from 'src/actions/wallet/coinmarketBuyActions';
 import type { ExchangeInfo } from 'src/actions/wallet/coinmarketExchangeActions';
@@ -35,7 +35,6 @@ import type { SavingsInfo } from 'src/actions/wallet/coinmarketSavingsActions';
 import type { FeeLevel } from '@trezor/connect';
 import type { Trade } from 'src/types/wallet/coinmarketCommonTypes';
 import { P2pInfo } from 'src/actions/wallet/coinmarketP2pActions';
-import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
 
 export interface ComposedTransactionInfo {
     composed?: Pick<

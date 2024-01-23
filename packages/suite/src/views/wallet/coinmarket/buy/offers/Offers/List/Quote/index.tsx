@@ -155,10 +155,16 @@ export function getQuoteError(quote: BuyTrade, wantCrypto: boolean) {
                         id="TR_OFFER_ERROR_MINIMUM_CRYPTO"
                         values={{
                             amount: (
-                                <CoinmarketCryptoAmount amount={cryptoAmount} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={cryptoAmount}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                             min: (
-                                <CoinmarketCryptoAmount amount={quote.minCrypto} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={quote.minCrypto}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                         }}
                     />
@@ -170,10 +176,16 @@ export function getQuoteError(quote: BuyTrade, wantCrypto: boolean) {
                         id="TR_OFFER_ERROR_MAXIMUM_CRYPTO"
                         values={{
                             amount: (
-                                <CoinmarketCryptoAmount amount={cryptoAmount} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={cryptoAmount}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                             max: (
-                                <CoinmarketCryptoAmount amount={quote.maxCrypto} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={quote.maxCrypto}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                         }}
                     />

@@ -12,6 +12,7 @@ import { useCoinmarketSellOffersContext } from 'src/hooks/wallet/useCoinmarketSe
 import { getTagAndInfoNote } from 'src/utils/wallet/coinmarket/coinmarketUtils';
 import { CoinmarketCryptoAmount } from 'src/views/wallet/coinmarket/common/CoinmarketCryptoAmount';
 import { CoinmarketFiatAmount } from 'src/views/wallet/coinmarket/common/CoinmarketFiatAmount';
+import { cryptoToCoinSymbol } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 const Wrapper = styled.div`
     display: flex;
@@ -152,10 +153,16 @@ export function getQuoteError(quote: SellFiatTrade, amountInCrypto: boolean) {
                         id="TR_OFFER_ERROR_MINIMUM_CRYPTO"
                         values={{
                             amount: (
-                                <CoinmarketCryptoAmount amount={cryptoAmount} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={cryptoAmount}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                             min: (
-                                <CoinmarketCryptoAmount amount={quote.minCrypto} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={quote.minCrypto}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                         }}
                     />
@@ -167,10 +174,16 @@ export function getQuoteError(quote: SellFiatTrade, amountInCrypto: boolean) {
                         id="TR_OFFER_ERROR_MAXIMUM_CRYPTO"
                         values={{
                             amount: (
-                                <CoinmarketCryptoAmount amount={cryptoAmount} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={cryptoAmount}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                             max: (
-                                <CoinmarketCryptoAmount amount={quote.maxCrypto} symbol={symbol} />
+                                <CoinmarketCryptoAmount
+                                    amount={quote.maxCrypto}
+                                    symbol={cryptoToCoinSymbol(symbol!)}
+                                />
                             ),
                         }}
                     />
@@ -260,7 +273,7 @@ const Quote = ({ className, quote, amountInCrypto }: QuoteProps) => {
                         ) : (
                             <CoinmarketCryptoAmount
                                 amount={quote.cryptoStringAmount}
-                                symbol={quote.cryptoCurrency}
+                                symbol={cryptoToCoinSymbol(quote.cryptoCurrency!)}
                             />
                         )}
                         <CoinmarketTag tag={tag} />

@@ -1,5 +1,6 @@
+import { CryptoSymbolInfo } from 'invity-api';
 import { COINMARKET_INFO } from 'src/actions/wallet/constants';
-import invityAPI, { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
+import invityAPI from 'src/services/suite/invityAPI';
 
 export type CoinmarketInfoAction = {
     type: typeof COINMARKET_INFO.SAVE_SYMBOLS_INFO;

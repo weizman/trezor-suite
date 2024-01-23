@@ -4,7 +4,7 @@ import coinmarketReducer from 'src/reducers/wallet/coinmarketReducer';
 
 import * as coinmarketExchangeActions from '../coinmarketExchangeActions';
 import invityAPI from 'src/services/suite/invityAPI';
-import { ExchangeCoinInfo, ExchangeTrade, ExchangeTradeQuoteRequest } from 'invity-api';
+import { ExchangeTrade, ExchangeTradeQuoteRequest } from 'invity-api';
 
 export const getInitialState = () => ({
     wallet: {
@@ -96,18 +96,9 @@ describe('Coinmarket Exchange Actions', () => {
                 isRefundRequired: false,
             },
         ];
-        const exchangeCoinList: ExchangeCoinInfo[] = [
-            { ticker: 'BTC', name: 'Bitcoin', category: 'popular' },
-            { ticker: 'ETH', name: 'Ethereum', category: 'popular' },
-            { ticker: 'XMR', name: 'Ripple', category: 'popular' },
-        ];
 
         setFetchMock({
             'https://exchange.trezor.io/api/exchange/list': { ok: true, response: exchangeList },
-            'https://exchange.trezor.io/api/exchange/coins': {
-                ok: true,
-                response: exchangeCoinList,
-            },
         });
 
         const store = initStore(getInitialState());

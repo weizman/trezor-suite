@@ -16,6 +16,7 @@ import {
     CoinmarketTag,
 } from 'src/views/wallet/coinmarket/common';
 import { selectCoinsLegacy } from '@suite-common/wallet-core';
+import { cryptoToCoinSymbol } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 const Wrapper = styled.div`
     display: flex;
@@ -159,8 +160,18 @@ function getQuoteError(quote: ExchangeTrade) {
             <Translation
                 id="TR_OFFER_ERROR_MINIMUM_CRYPTO"
                 values={{
-                    amount: <CoinmarketCryptoAmount amount={cryptoAmount} symbol={symbol} />,
-                    min: <CoinmarketCryptoAmount amount={quote.min} symbol={symbol} />,
+                    amount: (
+                        <CoinmarketCryptoAmount
+                            amount={cryptoAmount}
+                            symbol={cryptoToCoinSymbol(symbol!)}
+                        />
+                    ),
+                    min: (
+                        <CoinmarketCryptoAmount
+                            amount={quote.min}
+                            symbol={cryptoToCoinSymbol(symbol!)}
+                        />
+                    ),
                 }}
             />
         );
@@ -170,8 +181,18 @@ function getQuoteError(quote: ExchangeTrade) {
             <Translation
                 id="TR_OFFER_ERROR_MAXIMUM_CRYPTO"
                 values={{
-                    amount: <CoinmarketCryptoAmount amount={cryptoAmount} symbol={symbol} />,
-                    max: <CoinmarketCryptoAmount amount={quote.max} symbol={symbol} />,
+                    amount: (
+                        <CoinmarketCryptoAmount
+                            amount={cryptoAmount}
+                            symbol={cryptoToCoinSymbol(symbol!)}
+                        />
+                    ),
+                    max: (
+                        <CoinmarketCryptoAmount
+                            amount={quote.max}
+                            symbol={cryptoToCoinSymbol(symbol!)}
+                        />
+                    ),
                 }}
             />
         );
@@ -241,7 +262,10 @@ const Quote = ({ className, quote }: QuoteProps) => {
                 {errorQuote && !noFundsForFeesError && <Left>N/A</Left>}
                 {(!errorQuote || noFundsForFeesError) && (
                     <Left>
-                        <FormattedCryptoAmount value={receiveStringAmount} symbol={receive} />
+                        <FormattedCryptoAmount
+                            value={receiveStringAmount}
+                            symbol={cryptoToCoinSymbol(receive!)}
+                        />
                         <CoinmarketTag tag={tag} />
                     </Left>
                 )}

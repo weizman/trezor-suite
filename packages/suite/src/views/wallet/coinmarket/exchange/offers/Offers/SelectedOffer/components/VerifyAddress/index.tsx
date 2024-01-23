@@ -12,6 +12,7 @@ import { useAccountAddressDictionary } from 'src/hooks/wallet/useAccounts';
 import { ReceiveOptions, AccountSelectOption } from './ReceiveOptions';
 import { useTranslation } from 'src/hooks/suite/useTranslation';
 import { ConfirmedOnTrezor } from 'src/views/wallet/coinmarket/common/ConfirmedOnTrezor';
+import { cryptoToCoinSymbol } from 'src/utils/wallet/coinmarket/cryptoSymbolUtils';
 
 const Wrapper = styled.div`
     display: flex;
@@ -149,7 +150,7 @@ const VerifyAddressComponent = () => {
             <Heading>
                 <Translation
                     id="TR_EXCHANGE_RECEIVING_ADDRESS_INFO"
-                    values={{ symbol: selectedQuote?.receive }}
+                    values={{ symbol: cryptoToCoinSymbol(selectedQuote?.receive!) }}
                 />
             </Heading>
             <CardContent>

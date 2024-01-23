@@ -12,8 +12,7 @@ import type {
 import type { AmountLimits, CryptoAmountLimits, Option } from './coinmarketCommonTypes';
 import type { WithSelectedAccountLoadedProps } from 'src/components/wallet';
 import { SendContextValues } from '@suite-common/wallet-types';
-import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
-import { CryptoSymbol } from 'invity-api';
+import { CryptoSymbol, CryptoSymbolInfo } from 'invity-api';
 
 export const CRYPTO_INPUT = 'outputs.0.amount';
 export const CRYPTO_TOKEN = 'outputs.0.token';

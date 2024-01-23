@@ -2,11 +2,11 @@ import { variables, Select } from '@trezor/components';
 import { ExchangeInfo } from 'src/actions/wallet/coinmarketExchangeActions';
 import { Controller } from 'react-hook-form';
 import styled from 'styled-components';
-import { CryptoSymbol } from 'invity-api';
+import { CryptoSymbol, CryptoSymbolInfo } from 'invity-api';
 import { useCoinmarketExchangeFormContext } from 'src/hooks/wallet/useCoinmarketExchangeForm';
 import { Translation } from 'src/components/suite';
 import { Account } from 'src/types/wallet';
-import invityAPI, { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
+import invityAPI from 'src/services/suite/invityAPI';
 import { getInputState } from '@suite-common/wallet-utils';
 import {
     cryptoToCoinSymbol,

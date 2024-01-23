@@ -6,7 +6,6 @@ import {
     ConfirmExchangeTradeRequest,
     ExchangeTrade,
     WatchExchangeTradeResponse,
-    ExchangeCoinInfo,
     BuyListResponse,
     BuyTradeQuoteRequest,
     BuyTradeQuoteResponse,
@@ -40,7 +39,7 @@ import {
     SavingsTradeKYCStatusResponse,
     WatchSavingTradeItemResponse,
     FormResponse,
-    CryptoSymbol,
+    CryptoSymbolsResponse,
 } from 'invity-api';
 import { isDesktop } from '@trezor/env-utils';
 import type { InvityServerEnvironment, InvityServers } from '@suite-common/invity';
@@ -59,16 +58,6 @@ type BodyType =
     | SellFiatTradeRequest
     | P2pTradeRequest
     | SavingsTradeRequest;
-
-/** @deprecated TODO: replace with @types/invity-api */
-export type CryptoSymbolsResponse = CryptoSymbolInfo[];
-
-/** @deprecated TODO: replace with @types/invity-api */
-export interface CryptoSymbolInfo {
-    symbol: CryptoSymbol;
-    name: string;
-    category: string;
-}
 
 class InvityAPI {
     unknownCountry = 'unknown';

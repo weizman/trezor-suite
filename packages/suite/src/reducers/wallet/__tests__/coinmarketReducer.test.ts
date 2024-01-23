@@ -11,12 +11,12 @@ import {
 import {
     BuyTrade,
     BuyTradeQuoteRequest,
+    CryptoSymbolInfo,
     ExchangeTradeQuoteRequest,
     SellFiatTradeQuoteRequest,
 } from 'invity-api';
 import { BuyInfo } from 'src/actions/wallet/coinmarketBuyActions';
 import { ExchangeInfo } from 'src/actions/wallet/coinmarketExchangeActions';
-import { CryptoSymbolInfo } from 'src/services/suite/invityAPI';
 
 describe('settings reducer', () => {
     it('test initial state', () => {
@@ -191,8 +191,8 @@ describe('settings reducer', () => {
     it('COINMARKET_EXCHANGE.SAVE_EXCHANGE_INFO', () => {
         const exchangeInfo: ExchangeInfo = {
             providerInfos: {},
-            buySymbols: new Set(['btc', 'eth']),
-            sellSymbols: new Set(['usd']),
+            buySymbols: new Set(['BTC', 'ETH']),
+            sellSymbols: new Set(['USDT@ETH']),
         };
         expect(
             reducer(undefined, {

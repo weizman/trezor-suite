@@ -120,7 +120,11 @@ const Offers = () => {
                             <Header>
                                 <SummaryRow>
                                     <Left>
-                                        <StyledCoinLogo size={21} symbol={account.symbol} />
+                                        <InvityCoinLogo
+                                            src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
+                                                quotesRequest.send,
+                                            )}.svg`}
+                                        />
                                         <Text>
                                             <FormattedCryptoAmount
                                                 value={quotesRequest.sendStringAmount}
