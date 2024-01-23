@@ -2,6 +2,7 @@ import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 import { Icon, IconSize, IconName, CryptoIconName, icons, CryptoIcon } from '@suite-common/icons';
 import { Color } from '@trezor/theme';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 import { HStack } from './Stack';
 import { SurfaceElevation } from './types';

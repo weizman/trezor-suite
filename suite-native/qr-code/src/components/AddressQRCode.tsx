@@ -1,5 +1,6 @@
 import { Alert, Share } from 'react-native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Text, Button, VStack, HStack } from '@suite-native/atoms';
 import { useCopyToClipboard } from '@suite-native/helpers';
 import { useTranslate } from '@suite-native/intl';

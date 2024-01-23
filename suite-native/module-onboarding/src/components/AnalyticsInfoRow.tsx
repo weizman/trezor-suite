@@ -1,5 +1,6 @@
 import { Icon, IconName } from '@suite-common/icons';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Text } from '@suite-native/atoms';
 
 type AnalyticsInfoRowProps = {

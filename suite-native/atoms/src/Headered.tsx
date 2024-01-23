@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { G } from '@mobily/ts-belt';
 
 import { VStack } from './Stack';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 import { Box } from './Box';
 

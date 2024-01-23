@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import * as Clipboard from 'expo-clipboard';
 
 import { useToast } from '@suite-native/toasts';

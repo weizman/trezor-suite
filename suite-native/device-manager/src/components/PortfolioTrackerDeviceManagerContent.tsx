@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import { analytics, EventType } from '@suite-native/analytics';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Button, Text, VStack } from '@suite-native/atoms';
 import { Translation, useTranslate } from '@suite-native/intl';
 import {

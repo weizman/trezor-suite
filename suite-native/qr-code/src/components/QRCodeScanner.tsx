@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { BarCodeEvent, BarCodeScanner, PermissionStatus } from 'expo-barcode-scanner';
 
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';

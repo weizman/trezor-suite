@@ -3,6 +3,7 @@ import { Color } from '@trezor/theme';
 import { Icon, IconName } from '@suite-common/icons';
 
 import { Box } from './Box';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 type AlertBoxVariant = 'info' | 'success' | 'warning' | 'error';

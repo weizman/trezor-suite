@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native';
 
 import { G, N } from '@mobily/ts-belt';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Card, Text } from '@suite-native/atoms';
 import { CryptoAmountFormatter, SignValueFormatter } from '@suite-native/formatters';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';

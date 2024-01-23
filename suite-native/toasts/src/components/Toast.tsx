@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, HStack, Text } from '@suite-native/atoms';
 import { Icon } from '@suite-common/icons';
 import { Color } from '@trezor/theme';

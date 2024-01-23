@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectAreTestnetsEnabled, toggleAreTestnetsEnabled } from '@suite-native/discovery';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, HStack, Switch, Text } from '@suite-native/atoms';
 
 export const TestnetsToggle = () => {

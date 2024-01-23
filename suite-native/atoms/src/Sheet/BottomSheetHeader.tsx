@@ -2,6 +2,7 @@ import { View } from 'react-native';
 
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from '../Text';
 import { IconButton } from '../Button/IconButton';
 import { Box } from '../Box';

@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { AuthenticationType, supportedAuthenticationTypesAsync } from 'expo-local-authentication';
 
 import { analytics, EventType } from '@suite-native/analytics';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { BottomSheet, Box, Button, Text } from '@suite-native/atoms';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 import {

@@ -5,6 +5,7 @@ import { Icon, IconName } from '@suite-common/icons';
 import { useNativeStyles, prepareNativeStyle, NativeStyleObject } from '@trezor/styles';
 import { Color } from '@trezor/theme';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 type HintVariant = 'hint' | 'error';

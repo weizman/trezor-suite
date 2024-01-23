@@ -2,6 +2,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { useNavigation } from '@react-navigation/native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, RoundedIcon, Text } from '@suite-native/atoms';
 import { AccountKey } from '@suite-common/wallet-types';
 import { EthereumTokenTransfer, WalletAccountTransaction } from '@suite-native/ethereum-tokens';

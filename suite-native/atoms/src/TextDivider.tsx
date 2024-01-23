@@ -4,6 +4,7 @@ import { NativeStyleObject, prepareNativeStyle, useNativeStyles } from '@trezor/
 
 import { Box, BoxProps } from './Box';
 import { Divider } from './Divider';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 interface TextDividerProps extends BoxProps {

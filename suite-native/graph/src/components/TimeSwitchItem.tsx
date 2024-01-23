@@ -1,5 +1,6 @@
 import { TouchableOpacity } from 'react-native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from '@suite-native/atoms';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 

@@ -4,6 +4,7 @@ import { useNativeStyles } from '@trezor/styles';
 import { Color } from '@trezor/theme';
 
 import { Box } from './Box';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 type LoaderProps = {

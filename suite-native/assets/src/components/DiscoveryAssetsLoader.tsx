@@ -1,5 +1,6 @@
 import React from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { ListItemSkeleton, HStack, Text } from '@suite-native/atoms';
 import { Icon } from '@suite-common/icons';
 import { useTranslate } from '@suite-native/intl';

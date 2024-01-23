@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { BottomSheet, Box, Card, RoundedIcon, Text } from '@suite-native/atoms';
 import { EthereumTokenTransfer, WalletAccountTransaction } from '@suite-native/ethereum-tokens';
 import { AccountKey } from '@suite-common/wallet-types';

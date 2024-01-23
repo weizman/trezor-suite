@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, VStack, Button, Text } from '@suite-native/atoms';
 import { Translation, useTranslate } from '@suite-native/intl';
 

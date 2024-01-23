@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Text } from '@suite-native/atoms';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 import { useFormatters } from '@suite-common/formatters';

@@ -2,6 +2,7 @@ import { Atom, useAtomValue } from 'jotai';
 
 import { useFormatters } from '@suite-common/formatters';
 import { FiatGraphPoint } from '@suite-common/graph';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from '@suite-native/atoms';
 
 type SelectedPointAtom = Atom<FiatGraphPoint>;

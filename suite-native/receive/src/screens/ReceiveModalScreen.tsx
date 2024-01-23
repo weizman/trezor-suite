@@ -5,10 +5,12 @@ import { CommonActions, RouteProp, useNavigation, useRoute } from '@react-naviga
 import { G } from '@mobily/ts-belt';
 
 import TrezorConnect from '@trezor/connect';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { HStack, Text } from '@suite-native/atoms';
 import {
     RootStackParamList,
     RootStackRoutes,
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     Screen,
     ScreenSubHeader,
     StackNavigationProps,

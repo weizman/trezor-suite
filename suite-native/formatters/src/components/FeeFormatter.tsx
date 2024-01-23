@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { fromWei } from 'web3-utils';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from '@suite-native/atoms';
 import { WalletAccountTransaction } from '@suite-common/wallet-types';
 import { getFeeRate, getFeeUnits } from '@suite-common/wallet-utils';

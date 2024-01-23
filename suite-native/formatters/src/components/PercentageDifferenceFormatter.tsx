@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text, TextProps } from '@suite-native/atoms';
 import { useFormatters } from '@suite-common/formatters';
 

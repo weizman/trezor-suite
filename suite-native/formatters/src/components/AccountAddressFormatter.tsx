@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { AccountsRootState, selectAccountLabel } from '@suite-common/wallet-core';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text, TextProps } from '@suite-native/atoms';
 import { AccountKey } from '@suite-common/wallet-types';
 import { prepareNativeStyle, useNativeStyles, mergeNativeStyleObjects } from '@trezor/styles';

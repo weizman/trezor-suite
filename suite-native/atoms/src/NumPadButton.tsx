@@ -3,6 +3,7 @@ import { TouchableHighlight, TouchableHighlightProps } from 'react-native';
 
 import { useNativeStyles, NativeStyleObject, prepareNativeStyle } from '@trezor/styles';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 export type NumPadButtonProps = {

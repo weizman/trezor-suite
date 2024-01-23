@@ -1,6 +1,7 @@
 import { Color, TypographyStyle } from '@trezor/theme';
 
 import { Box } from './Box';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 const INDENTED_BULLET_POINT_SYMBOL = ' \u2022 ';

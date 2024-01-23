@@ -12,6 +12,7 @@ import {
     RootStackRoutes,
     StackNavigationProps,
 } from '@suite-native/navigation';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Badge, Box, HStack, Text } from '@suite-native/atoms';
 import { useFormatters } from '@suite-common/formatters';
 import {

@@ -1,5 +1,6 @@
 import { A } from '@mobily/ts-belt';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, VStack, Text } from '@suite-native/atoms';
 import { TokenInfo } from '@trezor/blockchain-link-types';
 import { TokenAddress, TokenSymbol } from '@suite-common/wallet-types';

@@ -1,6 +1,7 @@
 import { TouchableOpacity } from 'react-native';
 
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Badge, Box, HStack, RoundedIcon, Text } from '@suite-native/atoms';
 import { networks, NetworkSymbol } from '@suite-common/wallet-config';
 import { useFormatters } from '@suite-common/formatters';

@@ -1,6 +1,7 @@
 import { TypographyStyle } from '@trezor/theme';
 import { Translation } from '@suite-native/intl';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 type TrezorSuiteLiteHeaderProps = {

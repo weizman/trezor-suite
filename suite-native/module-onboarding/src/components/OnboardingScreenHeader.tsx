@@ -1,4 +1,5 @@
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, StepsProgressBar, Text } from '@suite-native/atoms';
 import { FeatureFlag, useFeatureFlag } from '@suite-native/feature-flags';
 

@@ -13,6 +13,7 @@ import { A, G } from '@mobily/ts-belt';
 
 import { useNativeStyles } from '@trezor/styles';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 const FLASH_DURATION = 300;

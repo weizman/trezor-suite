@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { BottomSheet, VStack, Box, Button, Text } from '@suite-native/atoms';
 import { Translation, useTranslate } from '@suite-native/intl';
 import { useOpenLink } from '@suite-native/link';

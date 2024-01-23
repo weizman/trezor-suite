@@ -8,6 +8,7 @@ import Animated, {
 
 import Lottie from 'lottie-react-native';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Text } from '@suite-native/atoms';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 

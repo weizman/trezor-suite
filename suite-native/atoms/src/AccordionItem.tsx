@@ -12,6 +12,7 @@ import { IconName } from '@suite-common/icons';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 
 import { Box } from './Box';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 import { IconButton } from './Button/IconButton';
 import { Divider } from './Divider';

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Divider, Text } from '@suite-native/atoms';
 import { AccountAddressFormatter } from '@suite-native/formatters';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';

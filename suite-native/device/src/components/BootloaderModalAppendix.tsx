@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { VStack, Box, Text } from '@suite-native/atoms';
 import { Translation } from '@suite-native/intl';
 

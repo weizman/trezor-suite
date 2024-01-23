@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { TextProps, Text } from '@suite-native/atoms';
 import { useFormatters } from '@suite-common/formatters';
 import { TokenAddress } from '@suite-common/wallet-types';

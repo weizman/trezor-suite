@@ -1,6 +1,7 @@
 import { TouchableOpacity, View } from 'react-native';
 
 import { Icon, IconName } from '@suite-common/icons';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text, TITLE_MAX_FONT_MULTIPLIER } from '@suite-native/atoms';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 

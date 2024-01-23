@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, HStack, Text } from '@suite-native/atoms';
 import { ScreenSubHeader } from '@suite-native/navigation';
 import { AccountsRootState, selectAccountLabel } from '@suite-common/wallet-core';

@@ -12,6 +12,7 @@ import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-g
 import { TouchableWithoutFeedback } from 'react-native';
 
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, HStack, Text } from '@suite-native/atoms';
 import { InvertedThemeProvider } from '@suite-native/theme';
 

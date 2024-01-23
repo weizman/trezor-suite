@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Text } from '@suite-native/atoms';
 import { CryptoAmountFormatter, AccountAddressFormatter } from '@suite-native/formatters';
 import { NetworkSymbol } from '@suite-common/wallet-config';

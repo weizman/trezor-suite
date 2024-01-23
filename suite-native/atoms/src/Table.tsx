@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import { Box } from './Box';
 import { HStack } from './Stack';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 type TableProps = {

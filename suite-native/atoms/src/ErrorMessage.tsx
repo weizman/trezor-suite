@@ -2,6 +2,7 @@ import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 import { Icon } from '@suite-common/icons';
 
 import { Box } from './Box';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 
 type ErrorMessageProps = {

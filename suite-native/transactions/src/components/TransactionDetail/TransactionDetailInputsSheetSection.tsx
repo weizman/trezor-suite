@@ -5,6 +5,7 @@ import { A, G } from '@mobily/ts-belt';
 import { Icon } from '@suite-common/icons';
 import { NetworkSymbol, isNetworkSymbol } from '@suite-common/wallet-config';
 import { TokenSymbol } from '@suite-common/wallet-types';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Card, Text } from '@suite-native/atoms';
 import {
     AccountAddressFormatter,

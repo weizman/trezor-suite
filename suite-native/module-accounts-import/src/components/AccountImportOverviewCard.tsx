@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import { useNavigation } from '@react-navigation/core';
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Card, IconButton, Text } from '@suite-native/atoms';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 import {

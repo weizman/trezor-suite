@@ -5,6 +5,7 @@ import { Color, TypographyStyle } from '@trezor/theme';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
 
 import { Box } from './Box';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Text } from './Text';
 import { VStack } from './Stack';
 

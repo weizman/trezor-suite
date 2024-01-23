@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, HStack, Text } from '@suite-native/atoms';
 import { Icon } from '@suite-common/icons';
 

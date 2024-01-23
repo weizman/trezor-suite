@@ -11,6 +11,7 @@ import {
     DeviceRootState,
     selectDeviceAccountsByNetworkSymbol,
 } from '@suite-common/wallet-core';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Box, Text } from '@suite-native/atoms';
 import { CryptoAmountFormatter, FiatAmountFormatter } from '@suite-native/formatters';
 import {

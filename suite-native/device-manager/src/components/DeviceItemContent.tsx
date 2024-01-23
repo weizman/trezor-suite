@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Icon, IconName } from '@suite-common/icons';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { HStack, Box, Text } from '@suite-native/atoms';
 import { Translation, useTranslate } from '@suite-native/intl';
 import {

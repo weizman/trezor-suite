@@ -1,4 +1,5 @@
 import { Form, useForm } from '@suite-native/forms';
+// eslint-disable-next-line @typescript-eslint/no-shadow
 import { Card, HStack, VStack, Box, Text } from '@suite-native/atoms';
 import { yup } from '@trezor/validation';
 import { prepareNativeStyle, useNativeStyles } from '@trezor/styles';
