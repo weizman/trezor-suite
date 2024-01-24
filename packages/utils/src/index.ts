@@ -9,6 +9,7 @@ export * from './cloneObject';
 export * from './countBytesInString';
 export * from './createCooldown';
 export * from './createDeferred';
+export * from './createPromiseManager';
 export * from './createTimeoutPromise';
 export * as enumUtils from './enumUtils';
 export * from './getNumberFromPixelString';
