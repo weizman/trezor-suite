@@ -46,7 +46,7 @@ const coinmarketMiddleware =
 
                 const loadPromises: Promise<void>[] = [];
 
-                if (isDifferentAccount || !symbolsInfo) {
+                if (isDifferentAccount || !symbolsInfo || symbolsInfo.length === 0) {
                     loadPromises.push(
                         coinmarketInfoAction.loadSymbolsInfo().then(symbolsInfo => {
                             api.dispatch(coinmarketInfoAction.saveSymbolsInfo(symbolsInfo));

@@ -7,7 +7,7 @@ import {
     CoinmarketRefreshTime,
     NoOffers,
 } from 'src/views/wallet/coinmarket/common';
-import { variables, Icon, CoinLogo, H2 } from '@trezor/components';
+import { variables, Icon, H2 } from '@trezor/components';
 import { useLayout } from 'src/hooks/suite';
 import { useCoinmarketExchangeOffersContext } from 'src/hooks/wallet/useCoinmarketExchangeOffers';
 import { useCoinmarketNavigation } from 'src/hooks/wallet/useCoinmarketNavigation';
@@ -72,10 +72,6 @@ const Right = styled.div`
     @media (max-width: ${variables.SCREEN_SIZE.SM}) {
         margin-top: 6px;
     }
-`;
-
-const StyledCoinLogo = styled(CoinLogo)`
-    padding: 0 10px 0 0;
 `;
 
 const InvityCoinLogo = styled.img`

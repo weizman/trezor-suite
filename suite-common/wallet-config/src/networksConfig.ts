@@ -503,7 +503,7 @@ export const networks = {
         name: 'Polygon',
         networkType: 'ethereum',
         chainId: 137,
-        bip43Path: "m/44'/60'/0'/0/i",
+        bip43Path: "m/44'/966'/0'/0/i",
         decimals: 18,
         testnet: false,
         label: 'TR_NETWORK_POLYGON',
