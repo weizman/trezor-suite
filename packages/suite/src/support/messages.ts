@@ -2983,8 +2983,12 @@ export default defineMessages({
         id: 'TR_NETWORK_NEM',
     },
     TR_NETWORK_POLYGON: {
-        defaultMessage: 'Incl. MRC20 tokens',
+        defaultMessage: 'Polygon',
         id: 'TR_NETWORK_POLYGON',
+    },
+    TR_NETWORK_POLYGON_LABEL: {
+        defaultMessage: 'Incl. MRC20 tokens',
+        id: 'TR_NETWORK_POLYGON_LABEL',
     },
     TR_NETWORK_STELLAR: {
         defaultMessage: 'Stellar',

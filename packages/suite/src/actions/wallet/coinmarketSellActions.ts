@@ -49,7 +49,7 @@ export const loadSellInfo = async (): Promise<SellInfo> => {
 
     const providerInfos: { [name: string]: SellProviderInfo } = {};
     if (sellList?.providers) {
-        sellList.providers.forEach(e => (providerInfos[e.name] = e));
+        sellList.providers.forEach(provider => (providerInfos[provider.name] = provider));
     }
 
     const supportedFiatCurrencies = new Set<string>();
@@ -57,10 +57,10 @@ export const loadSellInfo = async (): Promise<SellInfo> => {
     sellList?.providers.forEach(p => {
         if (p.tradedFiatCurrencies) {
             p.tradedFiatCurrencies
-                .map(c => c.toLowerCase())
-                .forEach(c => supportedFiatCurrencies.add(c));
+                .map(currency => currency.toLowerCase())
+                .forEach(currency => supportedFiatCurrencies.add(currency));
         }
-        p.tradedCoins.forEach(c => supportedCryptoCurrencies.add(c));
+        p.tradedCoins.forEach(coin => supportedCryptoCurrencies.add(coin));
     });
 
     return {

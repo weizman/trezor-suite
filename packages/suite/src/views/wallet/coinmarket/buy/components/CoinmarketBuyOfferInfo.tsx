@@ -157,9 +157,7 @@ export const CoinmarketBuyOfferInfo = ({
                     <RightColumn>
                         <Dark>
                             <InvityCoinLogo
-                                src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
-                                    receiveCurrency!,
-                                )}.svg`}
+                                src={invityAPI.getCoinLogoUrl(cryptoToCoinSymbol(receiveCurrency!))}
                             />
                             <Amount>
                                 <CoinmarketCryptoAmount

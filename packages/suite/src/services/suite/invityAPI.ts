@@ -557,6 +557,10 @@ class InvityAPI {
             console.log('[watchKYCStatus]', error);
         }
     };
+
+    getCoinLogoUrl(coin: string): string {
+        return `${invityAPI.getApiServerUrl()}/images/coins/suite/${coin}.svg`;
+    }
 }
 
 const invityAPI = new InvityAPI();

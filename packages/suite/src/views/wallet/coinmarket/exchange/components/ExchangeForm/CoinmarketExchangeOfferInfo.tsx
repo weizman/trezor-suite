@@ -153,9 +153,7 @@ export const CoinmarketExchangeOfferInfo = ({
                     <RightColumn>
                         <Dark>
                             <InvityCoinLogo
-                                src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
-                                    send!,
-                                )}.svg`}
+                                src={invityAPI.getCoinLogoUrl(cryptoToCoinSymbol(send!))}
                             />
                             <Amount>
                                 <FormattedCryptoAmount
@@ -183,9 +181,7 @@ export const CoinmarketExchangeOfferInfo = ({
                     <RightColumn>
                         <Dark>
                             <InvityCoinLogo
-                                src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
-                                    receive!,
-                                )}.svg`}
+                                src={invityAPI.getCoinLogoUrl(cryptoToCoinSymbol(receive!))}
                             />
                             <Amount>
                                 {(!provider.isFixedRate || selectedQuote.isDex) && '≈ '}

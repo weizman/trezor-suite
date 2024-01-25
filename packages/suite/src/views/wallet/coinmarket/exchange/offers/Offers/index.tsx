@@ -117,9 +117,9 @@ const Offers = () => {
                                 <SummaryRow>
                                     <Left>
                                         <InvityCoinLogo
-                                            src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
-                                                quotesRequest.send,
-                                            )}.svg`}
+                                            src={invityAPI.getCoinLogoUrl(
+                                                cryptoToCoinSymbol(quotesRequest.send),
+                                            )}
                                         />
                                         <Text>
                                             <FormattedCryptoAmount
@@ -129,9 +129,9 @@ const Offers = () => {
                                         </Text>
                                         <StyledIcon icon="ARROW_RIGHT_LONG" />
                                         <InvityCoinLogo
-                                            src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
-                                                quotesRequest.receive,
-                                            )}.svg`}
+                                            src={invityAPI.getCoinLogoUrl(
+                                                cryptoToCoinSymbol(quotesRequest.receive),
+                                            )}
                                         />
                                         <Text>{cryptoToCoinSymbol(quotesRequest.receive)}</Text>
                                     </Left>

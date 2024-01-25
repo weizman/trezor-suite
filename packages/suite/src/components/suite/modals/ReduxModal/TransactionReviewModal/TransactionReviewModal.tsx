@@ -13,7 +13,7 @@ import { selectIsActionAbortable } from 'src/reducers/suite/suiteReducer';
 import { constructOutputs } from 'src/utils/wallet/reviewTransactionUtils';
 import { TransactionReviewSummary } from './TransactionReviewSummary';
 import { TransactionReviewOutputList } from './TransactionReviewOutputList/TransactionReviewOutputList';
-import { TransactionReviewEvmExplanation } from 'src/components/suite/modals/ReduxModal/TransactionReviewModal/TransactionReviewEvmExplanation';
+import { TransactionReviewEvmExplanation } from './TransactionReviewEvmExplanation';
 
 const StyledModal = styled(Modal)`
     ${Modal.Body} {

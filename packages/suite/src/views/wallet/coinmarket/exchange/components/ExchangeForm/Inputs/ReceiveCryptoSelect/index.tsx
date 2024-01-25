@@ -161,11 +161,7 @@ const ReceiveCryptoSelect = () => {
                             option: ReturnType<typeof buildOptions>[number]['options'][number],
                         ) => (
                             <Option>
-                                <CoinLogo
-                                    src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${
-                                        option.value
-                                    }.svg`}
-                                />
+                                <CoinLogo src={invityAPI.getCoinLogoUrl(option.value)} />
                                 <OptionLabel>{option.label}</OptionLabel>
                                 <OptionName>{option.name}</OptionName>
                                 {option.cryptoSymbol &&

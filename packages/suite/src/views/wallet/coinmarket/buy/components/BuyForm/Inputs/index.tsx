@@ -196,9 +196,7 @@ const Inputs = () => {
                                                 <CoinLogo size={18} symbol={account.symbol} />
                                             ) : (
                                                 <TokenLogo
-                                                    src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${
-                                                        option.value
-                                                    }.svg`}
+                                                    src={invityAPI.getCoinLogoUrl(option.value)}
                                                 />
                                             )}
                                             <Label>{shouldSendInSats ? 'sat' : option.label}</Label>

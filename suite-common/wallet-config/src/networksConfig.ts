@@ -506,7 +506,7 @@ export const networks = {
         bip43Path: "m/44'/60'/0'/0/i",
         decimals: 18,
         testnet: false,
-        label: 'TR_NETWORK_POLYGON',
+        label: 'TR_NETWORK_POLYGON_LABEL',
         explorer: {
             tx: 'https://matic2.trezor.io/tx/',
             account: 'https://matic2.trezor.io/address/',

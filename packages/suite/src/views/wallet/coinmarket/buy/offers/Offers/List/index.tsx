@@ -107,9 +107,9 @@ const List = ({ isAlternative, quotes }: ListProps) => {
                         </Send>
                         <StyledIcon icon="ARROW_RIGHT_LONG" />
                         <TokenLogo
-                            src={`${invityAPI.getApiServerUrl()}/images/coins/suite/${cryptoToCoinSymbol(
-                                quotes[0].receiveCurrency!,
-                            )}.svg`}
+                            src={invityAPI.getCoinLogoUrl(
+                                cryptoToCoinSymbol(quotes[0].receiveCurrency!),
+                            )}
                         />
                         <Receive>
                             <CoinmarketCryptoAmount
