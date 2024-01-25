@@ -40,7 +40,7 @@ describe('settings reducer', () => {
     });
 
     it('COINMARKET_INFO.SAVE_SYMBOLS_INFO', () => {
-        const exchangeCoinInfo: CryptoSymbolInfo[] = [
+        const symbolsInfo: CryptoSymbolInfo[] = [
             {
                 name: 'Bitcoin',
                 symbol: 'BTC',
@@ -55,9 +55,9 @@ describe('settings reducer', () => {
         expect(
             reducer(undefined, {
                 type: COINMARKET_INFO.SAVE_SYMBOLS_INFO,
-                exchangeCoinInfo,
-            } as any),
-        ).toEqual({ ...initialState, exchange: { ...initialState.exchange, exchangeCoinInfo } });
+                symbolsInfo,
+            }),
+        ).toEqual({ ...initialState, info: { ...initialState.info, symbolsInfo } });
     });
 
     it('COINMARKET_BUY.SAVE_BUY_INFO', () => {
@@ -70,7 +70,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_BUY.SAVE_BUY_INFO,
                 buyInfo,
-            } as any),
+            }),
         ).toEqual({ ...initialState, buy: { ...initialState.buy, buyInfo } });
     });
 
@@ -95,7 +95,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_BUY.SAVE_QUOTE_REQUEST,
                 request,
-            } as any),
+            }),
         ).toEqual({ ...initialState, buy: { ...initialState.buy, quotesRequest: request } });
     });
 
@@ -104,7 +104,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_BUY.SAVE_TRANSACTION_DETAIL_ID,
                 transactionId: '1234-1234-1234',
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             buy: { ...initialState.buy, transactionId: '1234-1234-1234' },
@@ -148,7 +148,7 @@ describe('settings reducer', () => {
                 type: COINMARKET_BUY.SAVE_QUOTES,
                 quotes,
                 alternativeQuotes,
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             buy: { ...initialState.buy, quotes, alternativeQuotes },
@@ -160,15 +160,18 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_BUY.VERIFY_ADDRESS,
                 addressVerified: '1abcdef',
-            } as any),
+            }),
         ).toEqual({ ...initialState, buy: { ...initialState.buy, addressVerified: '1abcdef' } });
     });
 
     it('COINMARKET_BUY.DISPOSE', () => {
         expect(
-            reducer({ ...initialState, buy: { ...initialState.buy, addressVerified: '1abcdef' } }, {
-                type: COINMARKET_BUY.DISPOSE,
-            } as any),
+            reducer(
+                { ...initialState, buy: { ...initialState.buy, addressVerified: '1abcdef' } },
+                {
+                    type: COINMARKET_BUY.DISPOSE,
+                },
+            ),
         ).toEqual(initialState);
     });
 
@@ -198,7 +201,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_EXCHANGE.SAVE_EXCHANGE_INFO,
                 exchangeInfo,
-            } as any),
+            }),
         ).toEqual({ ...initialState, exchange: { ...initialState.exchange, exchangeInfo } });
     });
 
@@ -212,7 +215,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_EXCHANGE.SAVE_QUOTE_REQUEST,
                 request,
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             exchange: { ...initialState.exchange, quotesRequest: request },
@@ -224,7 +227,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_EXCHANGE.VERIFY_ADDRESS,
                 addressVerified: '2efghi',
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             exchange: { ...initialState.exchange, addressVerified: '2efghi' },
@@ -287,7 +290,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_COMMON.SAVE_TRADE,
                 ...tradeBuy,
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             trades: [tradeBuy],
@@ -302,7 +305,7 @@ describe('settings reducer', () => {
                 {
                     type: COINMARKET_COMMON.SAVE_TRADE,
                     ...updatedTradeExchange,
-                } as any,
+                },
             ),
         ).toEqual({
             ...initialState,
@@ -315,7 +318,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_SELL.SET_IS_FROM_REDIRECT,
                 isFromRedirect: true,
-            } as any),
+            }),
         ).toEqual({ ...initialState, sell: { ...initialState.sell, isFromRedirect: true } });
     });
 
@@ -324,7 +327,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_SELL.SAVE_TRANSACTION_ID,
                 transactionId: '1234-1234-1234',
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             sell: { ...initialState.sell, transactionId: '1234-1234-1234' },
@@ -342,7 +345,7 @@ describe('settings reducer', () => {
             reducer(undefined, {
                 type: COINMARKET_SELL.SAVE_QUOTE_REQUEST,
                 request,
-            } as any),
+            }),
         ).toEqual({
             ...initialState,
             sell: { ...initialState.sell, quotesRequest: request },

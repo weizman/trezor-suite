@@ -6,7 +6,7 @@
             <stop offset="1" stop-color="#7b3fe4"/>
         </linearGradient>
         <clipPath clipPathUnits="userSpaceOnUse" id="a">
-            <path d="M250 494.91C114.56 494.91 5.09 385.44 5.09 250S114.56 5.09 250 5.09 494.91 114.56 494.91 250 385.44 494.91 250 494.91z"/>
+            <circle cx="250" cy="250" r="245"/>
         </clipPath>
     </defs>
     <g clip-path="url(#a)">

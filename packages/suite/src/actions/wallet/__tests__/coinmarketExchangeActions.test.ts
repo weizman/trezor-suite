@@ -98,7 +98,7 @@ describe('Coinmarket Exchange Actions', () => {
         ];
 
         setFetchMock({
-            'https://exchange.trezor.io/api/exchange/list': { ok: true, response: exchangeList },
+            'https://exchange.trezor.io/api/v2/exchange/list': { ok: true, response: exchangeList },
         });
 
         const store = initStore(getInitialState());
@@ -108,8 +108,8 @@ describe('Coinmarket Exchange Actions', () => {
             expect(store.getState().wallet.coinmarket.exchange.exchangeInfo).toEqual({
                 exchangeList,
                 providerInfos: { changenow: exchangeList[0], changenowfr: exchangeList[1] },
-                buySymbols: new Set<string>(['xmr', 'btc', 'eth']),
-                sellSymbols: new Set<string>(['btc', 'eth']),
+                buySymbols: new Set<string>(['XMR', 'BTC', 'ETH', 'BCH']),
+                sellSymbols: new Set<string>(['BTC', 'ETH']),
             });
         });
     });
