@@ -19,6 +19,7 @@ export interface AbstractMessageChannelConstructorParams {
         peer: string;
     };
     logger?: Log;
+    lazyHandshake?: boolean;
 }
 
 export type Message<IncomingMessages extends { type: string }> = {
@@ -50,6 +51,7 @@ export abstract class AbstractMessageChannel<
     private readonly handshakeRetryInterval = 2000;
     private handshakeFinished: Deferred<void> | undefined;
 
+    protected lazyHandshake?: boolean;
     protected logger?: Log;
 
     /**
@@ -61,10 +63,16 @@ export abstract class AbstractMessageChannel<
      */
     channel: AbstractMessageChannelConstructorParams['channel'];
 
-    constructor({ sendFn, channel, logger }: AbstractMessageChannelConstructorParams) {
+    constructor({
+        sendFn,
+        channel,
+        logger,
+        lazyHandshake = false,
+    }: AbstractMessageChannelConstructorParams) {
         super();
         this.channel = channel;
         this.sendFn = sendFn;
+        this.lazyHandshake = lazyHandshake;
         this.logger = logger;
     }
 
@@ -85,6 +93,16 @@ export abstract class AbstractMessageChannel<
      */
     protected handshakeWithPeer(): Promise<void> {
         this.logger?.log(this.channel.here, 'handshake');
+        if (this.lazyHandshake) {
+            this.handshakeFinished?.promise.then(() => {
+                this.logger?.log(this.channel.here, 'handshake confirmed');
+                this.messagesQueue.forEach(message => {
+                    message.channel = this.channel;
+                    this.sendFn(message);
+                });
+                this.messagesQueue = [];
+            });
+        }
         return scheduleAction(
             async () => {
                 this.postMessage(
