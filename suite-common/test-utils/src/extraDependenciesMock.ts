@@ -61,7 +61,6 @@ export const extraDependenciesMock: ExtraDependencies = {
         selectFeeInfo: (networkSymbol: any) =>
             mockSelector('selectFeeInfo', testMocks.fee, { networkSymbol }),
         selectDevices: mockSelector('selectDevices', []),
-        selectCurrentDevice: mockSelector('selectCurrentDevice', testMocks.getSuiteDevice()),
         selectBitcoinAmountUnit: mockSelector('selectBitcoinAmountUnit', PROTO.AmountUnit.BITCOIN),
         selectEnabledNetworks: mockSelector('selectEnabledNetworks', ['btc', 'test']),
         selectLocalCurrency: mockSelector('selectLocalCurrency', 'usd'),
@@ -78,7 +77,7 @@ export const extraDependenciesMock: ExtraDependencies = {
         selectDevice: mockSelector('selectDevice', {
             ...testMocks.getSuiteDevice(),
         }),
-        selectDiscoveryForDevice: mockSelector('selectDiscoveryForDevice', undefined),
+        selectDeviceDiscovery: mockSelector('selectDeviceDiscovery', undefined),
         selectCheckFirmwareAuthenticity: mockSelector('selectCheckFirmwareAuthenticity', false),
     },
     actions: {
@@ -116,7 +115,7 @@ export const extraDependenciesMock: ExtraDependencies = {
             debug: false,
             manifest: {
                 email: 'info@trezor.io',
-                appUrl: '@trezor/suite-native',
+                appUrl: '@suite-native/app',
             },
         },
     },

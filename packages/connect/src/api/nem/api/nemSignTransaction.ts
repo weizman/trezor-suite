@@ -6,7 +6,7 @@ import { getMiscNetwork } from '../../../data/coinInfo';
 import { validatePath } from '../../../utils/pathUtils';
 import * as helper from '../nemSignTx';
 import type { PROTO } from '../../../constants';
-import { Assert } from '@trezor/schema-utils';
+import { AssertWeak } from '@trezor/schema-utils';
 import { NEMSignTransaction as NEMSignTransactionSchema } from '../../../types/api/nem';
 
 export default class NEMSignTransaction extends AbstractMethod<
@@ -19,7 +19,13 @@ export default class NEMSignTransaction extends AbstractMethod<
 
         const { payload } = this;
         // validate incoming parameters
-        Assert(NEMSignTransactionSchema, payload);
+
+        // Workaround for NEM timestamp case-sensitivity issue (issue #10793)
+        if ((payload?.transaction as any)?.timestamp) {
+            payload.transaction.timeStamp = (payload.transaction as any).timestamp;
+        }
+        // TODO: weak assert for compatibility purposes (issue #10841)
+        AssertWeak(NEMSignTransactionSchema, payload);
 
         const path = validatePath(payload.path, 3);
         // incoming data should be in nem-sdk format

@@ -16,6 +16,7 @@ import { NetworkSymbol } from '@suite-common/wallet-config';
 import { ExtraDependencies } from '@suite-common/redux-utils';
 
 import { StorageLoadAction } from 'src/actions/suite/storageActions';
+import * as metadataLabelingActions from 'src/actions/suite/metadataLabelingActions';
 import * as metadataActions from 'src/actions/suite/metadataActions';
 import * as cardanoStakingActions from 'src/actions/wallet/cardanoStakingActions';
 import * as walletSettingsActions from 'src/actions/settings/walletSettingsActions';
@@ -46,14 +47,13 @@ export const extraDependencies: ExtraDependencies = {
     thunks: {
         cardanoValidatePendingTxOnBlock: cardanoStakingActions.validatePendingTxOnBlock,
         cardanoFetchTrezorPools: cardanoStakingActions.fetchTrezorPools,
-        initMetadata: metadataActions.init,
-        fetchAndSaveMetadata: metadataActions.fetchAndSaveMetadata,
+        initMetadata: metadataLabelingActions.init,
+        fetchAndSaveMetadata: metadataLabelingActions.fetchAndSaveMetadata,
     },
     selectors: {
         selectFeeInfo: (networkSymbol: NetworkSymbol) => (state: AppState) =>
             state.wallet.fees[networkSymbol],
         selectDevices: (state: AppState) => state.device.devices,
-        selectCurrentDevice: (state: AppState) => state.device.selectedDevice,
         selectBitcoinAmountUnit: (state: AppState) => state.wallet.settings.bitcoinAmountUnit,
         selectEnabledNetworks: (state: AppState) => state.wallet.settings.enabledNetworks,
         selectLocalCurrency: (state: AppState) => state.wallet.settings.localCurrency,
@@ -62,7 +62,7 @@ export const extraDependencies: ExtraDependencies = {
         selectDesktopBinDir: (state: AppState) => state.desktop?.paths?.binDir,
         selectDevice: (state: AppState) => state.device.selectedDevice,
         selectMetadata: (state: AppState) => state.metadata,
-        selectDiscoveryForDevice: (state: DiscoveryRootState & DeviceRootState) =>
+        selectDeviceDiscovery: (state: DiscoveryRootState & DeviceRootState) =>
             selectDiscoveryByDeviceState(state, state.device.selectedDevice?.state),
         selectRouterApp: (state: AppState) => state.router.app,
         selectCheckFirmwareAuthenticity: (state: AppState) =>

@@ -1,3 +1,14 @@
+# 9.1.10
+
+-   chore(connect): bump ADA support version, min required version is now 2.4.3 (7937fea3ec)
+-   fix(connect): always check ADA passphrase (42c28cc95d)
+-   chore(connect): decrease build size by using lib of utils which is not treeshaken (b4ab48b25f)
+-   refactor(connect): rework validation of input params (0c035c26a6, 44430e47ff, c78cd9ad28, c5e9d50bf4)
+
+# 9.1.9
+
+-   fix(connect-popup): webusb pairing in webextensions using manifest version 2 [#10709](https://github.com/trezor/trezor-suite/pull/10709).
+
 # 9.1.8
 
 -   fix(connect-explorer): eth getAccountInfo coin fix (0108b96)

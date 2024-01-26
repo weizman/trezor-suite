@@ -5,7 +5,7 @@ import {
     accountsActions,
     DISCOVERY_MODULE_PREFIX,
     selectDeviceAccountsLengthPerNetwork,
-    selectDiscoveryForDevice,
+    selectDeviceDiscovery,
     updateDiscovery,
     createDiscovery,
     removeDiscovery,
@@ -20,9 +20,11 @@ import { Network, NetworkSymbol, getNetworkType } from '@suite-common/wallet-con
 import { DiscoveryStatus } from '@suite-common/wallet-constants';
 import { requestDeviceAccess } from '@suite-native/device-mutex';
 import { analytics, EventType } from '@suite-native/analytics';
+import { isDebugEnv } from '@suite-native/config';
 
 import { fetchBundleDescriptors } from './utils';
 import {
+    selectDisabledDiscoveryNetworkSymbolsForDevelopment,
     selectDiscoveryStartTimeStamp,
     selectDiscoverySupportedNetworks,
     setDiscoveryStartTimestamp,
@@ -53,7 +55,7 @@ type DiscoveryDescriptorItem = DiscoveryItem & { descriptor: string };
 const finishNetworkTypeDiscoveryThunk = createThunk(
     `${DISCOVERY_MODULE_PREFIX}/finishNetworkTypeDiscoveryThunk`,
     (_, { dispatch, getState }) => {
-        const discovery = selectDiscoveryForDevice(getState());
+        const discovery = selectDeviceDiscovery(getState());
 
         if (!discovery) {
             return;
@@ -159,7 +161,7 @@ const discoverNetworkBatchThunk = createThunk(
         },
         { dispatch, getState },
     ) => {
-        const discovery = selectDiscoveryForDevice(getState());
+        const discovery = selectDeviceDiscovery(getState());
         const batchSize = getBatchSizeByCoin(network.symbol);
 
         if (!discovery || !deviceState) {
@@ -302,7 +304,7 @@ export const startDescriptorPreloadedDiscoveryThunk = createThunk(
     ) => {
         const device = selectDeviceByState(getState(), deviceState);
 
-        const discovery1 = selectDiscoveryForDevice(getState());
+        const discovery1 = selectDeviceDiscovery(getState());
         if (discovery1) {
             console.warn(
                 `Warning discovery for device ${deviceState} already exists. Skipping discovery.`,
@@ -314,7 +316,17 @@ export const startDescriptorPreloadedDiscoveryThunk = createThunk(
             return;
         }
 
-        const supportedNetworks = selectDiscoverySupportedNetworks(getState(), areTestnetsEnabled);
+        let supportedNetworks = selectDiscoverySupportedNetworks(getState(), areTestnetsEnabled);
+
+        // For development purposes, you can disable some networks to have quicker discovery in dev utils
+        if (isDebugEnv()) {
+            const disabledNetworkSymbols = selectDisabledDiscoveryNetworkSymbolsForDevelopment(
+                getState(),
+            );
+            supportedNetworks = supportedNetworks.filter(
+                n => !disabledNetworkSymbols.includes(n.symbol),
+            );
+        }
 
         // Start tracking duration for analytics purposes
         dispatch(setDiscoveryStartTimestamp(performance.now()));
@@ -327,7 +339,7 @@ export const startDescriptorPreloadedDiscoveryThunk = createThunk(
         );
 
         // We need to check again here because it's possible that things changed in the meantime because async thunks
-        const discovery2 = selectDiscoveryForDevice(getState());
+        const discovery2 = selectDeviceDiscovery(getState());
         if (!discovery2) {
             return;
         }
