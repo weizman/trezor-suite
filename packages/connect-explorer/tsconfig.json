@@ -12,7 +12,9 @@
     "references": [
         { "path": "../components" },
         { "path": "../connect-web" },
-        { "path": "../protobuf" }
+        { "path": "../connect-webextension" },
+        { "path": "../protobuf" },
+        { "path": "../utils" }
     ],
     "ts-node": {
         "compilerOptions": {
