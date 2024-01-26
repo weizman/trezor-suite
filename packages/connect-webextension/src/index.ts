@@ -18,6 +18,7 @@ import { initLog, setLogWriter, LogMessage, LogWriter } from '@trezor/connect/li
 
 import * as popup from './popup';
 import { parseConnectSettings } from './connectSettings';
+import { ServiceWorkerWindowChannel } from './channels/serviceworker-window';
 
 const eventEmitter = new EventEmitter();
 let _settings = parseConnectSettings();
@@ -68,7 +69,6 @@ const cancel = (error?: string) => {
 };
 
 const init = (settings: Partial<ConnectSettings> = {}): Promise<void> => {
-    logger.debug('initiating');
     _settings = parseConnectSettings({ ..._settings, ...settings });
     if (!_popupManager) {
         _popupManager = new popup.PopupManager(_settings, { logger: popupManagerLogger });
@@ -194,6 +194,40 @@ const TrezorConnect = factory({
     requestWebUSBDevice,
     cancel,
     dispose,
+});
+
+const _channel = new ServiceWorkerWindowChannel<any>({
+    name: 'trezor-connect-proxy',
+    channel: {
+        here: '@trezor/connect-service-worker-proxy',
+        peer: '@trezor/connect-foreground-proxy',
+    },
+    lazyHandshake: true,
+    allowSelfOrigin: true,
+});
+
+_channel.init().then(() => {
+    _channel.on('message', message => {
+        const { id, payload, type } = message;
+        const { method, settings } = payload;
+
+        if (type === POPUP.INIT) {
+            _settings = parseConnectSettings({ ..._settings, ...settings });
+            return;
+        }
+
+        // Core is loaded in popup and initialized every time, so we send the settings from here.
+        TrezorConnect.init(_settings as { manifest: Manifest } & Partial<ConnectSettings>).then(
+            () => {
+                (TrezorConnect as any)[method](payload).then((response: any) => {
+                    _channel.postMessage({
+                        id,
+                        payload: response.payload,
+                    });
+                });
+            },
+        );
+    });
 });
 
 // eslint-disable-next-line import/no-default-export
